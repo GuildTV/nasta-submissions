@@ -1,0 +1,86 @@
+types:
+  - build
+  - test
+  - promote
+  - deploy
+
+variables:
+  APP_ENV: test
+
+build:
+  script:
+    - npm set progress=false
+    - npm install
+    # - node_modules/.bin/bower install --allow-root
+    - node_modules/.bin/gulp --production
+
+    - composer install --no-autoloader --no-scripts --prefer-source --no-interaction
+    - composer dump-autoload
+    - php artisan clear-compiled
+    - php artisan optimize
+    - php artisan route:cache
+
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
+    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
+    - sleep 15
+  type: build
+  tags:
+    - docker-build
+    - composer
+  cache:
+    paths:
+      - node_modules
+      - vendor
+
+build-db:
+  script:
+    - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
+    - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
+    - sleep 15
+  type: build
+  tags:
+    - docker-build
+
+test:
+  image: registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF
+  services:
+    - registry.julus.uk/nasta/test-db:$CI_BUILD_REF
+  script:
+    - cd /src
+    - cp storage/env.example storage/env
+    - sed -i "s/DB_HOST=db/DB_HOST=registry.julus.uk-nasta-test-db/g" storage/env
+
+    - php artisan key:generate
+    - php artisan migrate --database=test_mysql
+    - ./vendor/bin/phpunit
+  type: test
+  tags:
+    - legacy-docker
+
+promote:
+  script:
+    - docker pull "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+    - docker pull "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
+    - docker tag -f "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
+    - docker tag -f "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
+    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
+    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
+  type: promote
+  only:
+    - master
+    - develop
+  tags:
+    - docker-build
+
+deploy:
+  image: registry.julus.uk/kubectl
+  script:
+    - kubectl --context=guild rolling-update "nasta-$CI_BUILD_REF_NAME" --image="registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+  type: deploy
+  only:
+    - develop
+    # - master
+  tags:
+    - docker

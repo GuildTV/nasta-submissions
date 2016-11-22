@@ -6,3 +6,12 @@
 Homestead.json
 Homestead.yaml
 .env
+
+storage/env
+composer.phar
+npm-debug.log
+.vagrant
+.phpintel
+www.pid
+.DS_Store
+vagrant-settings.yml

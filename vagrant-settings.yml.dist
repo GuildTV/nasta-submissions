@@ -1,0 +1,10 @@
+userid: 1000
+ports:
+  http:
+    - '8001:80'
+  mysql:
+    - '33306:3306'
+  pma:
+    - '8002:80'
+mysql:
+  password: 'nastaSubLocal'

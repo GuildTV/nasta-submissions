@@ -1,0 +1,7 @@
+docker/mysql
+vendor/bower_components
+.git
+.vagrant
+node_modules
+
+resources/assets

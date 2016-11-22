@@ -15,6 +15,9 @@ $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
 
+// Load environment from the storage directory
+$app->loadEnvironmentFrom('storage/env');
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
