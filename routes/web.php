@@ -28,4 +28,5 @@ $router->group([
   Route::get('/results', 'Station\StationController@results')->name("station.results");
   Route::get('/categories/{category}', 'Station\StationController@submission')->name("station.submission");
 
+  Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
 });

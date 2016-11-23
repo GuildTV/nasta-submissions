@@ -36,6 +36,18 @@ class Category extends Model
         return $this->belongsToMany('App\Database\Category\FileConstraint')->withTimestamps();
     }
 
+    public function entries()
+    {
+        return $this->hasMany('App\Database\Entry\Entry');
+    }
+
+
+    public function getEntryForStation($sid){
+        return $this->entries()
+            ->firstOrNew([
+                'station_id' => $sid,
+            ]);
+    }
 
     public static function findBySlug($slug){
         return self::where('slug', $slug)

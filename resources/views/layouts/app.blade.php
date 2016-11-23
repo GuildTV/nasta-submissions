@@ -83,5 +83,9 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+
+    <script type="text/javascript">
+        @yield('js')
+    </script>
 </body>
 </html>

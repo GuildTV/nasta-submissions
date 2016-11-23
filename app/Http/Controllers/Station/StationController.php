@@ -9,6 +9,9 @@ use App\Exceptions\DataIntegrityException;
 
 use App\Database\Category\Category;
 
+use App;
+use Auth;
+
 class StationController extends Controller
 {	
 	/**
@@ -31,10 +34,14 @@ class StationController extends Controller
 	public function submission($slug)
 	{
 		$category = Category::findBySlug($slug);
+		if (!$category)
+			return App::Abort(404);
 
 		if ($category->constraints->isEmpty())
 			throw new DataIntegrityException("No file constraints for category: ".$slug);
 
-		return view('station.submission.index', compact('category'));
+		$entry = $category->getEntryForStation(Auth::user()->id);
+
+		return view('station.submission.index', compact('category', 'entry'));
 	}
 }
