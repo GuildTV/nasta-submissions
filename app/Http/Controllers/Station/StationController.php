@@ -35,6 +35,6 @@ class StationController extends Controller
 		if ($category->constraints->isEmpty())
 			throw new DataIntegrityException("No file constraints for category: ".$slug);
 
-		return view('station.submission', compact('category'));
+		return view('station.submission.index', compact('category'));
 	}
 }

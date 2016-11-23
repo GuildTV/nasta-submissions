@@ -15,7 +15,7 @@ Route::get('/', [ 'uses' => 'HomeController@redirect', 'target' => '/login' ]);
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/dashboard', 'HomeController@dashboard')->middleware('auth:web');
 
 
 $router->group([

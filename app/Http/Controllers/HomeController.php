@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Auth\AuthenticationException;
 
 use Route;
 use Redirect;
+use Auth;
+use Exception;
 
 class HomeController extends Controller
 {
@@ -15,9 +18,19 @@ class HomeController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function dashboard()
 	{
-		return view('home');
+		$user = Auth::user();
+		if (!$user)
+			throw new AuthenticationException();
+		if ($user->can('station'))
+			return Redirect::route('station.dashboard');
+		if ($user->can('judge'))
+			return Redirect::route('judge.dashboard');
+		if ($user->can('admin'))
+			return Redirect::route('admin.dashboard');
+
+		throw new Exception("Unhandled user type in dashboard!");
 	}
 	
 
