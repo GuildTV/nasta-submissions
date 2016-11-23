@@ -10,7 +10,7 @@ use App\Exceptions\DataIntegrityException;
 use App\Database\Category\Category;
 
 class StationController extends Controller
-{
+{	
 	/**
 	 * Show the application dashboard.
 	 *
