@@ -1,5 +1,6 @@
 types:
   - build
+  - build-image
   - test
   - promote
   - deploy
@@ -7,41 +8,78 @@ types:
 variables:
   APP_ENV: test
 
-build:
+
+build:assets:
+  image: node:6
   script:
     - npm set progress=false
     - npm install
     # - node_modules/.bin/bower install --allow-root
     - node_modules/.bin/gulp --production
+  type: build
+  tags:
+    - docker
+  cache:
+    paths:
+      - node_modules
+  artifacts:
+    paths:
+    - public/*
 
+build:composer:
+  image: composer/composer:1.1
+  script:
     - composer install --no-autoloader --no-scripts --prefer-source --no-interaction
     - composer dump-autoload
     - php artisan clear-compiled
     - php artisan optimize
     - php artisan route:cache
-
-    - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
-    - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
-    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
-    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
-    - sleep 15
   type: build
   tags:
     - docker-build
     - composer
   cache:
     paths:
-      - node_modules
-      - vendor
+      - /root/.composer
+  artifacts:
+    paths:
+    - vendor/*
+
+build:image:
+  image: docker:1.12
+  variables:
+    privileged: 'true'
+    DOCKER_HOST: docker:2375
+  services:
+    - docker:1.12-dind
+  script:
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
+    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
+  type: build-image
+  tags:
+    - docker
+    - dind
+  dependencies:
+    - build:assets
+    - build:composer
 
 build-db:
+  image: docker:1.12
+  variables:
+    privileged: 'true'
+    DOCKER_HOST: docker:2375
+  services:
+    - docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
     - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
     - sleep 15
   type: build
   tags:
-    - docker-build
+    - docker
+    - dind
 
 test:
   image: registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF
@@ -57,9 +95,15 @@ test:
     - ./vendor/bin/phpunit
   type: test
   tags:
-    - legacy-docker
+    - docker
 
 promote:
+  image: docker:1.12
+  variables:
+    privileged: 'true'
+    DOCKER_HOST: docker:2375
+  services:
+    - docker:1.12-dind
   script:
     - docker pull "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
     - docker pull "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
@@ -72,7 +116,8 @@ promote:
     - master
     - develop
   tags:
-    - docker-build
+    - docker
+    - dind
 
 deploy:
   image: registry.julus.uk/kubectl
@@ -81,6 +126,6 @@ deploy:
   type: deploy
   only:
     - develop
-    # - master
+    - master
   tags:
     - docker
