@@ -27,8 +27,9 @@ build:assets:
     - public/*
 
 build:composer:
-  image: composer/composer:1.1
+  image: php:7
   script:
+    - ./docker/composer.sh
     - composer install --no-autoloader --no-scripts --prefer-source --no-interaction
     - composer dump-autoload
     - php artisan clear-compiled
