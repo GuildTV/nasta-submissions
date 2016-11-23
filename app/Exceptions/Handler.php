@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use GrahamCampbell\Exceptions\NewExceptionHandler;
 
 class Handler extends NewExceptionHandler
@@ -50,6 +51,15 @@ class Handler extends NewExceptionHandler
         // TODO - email webmaster if not in debug mode
         
         parent::report($e);
+    }
+
+    public function render($request, Exception $exception)
+    {
+       if ($exception instanceof AuthenticationException) {
+           return $this->unauthenticated($request, $exception);
+       }
+
+       return parent::render($request, $exception);
     }
 
 }
