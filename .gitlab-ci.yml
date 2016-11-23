@@ -36,8 +36,7 @@ build:composer:
     - php artisan route:cache
   type: build
   tags:
-    - docker-build
-    - composer
+    - docker
   cache:
     paths:
       - /root/.composer
