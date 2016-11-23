@@ -30,8 +30,8 @@ build:composer:
   image: php:7
   script:
     - ./docker/composer.sh
-    - composer install --no-autoloader --no-scripts --prefer-source --no-interaction
-    - composer dump-autoload
+    - ./composer.phar install --no-autoloader --no-scripts --prefer-source --no-interaction
+    - ./composer.phar dump-autoload
     - php artisan clear-compiled
     - php artisan optimize
     - php artisan route:cache
