@@ -27,11 +27,10 @@ build:assets:
     - public/*
 
 build:composer:
-  image: php:7
+  image: julusian/composer
   script:
-    - ./docker/composer.sh
-    - ./composer.phar install --no-autoloader --no-scripts --prefer-source --no-interaction
-    - ./composer.phar dump-autoload
+    - composer install --no-autoloader --no-scripts --prefer-source --no-interaction
+    - composer dump-autoload
     - php artisan clear-compiled
     - php artisan optimize
     - php artisan route:cache
