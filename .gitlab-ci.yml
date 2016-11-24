@@ -23,6 +23,7 @@ build:assets:
     paths:
       - node_modules
   artifacts:
+    expire_in: 1 day
     paths:
     - public/*
 
@@ -41,6 +42,7 @@ build:composer:
     paths:
       - /root/.composer
   artifacts:
+    expire_in: 1 day
     paths:
     - vendor/*
 
