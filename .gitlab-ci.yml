@@ -76,8 +76,7 @@ build-db:
   script:
     - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
     - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
-    - sleep 15
-  type: build
+  type: build-image
   tags:
     - docker
     - dind
