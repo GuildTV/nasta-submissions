@@ -1,9 +1,5 @@
-FROM guildtv/website-base
+FROM registry.julus.uk/nasta/submissions:base
 MAINTAINER Julian Waller <julian@tech.guildtv.co.uk>
-
-#add source
-WORKDIR /src
-ADD ./ /src/
 
 ADD docker/cron/crontab /etc/crontab
 ADD docker/cron/start.sh /start.sh

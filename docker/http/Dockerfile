@@ -1,14 +1,5 @@
-FROM guildtv/website-base
+FROM registry.julus.uk/nasta/submissions:base
 MAINTAINER Julian Waller <julian@tech.guildtv.co.uk>
-
-# add source
-WORKDIR /src
-ADD ./ /src/
-
-# composer
-RUN php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php \
-  && php composer-setup.php --install-dir=/usr/bin --filename="composer" \
-  && php -r "unlink('composer-setup.php');"
 
 # Supervisor Config
 COPY docker/http/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

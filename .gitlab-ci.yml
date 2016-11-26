@@ -1,5 +1,6 @@
 types:
   - build
+  - build-base-image
   - build-image
   - test
   - promote
@@ -46,7 +47,7 @@ build:composer:
     paths:
     - vendor/*
 
-build:image:
+build:base-image:
   image: docker:1.12
   variables:
     privileged: 'true'
@@ -54,11 +55,9 @@ build:image:
   services:
     - docker:1.12-dind
   script:
-    - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
-    - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
-    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
-    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
-  type: build-image
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:base-$CI_BUILD_REF" -f docker/Dockerfile .
+    - docker push "registry.julus.uk/nasta/submissions:base-$CI_BUILD_REF"
+  type: build-base-image
   tags:
     - docker
     - dind
@@ -66,7 +65,39 @@ build:image:
     - build:assets
     - build:composer
 
-build-db:
+build:cron:
+  image: docker:1.12
+  variables:
+    privileged: 'true'
+    DOCKER_HOST: docker:2375
+  services:
+    - docker:1.12-dind
+  script:
+    - sed -i 's/submissions:base/submissions:base-'$CI_BUILD_REF'/g' docker/cron/Dockerfile
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
+    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
+  type: build-image
+  tags:
+    - docker
+    - dind
+
+build:http:
+  image: docker:1.12
+  variables:
+    privileged: 'true'
+    DOCKER_HOST: docker:2375
+  services:
+    - docker:1.12-dind
+  script:
+    - sed -i 's/submissions:base/submissions:base-'$CI_BUILD_REF'/g' docker/http/Dockerfile
+    - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
+    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+  type: build-image
+  tags:
+    - docker
+    - dind
+
+build:db:
   image: docker:1.12
   variables:
     privileged: 'true'
