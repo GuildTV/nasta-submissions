@@ -5,3 +5,4 @@ vendor/bower_components
 node_modules
 
 resources/assets
+docker/mysql/data

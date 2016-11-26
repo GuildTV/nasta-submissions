@@ -30,7 +30,7 @@ build:assets:
 build:composer:
   image: julusian/composer
   script:
-    - composer install --no-autoloader --no-scripts --prefer-source --no-interaction
+    - composer install --no-autoloader --no-scripts --prefer-dist --no-interaction --no-dev
     - composer dump-autoload
     - php artisan clear-compiled
     - php artisan optimize
@@ -90,6 +90,8 @@ test:
     - cd /src
     - cp storage/env.example storage/env
     - sed -i "s/DB_HOST=db/DB_HOST=registry.julus.uk-nasta-test-db/g" storage/env
+
+    - composer install --no-scripts --prefer-dist --no-interaction --dev
 
     - php artisan key:generate
     - php artisan migrate --database=test_mysql
