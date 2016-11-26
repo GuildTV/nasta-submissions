@@ -17,12 +17,8 @@ use App;
 
 class EntryController extends Controller
 { 
-  public function submit(SubmitRequest $request, $slug)
+  public function submit(SubmitRequest $request, Category $category)
   {
-    $category = Category::findBySlug($slug);
-    if (!$category)
-      return App::Abort(404);
-
     DB::beginTransaction();
 
     $category->entries()->where('station_id', Auth::user()->id)->delete();

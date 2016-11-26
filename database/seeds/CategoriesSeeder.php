@@ -21,9 +21,9 @@ class CategoriesSeeder extends Seeder
       $fridayClosing = Carbon::create(2017, 2, 20, 19, 0, 0);
 
       Category::create([
+        'id' => 'animation',
         'name' => 'Animation',
         'description' => 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by your station.',
-        'slug' => 'animation',
         'closing_at' => $fridayClosing
       ]);
 

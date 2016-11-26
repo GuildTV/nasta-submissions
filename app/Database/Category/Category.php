@@ -19,6 +19,13 @@ class Category extends Model
     protected $table = 'categories';
     
     /**
+     * Set id as not incrementing, for string type.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+    
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -47,10 +54,5 @@ class Category extends Model
             ->firstOrNew([
                 'station_id' => $sid,
             ]);
-    }
-
-    public static function findBySlug($slug){
-        return self::where('slug', $slug)
-            ->first();
     }
 }

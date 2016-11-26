@@ -31,17 +31,18 @@ class StationController extends Controller
 		return view('station.categories', compact('categories'));
 	}
 
-	public function submission($slug)
+	public function submission(Category $category)
 	{
-		$category = Category::findBySlug($slug);
-		if (!$category)
-			return App::Abort(404);
-
 		if ($category->constraints->isEmpty())
 			throw new DataIntegrityException("No file constraints for category: ".$slug);
 
 		$entry = $category->getEntryForStation(Auth::user()->id);
 
 		return view('station.submission.index', compact('category', 'entry'));
+	}
+
+	public function results()
+	{
+
 	}
 }

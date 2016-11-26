@@ -16,7 +16,7 @@ class CreateCategoryFileConstraintPivot extends Migration
         Schema::create('category_file_constraint', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('category_id')->unsigned();
+            $table->string('category_id');
             $table->integer('file_constraint_id')->unsigned();
             $table->timestamps();
 

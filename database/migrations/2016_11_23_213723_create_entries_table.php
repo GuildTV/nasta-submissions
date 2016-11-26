@@ -16,7 +16,7 @@ class CreateEntriesTable extends Migration
         Schema::create('entries', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('category_id')->unsigned();
+            $table->string('category_id');
             $table->integer('station_id')->unsigned();
 
             $table->string('name')->default("");

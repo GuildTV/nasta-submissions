@@ -15,8 +15,8 @@ class CategoryFileConstraintsSeeder extends Seeder
     public function run()
     {
       // Animation
-      $this->add(1, 1);
-      $this->add(1, 2);
+      $this->add('animation', 1);
+      $this->add('animation', 2);
     }
 
     private function add($category_id, $constraint_id){

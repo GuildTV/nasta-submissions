@@ -24,7 +24,7 @@
 								<td>{{ $cat->closing_at->toDayDateTimeString() }}</td>
 								<td>???</td>
 								<td>
-									<a href="{{ route("station.submission", $cat->slug) }}">View</a>
+									<a href="{{ route("station.submission", $cat) }}">View</a>
 								</td>
 							</tr>
 @endforeach

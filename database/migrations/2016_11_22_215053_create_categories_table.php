@@ -14,8 +14,7 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('slug')->unique();
+            $table->string('id')->primary();
             $table->string('name');
             $table->string('description');
             $table->timestamp('closing_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
