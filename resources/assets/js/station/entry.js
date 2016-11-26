@@ -2,8 +2,17 @@ window.StationEntry = {
 
   BindValidator: function(){
     $("#entryform").validate({
-      submitHandler: function(form) {
-        window.StationEntry.Submit();
+      submitHandler: () => window.StationEntry.Submit(),
+      rules: {
+        entryname: {
+          required: true,
+          minlength: 5,
+          maxlength: 255
+        },
+        entrydescription: {
+          required: false,
+          minlength: 10
+        }
       }
      });
   },
@@ -20,11 +29,12 @@ window.StationEntry = {
       url: '/station/categories/animation/submit',
       method: 'POST',
       data: data,
-      complete: function(res) {
-
+      success: function(res) {
+        alert("Saved!");
       },
       error: function(res) {
-
+        console.log(res);
+        alert("An error occured");
       }
     });
   }
