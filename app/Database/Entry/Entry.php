@@ -2,13 +2,8 @@
 
 namespace App\Database\Entry;
 
-use App\Helpers\TextHelper;
-
-use App\Exceptions\Database\ValueException;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class Entry extends Model
 {

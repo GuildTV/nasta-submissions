@@ -1,16 +1,12 @@
 <?php
 
-namespace App\Database\Entry;
+namespace App\Database\Upload;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Database\Upload\FileUploadLog;
-
-class FileUpload extends Model
+class FileUploadLog extends Model
 {
-    use SoftDeletes;
-    
     /**
      * The attributes that are mass assignable.
      *
@@ -18,7 +14,7 @@ class FileUpload extends Model
      */
     protected $fillable = [
         'station_id', 'category_id', 'constraint_id',
-        'account_id', 'scratch_folder_id',
+        'message', 'level',
     ];
 
 
@@ -32,24 +28,9 @@ class FileUpload extends Model
         return $this->belongsTo('App\Database\Category\Category');
     }
 
-    public function account()
-    {
-        return $this->belongsTo('App\Database\Upload\GoogleAccount');
-    }
-
     public function station()
     {
         return $this->belongsTo('App\Database\User', 'station_id');
-    }
-
-    public function addLogEntry($level, $message){
-        return FileUploadLog::create([
-            'station_id' => $this->station_id,
-            'category_id' => $this->category_id,
-            'constraint_id' => $this->constraint_id,
-            'level' => $level,
-            'message' => $message
-        ]);
     }
 
 }

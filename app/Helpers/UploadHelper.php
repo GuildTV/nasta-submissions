@@ -6,6 +6,7 @@ use App\Database\Entry\FileUpload;
 
 use Log;
 use Exception;
+use Config;
 
 use Google_Service_Drive_DriveFile;
 use Google_Service_Exception;
@@ -83,7 +84,7 @@ class UploadHelper {
         if (count($acceptedTypes) == 0)
             Log::warning("No mime types defined for constraint #" . $upload->constraint->id . " skipping checks");
 
-        foreach ($files as $file){ // TODO - skip rules pdf
+        foreach ($files as $file){
             if (count($acceptedTypes) > 0 && !in_array($file->mimeType, $acceptedTypes)){
                 $deletedFiles[] = [
                     'reason' => "BAD_TYPE",
@@ -91,6 +92,10 @@ class UploadHelper {
                 ];
                 continue;
             }
+
+            // skip rules md5
+            if ($file->md5Checksum == Config::get('rules_md5'))
+                continue;
 
             // TODO - check md5 hash
 
@@ -107,21 +112,21 @@ class UploadHelper {
 
         // approve a matched file
         if (count($matchedFiles) == 0){
-            $this->deleteFiles($client, $deletedFiles);
+            $this->deleteFiles($client, $upload, $deletedFiles);
         } else {
             $this->finaliseUpload($client, $upload, $matchedFiles);
         }
     }
 
-    private function deleteFiles($client, $files) {
+    private function deleteFiles($client, $upload, $files) {
         Log::info("Found no valid files to use. Cleaning " . count($files) . " unknown files");
 
         $client->getClient()->setUseBatch(true);
         $batch = $client->createBatch();
 
-        foreach ($files as $file){
-            $req = $client->files->delete($file['file']->id+"d");
-            $batch->add($req);
+        foreach ($files as $k=>$file){
+            $req = $client->files->delete($file['file']->id);
+            $batch->add($req, $k);
         }
 
         $deleted = [];
@@ -129,18 +134,13 @@ class UploadHelper {
         $results = $batch->execute();
         $client->getClient()->setUseBatch(false);
 
-        foreach ($results as $result){
+        foreach ($results as $id=>$result){
             if ($result instanceof Google_Service_Exception) {
                 $this->exceptions[] = $result;
             } else {
-              $deleted[] =  $result->id;
+                $file = $deleted[] = $files[$k];
+                $upload->addLogEntry("warning", "Deleted unexpected file '" . $file['file']->name . "' with reason: " . $file['reason']); // TODO - translate reason
             }
-        }
-
-        $successful = [];
-        foreach ($files as $file){
-            if (in_array($file['file']->id, $deleted))
-                $successful[] = $file;
         }
 
         Log::info("Success");
@@ -175,6 +175,7 @@ class UploadHelper {
 
         // send email
         // TODO
+        $upload->addLogEntry("success", "Completed upload with file '" . $file->name . "'");
     }
 
     private function getOrCreateTargetDir($client, $account) {

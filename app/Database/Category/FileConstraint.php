@@ -2,12 +2,7 @@
 
 namespace App\Database\Category;
 
-use App\Helpers\TextHelper;
-
-use App\Exceptions\Database\ValueException;
-
 use Illuminate\Database\Eloquent\Model;
-
 
 class FileConstraint extends Model
 {

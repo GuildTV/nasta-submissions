@@ -29,4 +29,6 @@ return [
     'needs_approval' => 1.10, // Need approval for up to 10%
   ],
 
+  'rules_md5' => "", // md5sum of rules pdf doc in every upload folder
+
 ];
