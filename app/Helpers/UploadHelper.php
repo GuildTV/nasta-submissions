@@ -8,6 +8,7 @@ use Log;
 use Exception;
 
 use Google_Service_Drive_DriveFile;
+use Google_Service_Exception;
 
 class UploadHelper {
     private $missingAccounts = [];
@@ -106,14 +107,46 @@ class UploadHelper {
 
         // approve a matched file
         if (count($matchedFiles) == 0){
-            Log::info("Found no valid files to use");
-
-            // TODO this delete
-            print "DELETING " . count($deletedFiles) . " FILES\n\n";
-
+            $this->deleteFiles($client, $deletedFiles);
         } else {
             $this->finaliseUpload($client, $upload, $matchedFiles);
         }
+    }
+
+    private function deleteFiles($client, $files) {
+        Log::info("Found no valid files to use. Cleaning " . count($files) . " unknown files");
+
+        $client->getClient()->setUseBatch(true);
+        $batch = $client->createBatch();
+
+        foreach ($files as $file){
+            $req = $client->files->delete($file['file']->id+"d");
+            $batch->add($req);
+        }
+
+        $deleted = [];
+
+        $results = $batch->execute();
+        $client->getClient()->setUseBatch(false);
+
+        foreach ($results as $result){
+            if ($result instanceof Google_Service_Exception) {
+                $this->exceptions[] = $result;
+            } else {
+              $deleted[] =  $result->id;
+            }
+        }
+
+        $successful = [];
+        foreach ($files as $file){
+            if (in_array($file['file']->id, $deleted))
+                $successful[] = $file;
+        }
+
+        Log::info("Success");
+
+        // send email
+        // TODO
     }
 
     private function finaliseUpload($client, $upload, $matchedFiles){
@@ -141,6 +174,7 @@ class UploadHelper {
         Log::info("Success");
 
         // send email
+        // TODO
     }
 
     private function getOrCreateTargetDir($client, $account) {
