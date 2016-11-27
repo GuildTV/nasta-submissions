@@ -8,9 +8,12 @@ use App\Exceptions\Database\ValueException;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Database\Traits\HasPivotTrait;
 
 class Category extends Model
 {
+    use HasPivotTrait;
+
     /**
      * The table associated with the model.
      *
@@ -54,5 +57,13 @@ class Category extends Model
             ->firstOrNew([
                 'station_id' => $sid,
             ]);
+    }
+
+    public function hasConstraint($id){ // TODO - make this nicer!
+        foreach ($this->constraints as $constraint){
+            if ($constraint->id == $id)
+                return true;
+        }
+        return false;
     }
 }

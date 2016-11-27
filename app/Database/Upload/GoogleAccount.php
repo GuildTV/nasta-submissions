@@ -31,4 +31,8 @@ class GoogleAccount extends Model
   protected $hidden = [
   ];
 
+  public static function ChooseForNewUpload(){
+    return self::where('enabled', true)->first(); // TODO
+  }
+
 }

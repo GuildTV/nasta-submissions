@@ -20,6 +20,7 @@ class CreateGoogleAccountTable extends Migration
             $table->boolean('enabled')->default(false);
             $table->bigInteger('used_space')->default(0);
             $table->bigInteger('total_space')->default(0);
+            $table->string('target_dir');
             $table->timestamps();
         });
     }

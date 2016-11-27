@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\ScrapeFreeSpace::class
+        Commands\ScrapeFreeSpace::class,
+        Commands\ScrapeUploads::class,
     ];
 
     /**
@@ -26,6 +27,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('scrape:free-space')
                  ->everyMinute();
+        $schedule->command('scrape:uploads')
+                 ->everyFiveMinutes();
     }
 
     /**

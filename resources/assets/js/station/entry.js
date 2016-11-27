@@ -24,9 +24,13 @@ window.StationEntry = {
       rules: $('#entryrules:checked').length,
       submit: document.activeElement.id == "entrysubmit" ? 1 : 0,
     };
+    const category = $('#entrycategory').val();
+
+    if (category == undefined || category.length == 0)
+      return alert("Unrecoverable error: Invalid category");
 
     $.ajax({
-      url: '/station/categories/animation/submit',
+      url: '/station/categories/' + category + '/submit',
       method: 'POST',
       data: data,
       success: function(res) {

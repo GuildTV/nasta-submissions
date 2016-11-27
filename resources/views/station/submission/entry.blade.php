@@ -6,6 +6,8 @@
 				<div class="col-md-12">
 					<form id="entryform" class="form-horizontal" onsubmit="return false">
 
+						<input type="hidden" id="entrycategory" value="{{ $category->id }}">
+
 						<div class="form-group">
 							<label for="entryname" class="col-sm-2 control-label">Entry Name</label>
 							<div class="col-sm-10">
@@ -26,6 +28,7 @@
 							<label for="file{{ $constraint->id }}" class="col-sm-2 control-label">{{ $constraint->name }}</label>
 							<div class="col-sm-10">
 								<input type="file" class="form-control" id="file{{ $constraint->id }}" >
+								<a target="_new" href="{{ route("station.entry.upload", [$category, $constraint]) }}">Upload file</a>
 
 								<!-- Add optional hash. optional for the user, and optional for the constraint -->
 
