@@ -40,3 +40,13 @@ $router->group([
 
   Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
 });
+
+$router->group([
+  'middleware' => ['auth:web', 'can:admin'],
+  'prefix' => 'admin'
+], function ($router) {
+  Route::get('/google-auth', 'Admin\GoogleAuthController@index')->name("admin.googleauth");
+  Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");
+  Route::get('/google-auth/callback', 'Admin\GoogleAuthController@callback')->name("admin.googleauth.callback");
+
+});
