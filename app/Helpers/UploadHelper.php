@@ -4,9 +4,13 @@ namespace App\Helpers;
 use App\Helpers\GoogleHelper;
 use App\Database\Entry\FileUpload;
 
+use App\Mail\UploadComplete;
+use App\Mail\UploadRejectedFiles;
+
 use Log;
 use Exception;
 use Config;
+use Mail;
 
 use Google_Service_Drive_DriveFile;
 use Google_Service_Exception;
@@ -121,32 +125,34 @@ class UploadHelper {
     private function deleteFiles($client, $upload, $files) {
         Log::info("Found no valid files to use. Cleaning " . count($files) . " unknown files");
 
-        $client->getClient()->setUseBatch(true);
-        $batch = $client->createBatch();
+        // $client->getClient()->setUseBatch(true);
+        // $batch = $client->createBatch();
 
-        foreach ($files as $k=>$file){
-            $req = $client->files->delete($file['file']->id);
-            $batch->add($req, $k);
-        }
+        // foreach ($files as $k=>$file){
+        //     $req = $client->files->delete($file['file']->id);
+        //     $batch->add($req, $k);
+        // }
 
-        $deleted = [];
+        // $deleted = [];
 
-        $results = $batch->execute();
-        $client->getClient()->setUseBatch(false);
+        // $results = $batch->execute();
+        // $client->getClient()->setUseBatch(false);
 
-        foreach ($results as $id=>$result){
-            if ($result instanceof Google_Service_Exception) {
-                $this->exceptions[] = $result;
-            } else {
-                $file = $deleted[] = $files[$k];
-                $upload->addLogEntry("warning", "Deleted unexpected file '" . $file['file']->name . "' with reason: " . $file['reason']); // TODO - translate reason
-            }
-        }
+        // foreach ($results as $id=>$result){
+        //     if ($result instanceof Google_Service_Exception) {
+        //         $this->exceptions[] = $result;
+        //     } else {
+        //         $file = $deleted[] = $files[$k];
+        //         $upload->addLogEntry("warning", "Deleted unexpected file '" . $file['file']->name . "' with reason: " . $file['reason']); // TODO - translate reason
+        //     }
+        // }
 
         Log::info("Success");
 
         // send email
         // TODO
+        if (count($files) > 0)
+            Mail::queue(new UploadRejectedFiles($upload, $files));
     }
 
     private function finaliseUpload($client, $upload, $matchedFiles){
@@ -173,9 +179,8 @@ class UploadHelper {
         $upload->save();
         Log::info("Success");
 
-        // send email
-        // TODO
         $upload->addLogEntry("success", "Completed upload with file '" . $file->name . "'");
+        Mail::queue(new UploadComplete($upload, $file->name));
     }
 
     private function getOrCreateTargetDir($client, $account) {
