@@ -3,20 +3,15 @@
 namespace App\Database\Entry;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Database\Entry\EntryFolder;
-
-class Entry extends Model
+class EntryFolder extends Model
 {
-    use SoftDeletes;
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'entries';
+    protected $table = 'entries_folders';
     
     /**
      * The attributes that are mass assignable.
@@ -24,16 +19,13 @@ class Entry extends Model
      * @var array
      */
     protected $fillable = [
-        'station_id',
-        'name', 'description',
+        'station_id', 'category_id',
+        'folder_id',
     ];
 
-
-    public function folder()
+    public function entry()
     {
-        return EntryFolder::where('station_id', $this->station_id)
-            ->where('category_id', $this->category_id)
-            ->first();
+        return $this->category->getEntryForStation($this->station_id);
     }
 
     public function category()
@@ -41,7 +33,7 @@ class Entry extends Model
         return $this->belongsTo('App\Database\Category\Category');
     }
 
-    public function findForStation($sid, $cid){
+    public static function findForStation($sid, $cid){
         return self::where('station_id', $sid)
             ->where('category_id', $cid)
             ->first();
