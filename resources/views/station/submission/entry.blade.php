@@ -29,21 +29,14 @@
 								@if ($readonly)
 									<p>You cannot upload new files to your submitted entry</p>
 								@else
-									<a target="_new" class="btn btn-primary" href="{{ route("station.entry.upload", [$category]) }}">Open folder</a>
-									<button class="btn btn-success" onclick="return false">Refresh folder</button>
+									<a target="_new" class="btn btn-primary" onclick="StationEntry.OpenFolder()" href="{{ route("station.entry.upload", [$category]) }}">Open folder</a>
+									<button class="btn btn-success" onclick="StationEntry.ReloadFileList(); return false">Refresh folder</button>
 
 									<br />
 									<br />
 								@endif
 
-								@if ($folder)
-								<iframe src="https://drive.google.com/embeddedfolderview?id={{ $folder->folder_id }}#list" style="width:100%; height:250px; border:1;"></iframe>
-								@else
-									<p>Folder not defined</p>
-									<p>TODO - load button</p>
-								@endif
-
-								<pre id="fileslog"></pre>
+								<iframe id="filelist" src="{{ route('station.submission.folderembed', $category) }}" data-src="{{ route('station.submission.folderembed', $category) }}"" style="width:100%; height:250px; border:1;"></iframe>
 							</div>
 						</div>
 
@@ -52,7 +45,7 @@
 							<div class="col-sm-offset-2 col-sm-10">
 								<div class="checkbox">
 									<label>
-										<input id="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the rules governing the NaSTA Awards {{ Config::get('nasta.year') }}
+										<input id="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the <a target="_new" href="{{ route("rules") }}">rules governing the NaSTA Awards {{ Config::get('nasta.year') }}</a>
 									</label>
 								</div>
 							</div>

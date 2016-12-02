@@ -17,6 +17,19 @@ window.StationEntry = {
      });
   },
 
+  ReloadFileList: function(){
+    const frame = document.querySelector('#filelist');
+    if (frame == null)
+      return;
+
+    frame.src = frame.getAttribute('data-src') + "?_=" + Date.now();
+  },
+
+  OpenFolder: function(){
+    // link handles new tab, this wants to delay reload the file list
+    setTimeout(window.StationEntry.ReloadFileList, 15 * 1000);
+  },
+
   Submit: function(){
     const data = {
       name: $('#entryname').val(),

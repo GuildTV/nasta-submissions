@@ -45,7 +45,25 @@ class EntryController extends Controller
 
     DB::commit();
 
+    // Change the google drive folder to be readonly
+    if ($entry->submitted){
+      $folder = $entry->folder();
+      if ($folder != null){
+        // TODO - change permissions on upload folder to private
+
+      }
+    }
+
     return $entry;
+  }
+
+  public function embedFolder(Category $category){
+    $folder = EntryFolder::findForStation(Auth::user()->id, $category->id);
+    if ($folder != null){
+      return Redirect::to("https://drive.google.com/embeddedfolderview?id=" . $folder->folder_id . "#list");
+    }
+
+    return view('station.submission.embed');
   }
 
   public function init_upload(Category $category){
