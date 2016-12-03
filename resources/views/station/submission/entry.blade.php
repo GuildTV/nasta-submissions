@@ -29,14 +29,13 @@
 								@if ($readonly)
 									<p>You cannot upload new files to your submitted entry</p>
 								@else
-									<a target="_new" class="btn btn-primary" onclick="StationEntry.OpenFolder()" href="{{ route("station.entry.upload", [$category]) }}">Open folder</a>
-									<button class="btn btn-success" onclick="StationEntry.ReloadFileList(); return false">Refresh folder</button>
+									<a target="_new" class="btn btn-primary" href="{{ route("station.entry.upload") }}">Upload Files</a>
 
 									<br />
 									<br />
 								@endif
 
-								<iframe id="filelist" src="{{ route('station.submission.folderembed', $category) }}" data-src="{{ route('station.submission.folderembed', $category) }}"" style="width:100%; height:250px; border:1;"></iframe>
+								<pre id="filelog"></pre>
 							</div>
 						</div>
 

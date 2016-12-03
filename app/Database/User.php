@@ -27,4 +27,9 @@ class User extends Authenticatable
 		'password', 'remember_token',
 	];
 
+
+	public function station_folder(){
+		return $this->hasOne('App\Database\Upload\StationFolder');
+	}
+
 }

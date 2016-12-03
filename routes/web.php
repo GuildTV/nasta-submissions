@@ -38,11 +38,10 @@ $router->group([
   Route::get('/categories', 'Station\StationController@categories')->name("station.categories");
   Route::get('/results', 'Station\StationController@results')->name("station.results");
   Route::get('/categories/{category}', 'Station\StationController@submission')->name("station.submission");
-  Route::get('/categories/{category}/folderembed', 'Station\EntryController@embedFolder')->name("station.submission.folderembed");
 
   Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
   Route::post('/categories/{category}/edit', 'Station\EntryController@edit')->name("station.entry.edit");
-  Route::get('/categories/{category}/upload', 'Station\EntryController@init_upload')->name("station.entry.upload");
+  Route::get('/upload', 'Station\EntryController@init_upload')->name("station.entry.upload");
 });
 
 $router->group([

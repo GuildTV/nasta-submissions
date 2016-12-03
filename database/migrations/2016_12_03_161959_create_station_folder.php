@@ -18,11 +18,13 @@ class CreateStationFolder extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->unique();
 
+            $table->string('account_id');
             $table->string('request_url');
             $table->string('folder_name');
 
             $table->timestamps();
 
+            $table->foreign('account_id')->references('id')->on('dropbox_accounts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
