@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFileUploadLogTable extends Migration
+class CreateUploadedFileLogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateFileUploadLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_upload_logs', function(Blueprint $table)
+        Schema::create('uploaded_file_logs', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('station_id')->unsigned();
             $table->string('category_id');
-            $table->integer('constraint_id')->unsigned();
 
             $table->string('level');
             $table->string('message');
@@ -27,7 +26,6 @@ class CreateFileUploadLogTable extends Migration
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('station_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('constraint_id')->references('id')->on('file_constraints')->onDelete('cascade');
         });
     }
 
@@ -38,6 +36,6 @@ class CreateFileUploadLogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_upload_logs');
+        Schema::dropIfExists('uploaded_file_logs');
     }
 }

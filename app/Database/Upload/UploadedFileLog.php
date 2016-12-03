@@ -5,7 +5,7 @@ namespace App\Database\Upload;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FileUploadLog extends Model
+class UploadedFileLog extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,15 +13,10 @@ class FileUploadLog extends Model
      * @var array
      */
     protected $fillable = [
-        'station_id', 'category_id', 'constraint_id',
+        'station_id', 'category_id',
         'message', 'level',
     ];
 
-
-    public function constraint()
-    {
-        return $this->belongsTo('App\Database\Category\FileConstraint');
-    }
 
     public function category()
     {

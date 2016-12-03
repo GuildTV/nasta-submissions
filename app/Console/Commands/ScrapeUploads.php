@@ -11,6 +11,7 @@ use Kunnu\Dropbox\Dropbox;
 
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
+use App\Database\Upload\UploadedFileLog;
 use App\Database\Category\Category;
 
 use Log;
@@ -81,6 +82,15 @@ class ScrapeUploads extends Command
                         'late' => false, //$date->gte($category->closing_at), // TODO - is this needed??
                         'uploaded_at' => $date,
                     ]);
+
+                    if ($category != null) {
+                        UploadedFileLog::create([
+                            'station_id' => $folder->station->id,
+                            'category_id' => $category->id,
+                            'level' => 'info',
+                            'message' => 'File \'' . $file->getName() . '\' has been added',
+                        ]);
+                    }
 
                     Log::info("Imported: " . $file->getName());
                 }
