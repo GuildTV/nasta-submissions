@@ -1,4 +1,4 @@
-FROM registry.julus.uk/nasta/submissions:base
+FROM nasta/submissions-base
 MAINTAINER Julian Waller <julian@tech.guildtv.co.uk>
 
 # Supervisor Config

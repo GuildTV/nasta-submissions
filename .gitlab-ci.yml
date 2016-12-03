@@ -90,7 +90,7 @@ build:http:
   services:
     - docker:1.12-dind
   script:
-    - sed -i 's/submissions:base/submissions:base-'$CI_BUILD_REF'/g' docker/http/Dockerfile
+    - sed -i 's/nasta\/submissions-base/registry.julus.uk\/nasta\/submissions:base-'$CI_BUILD_REF'/g' docker/http/Dockerfile
     - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
     - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
   type: build-image

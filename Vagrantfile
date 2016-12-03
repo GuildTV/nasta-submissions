@@ -42,6 +42,15 @@ Vagrant.configure(2) do |config|
         end
     end
 
+    config.vm.define "nasta-submissions-http-base" do |app|
+        app.vm.provider "docker" do |d|
+            d.dockerfile = "docker/Dockerfile"
+            d.build_dir = "."
+            d.name = "nasta-submissions-http-base"
+            d.build_args = ["--tag=nasta/submissions-base"]
+        end
+    end
+
     config.vm.define "nasta-submissions-http" do |app|
         app.vm.provider "docker" do |d|
             d.ports = $settings['ports']['http']
@@ -49,7 +58,7 @@ Vagrant.configure(2) do |config|
             d.dockerfile = "docker/http/Dockerfile"
             d.build_dir = "."
             d.name = "nasta-submissions-http"
-            d.build_args = ["--tag=pasta/website"]   
+            d.build_args = ["--tag=nasta/submissions"]   
 
             d.link("nasta-submissions-db:db")
 
