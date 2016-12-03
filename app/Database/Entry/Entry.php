@@ -43,4 +43,9 @@ class Entry extends Model
             ->where('category_id', $cid)
             ->first();
     }
+
+    public function uploadedFiles(){
+        return $this->hasMany('App\Database\Upload\UploadedFile', 'category_id', 'category_id')
+            ->where('station_id', $this->station_id);
+    }
 }

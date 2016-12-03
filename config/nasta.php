@@ -31,4 +31,6 @@ return [
 
   'rules_md5' => "", // md5sum of rules pdf doc in every upload folder
 
+  // Folder in dropbox to move uploads once imported into the database
+  'dropbox_imported_files_path' => "/Imported", // subfoldered by station name. no trailing slash
 ];

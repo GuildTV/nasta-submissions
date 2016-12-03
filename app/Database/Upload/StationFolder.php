@@ -25,5 +25,12 @@ class StationFolder extends Model
   protected $hidden = [
   ];
 
+  public function station(){
+    return $this->belongsTo('App\Database\User', 'user_id');
+  }
+
+  public function account(){
+    return $this->belongsTo('App\Database\Upload\DropboxAccount');
+  }
 
 }

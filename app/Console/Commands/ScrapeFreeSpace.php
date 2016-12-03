@@ -6,6 +6,10 @@ use Illuminate\Console\Command;
 
 use App\Helpers\GoogleHelper;
 use App\Database\Upload\GoogleAccount;
+use App\Database\Upload\DropboxAccount;
+
+use Kunnu\Dropbox\DropboxApp;
+use Kunnu\Dropbox\Dropbox;
 
 use Log;
 use Exception;
@@ -24,7 +28,7 @@ class ScrapeFreeSpace extends Command
      *
      * @var string
      */
-    protected $description = 'Scrape free space for defined google accounts';
+    protected $description = 'Scrape free space for defined accounts';
 
     /**
      * Create a new command instance.
@@ -45,7 +49,7 @@ class ScrapeFreeSpace extends Command
     {
         $accounts = GoogleAccount::all();
         foreach ($accounts as $account){
-            Log::info('Scraping free space for: '.$account->id);
+            Log::info('Scraping free space for drive: '.$account->id);
 
             try {
                 $client = GoogleHelper::getDriveClient($account->id);
@@ -68,7 +72,25 @@ class ScrapeFreeSpace extends Command
             } catch (Exception $e){
                 Log::error('Failed to scrape: '. $e->getMessage());
             }
+        }
 
+        $accounts = DropboxAccount::all();
+        foreach ($accounts as $account){
+            Log::info('Scraping free space for dropbox: '.$account->id);
+
+
+            $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $account->access_token);
+            $dropbox = new Dropbox($client);
+
+            try {
+              $accountSpace = $dropbox->getSpaceUsage();
+
+              $account->used_space = $accountSpace['used'];
+              $account->total_space = $accountSpace['allocation']['allocated'];
+              $account->save();
+            } catch (Exception $e){
+                Log::error('Failed to scrape: '. $e->getMessage());
+            }
 
         }
     }
