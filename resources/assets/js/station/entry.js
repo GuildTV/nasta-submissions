@@ -43,10 +43,13 @@ window.StationEntry = {
     const category = $('#entrycategory').val();
 
     if (category == undefined || category.length == 0)
-      return alert("Unrecoverable error: Invalid category");
+      return bootbox.alert("Unrecoverable error: Invalid category");
 
     if (data.submit == 0)
       return StationEntry.DoSubmit(category, data);
+
+    if (data.rules == 0)
+      return bootbox.alert("You must accept the rules before submitting your entry");
 
     bootbox.confirm({
       title: "Submit Entry",
@@ -62,8 +65,8 @@ window.StationEntry = {
       data: data,
       success: function(res) {
         // submitted entry, so reload to get everything be readonly
-        if (data.submit == 1)
-          return window.location.reload();
+        // if (data.submit == 1)
+          // return window.location.reload();
 
         alert("Saved!");
       },
