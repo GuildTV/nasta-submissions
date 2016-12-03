@@ -10,6 +10,7 @@ window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass');
 require('jquery-validation');
+window.bootbox = require('bootbox');
 
 $.ajaxSetup({
   headers: {

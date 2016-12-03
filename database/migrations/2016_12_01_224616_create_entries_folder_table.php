@@ -16,16 +16,13 @@ class CreateEntriesFolderTable extends Migration
         Schema::create('entries_folders', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->string('category_id');
-            $table->integer('station_id')->unsigned();
+            $table->integer('entry_id')->unsigned()->unique();
 
             $table->string('folder_id');
 
             $table->timestamps();
 
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('station_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unique(['category_id', 'station_id']);
+            $table->foreign('entry_id')->references('id')->on('entries')->onDelete('cascade');
         });
     }
 

@@ -19,23 +19,12 @@ class EntryFolder extends Model
      * @var array
      */
     protected $fillable = [
-        'station_id', 'category_id',
-        'folder_id',
+        'entry_id', 'folder_id',
     ];
 
     public function entry()
     {
-        return $this->category->getEntryForStation($this->station_id);
+        return $this->belongsTo('App\Database\Entry\Entry');
     }
 
-    public function category()
-    {
-        return $this->belongsTo('App\Database\Category\Category');
-    }
-
-    public static function findForStation($sid, $cid){
-        return self::where('station_id', $sid)
-            ->where('category_id', $cid)
-            ->first();
-    }
 }

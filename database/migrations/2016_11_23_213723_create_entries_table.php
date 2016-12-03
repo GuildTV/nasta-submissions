@@ -20,16 +20,15 @@ class CreateEntriesTable extends Migration
             $table->integer('station_id')->unsigned();
 
             $table->string('name')->default("");
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('rules')->default(0);
             $table->boolean('submitted')->default(0);
 
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('station_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unique(['category_id', 'station_id', 'deleted_at']);
+            $table->unique(['category_id', 'station_id']);
         });
     }
 

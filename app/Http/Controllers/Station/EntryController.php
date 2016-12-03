@@ -31,10 +31,6 @@ class EntryController extends Controller
 { 
   public function submit(SubmitRequest $request, Category $category)
   {
-    DB::beginTransaction();
-
-    $category->entries()->where('station_id', Auth::user()->id)->delete();
-
     $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
 
     $entry->name = $request->input('name');
@@ -42,8 +38,6 @@ class EntryController extends Controller
     $entry->rules = $request->has('rules') && $request->input('rules');
     $entry->submitted = $request->has('submit') && $request->input('submit');
     $entry->save();
-
-    DB::commit();
 
     // Change the google drive folder to be readonly
     if ($entry->submitted){
@@ -57,10 +51,18 @@ class EntryController extends Controller
     return $entry;
   }
 
+  public function edit(Category $category){
+    $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
+    $entry->submitted = false;
+    $entry->save();
+
+    return $entry; 
+  }
+
   public function embedFolder(Category $category){
-    $folder = EntryFolder::findForStation(Auth::user()->id, $category->id);
-    if ($folder != null){
-      return Redirect::to("https://drive.google.com/embeddedfolderview?id=" . $folder->folder_id . "#list");
+    $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
+    if ($entry->folder != null){
+      return Redirect::to("https://drive.google.com/embeddedfolderview?id=" . $entry->folder->folder_id . "#list");
     }
 
     return view('station.submission.embed');
@@ -69,9 +71,9 @@ class EntryController extends Controller
   public function init_upload(Category $category){
     $user = Auth::user();
 
-    $folder = EntryFolder::findForStation($user->id, $category->id);
-    if ($folder != null){
-      return Redirect::to($this->folderUrl($folder->folder_id));
+    $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
+    if ($entry->folder != null){
+      return Redirect::to($this->folderUrl($entry->folder->folder_id));
     }
 
     $account = GoogleAccount::ChooseForNewUpload();
@@ -104,13 +106,12 @@ class EntryController extends Controller
 
     try {
       EntryFolder::create([
-        'station_id' => $user->id,
-        'category_id' => $category->id,
+        'entry_id' => $entry->id,
         'folder_id' => $folderId,
       ]);
     } catch (Exception $e) {
       // We shall assume one exists and we hit the unique constraint
-      $folder = EntryFolder::findForStation($user->id, $category->id);
+      $folder = EntryFolder::where('entry_id', $entry->id)->first();
 
       // delete the fresh folder
       $client->files->delete($folderId);

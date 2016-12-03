@@ -3,13 +3,12 @@
 namespace App\Database\Entry;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Database\Entry\EntryFolder;
 
 class Entry extends Model
 {
-    use SoftDeletes;
+    use \Venturecraft\Revisionable\RevisionableTrait;
 
     /**
      * The table associated with the model.
@@ -31,9 +30,7 @@ class Entry extends Model
 
     public function folder()
     {
-        return EntryFolder::where('station_id', $this->station_id)
-            ->where('category_id', $this->category_id)
-            ->first();
+        return $this->hasOne('App\Database\Entry\EntryFolder');
     }
 
     public function category()
