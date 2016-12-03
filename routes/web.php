@@ -53,4 +53,7 @@ $router->group([
   Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");
   Route::get('/google-auth/callback', 'Admin\GoogleAuthController@callback')->name("admin.googleauth.callback");
 
+  Route::get('/dropbox-auth', 'Admin\DropboxAuthController@index')->name("admin.dropboxauth");
+  Route::get('/dropbox-auth/go', 'Admin\DropboxAuthController@go')->name("admin.dropboxauth.go");
+  Route::get('/dropbox-auth/callback', 'Admin\DropboxAuthController@callback')->name("admin.dropboxauth.callback");
 });

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4bfd64f1d8f89ab1d4f8c1238ca4a05b",
-    "content-hash": "69183d99866c8ea7c4801029af51cfb2",
+    "hash": "747947725e47747aa3ed42858517d951",
+    "content-hash": "e5f900d88443e9b9766408d7e45fee1d",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1245,6 +1245,51 @@
                 "tokenizer"
             ],
             "time": "2015-12-05 17:17:57"
+        },
+        {
+            "name": "kunalvarma05/dropbox-php-sdk",
+            "version": "v0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kunalvarma05/dropbox-php-sdk.git",
+                "reference": "8f5a147bbe29a0c6ac4db465b74ebb1ab18f0a68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kunalvarma05/dropbox-php-sdk/zipball/8f5a147bbe29a0c6ac4db465b74ebb1ab18f0a68",
+                "reference": "8f5a147bbe29a0c6ac4db465b74ebb1ab18f0a68",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "tightenco/collect": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kunnu\\Dropbox\\": "src/Dropbox"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kunal Varma",
+                    "email": "kunalvarma05@gmail.com"
+                }
+            ],
+            "description": "Dropbox PHP API V2 SDK (Unofficial)",
+            "keywords": [
+                "api",
+                "client",
+                "dropbox",
+                "php",
+                "sdk",
+                "unofficial"
+            ],
+            "time": "2016-11-22 07:52:52"
         },
         {
             "name": "laravel/framework",

@@ -12,7 +12,8 @@
         "graham-campbell/exceptions": "^9.1",
         "google/apiclient": "^2.1",
         "doctrine/dbal": "^2.5",
-        "venturecraft/revisionable": "^1.28"
+        "venturecraft/revisionable": "^1.28",
+        "kunalvarma05/dropbox-php-sdk": "^0.1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
