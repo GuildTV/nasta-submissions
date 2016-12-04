@@ -23,6 +23,7 @@ class CategoriesSeeder extends Seeder
       Category::create([
         'id' => 'animation',
         'name' => 'Animation',
+        'compact_name' => 'Animation',
         'description' => 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by your station.',
         'closing_at' => $fridayClosing
       ]);

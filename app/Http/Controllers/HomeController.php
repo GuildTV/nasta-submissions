@@ -32,6 +32,11 @@ class HomeController extends Controller
 
 		throw new Exception("Unhandled user type in dashboard!");
 	}
+
+	public function rules()
+	{
+		return view('rules');
+	}
 	
 
 	public function redirect()

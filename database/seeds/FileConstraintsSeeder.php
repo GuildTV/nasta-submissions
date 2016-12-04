@@ -18,14 +18,14 @@ class FileConstraintsSeeder extends Seeder
       FileConstraint::create([
         'name' => '10 Minute Video',
         'description' => 'A 10 minute video entry',
-        'extensions' => 'mp4;mov'
+        'mimetypes' => 'video/mp4'
       ]);
 
       // 2
       FileConstraint::create([
         'name' => '500 Words',
         'description' => 'A 500 word document',
-        'extensions' => 'pdf;doc;docx;odf'
+        'mimetypes' => 'application/pdf'
       ]);
     }
 }

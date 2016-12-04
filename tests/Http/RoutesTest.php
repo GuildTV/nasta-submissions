@@ -20,6 +20,7 @@ class RoutesTest extends TestCase
   // Route names to skip
   const SKIP_NAMES = [
     'auth.reset',
+    'debugbar.'
   ];
 
   protected $requestCount;
@@ -38,7 +39,7 @@ class RoutesTest extends TestCase
       if($route->getMethods()[0] != "GET")
         continue;
 
-      if(in_array($route->getName(), self::SKIP_NAMES))
+      if ($this->shouldSkipRoute($route->getName()))
         continue;
 
       $validRoutes[] = $route;
@@ -55,6 +56,18 @@ class RoutesTest extends TestCase
     }
 
     print "\nFinished " . $routes->count() . " routes with " . $this->requestCount . " requests\n---\n\n";
+  }
+
+  private function shouldSkipRoute($routeName){
+    foreach (self::SKIP_NAMES as $name){
+      if (strrpos($name, ".") == strlen($name)-1 && strpos($routeName, $name) === 0)
+        return true;
+
+      if ($routeName == $name)
+        return true;
+    }
+
+    return false;
   }
 
   private function runRoute(IllRoute $route)

@@ -6,7 +6,7 @@ use App\Database\User;
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
-    use DatabaseTransactions;
+    // use DatabaseTransactions;
 
     /**
      * The base URL to use while testing the application.
