@@ -4,8 +4,6 @@ namespace App\Database\Entry;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Database\Entry\EntryFolder;
-
 class Entry extends Model
 {
     use \Venturecraft\Revisionable\RevisionableTrait;
@@ -27,11 +25,6 @@ class Entry extends Model
         'name', 'description',
     ];
 
-
-    public function folder()
-    {
-        return $this->hasOne('App\Database\Entry\EntryFolder');
-    }
 
     public function category()
     {
