@@ -50,7 +50,7 @@ class Category extends Model
 
     public function getEntryForStation($sid){
         return $this->entries()
-            ->firstOrCreate([
+            ->firstOrNew([
                 'station_id' => $sid,
             ]);
     }

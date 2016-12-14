@@ -40,7 +40,7 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Submit Entry",
-      message: "Blah blah blah. Kill in progress uploads etc",
+      message: "Blah blah blah. No more changes",
       callback: r => r ? StationEntry.DoSubmit(category, data) : null
     });
   },
@@ -52,8 +52,8 @@ window.StationEntry = {
       data: data,
       success: function(res) {
         // submitted entry, so reload to get everything be readonly
-        // if (data.submit == 1)
-          // return window.location.reload();
+        if (data.submit == 1)
+          return window.location.reload();
 
         alert("Saved!");
       },
