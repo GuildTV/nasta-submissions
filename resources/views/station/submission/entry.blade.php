@@ -14,6 +14,16 @@
 								<input type="text" class="form-control" id="entryname" maxlength="255" placeholder="Entry Name" {{ $readonly ? "disabled='disabled'" : "" }} value="{{ $entry->name }}">
 							</div>
 						</div>
+
+						@if ($entry->isLate())
+						<div class="form-group">
+							<label for="entrylate" class="col-sm-2 control-label"></label>
+							<div class="col-sm-10">
+								<p class="late_upload">Entry is late!!</p>
+								<p>You may be able to remove the offending files to clear the late status</p>
+							</div>
+						</div>
+						@endif
 						
 						<div class="form-group">
 							<label for="entrydescription" class="col-sm-2 control-label">Description</label>
