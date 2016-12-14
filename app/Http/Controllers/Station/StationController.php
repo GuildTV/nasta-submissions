@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Exceptions\DataIntegrityException;
 
 use App\Database\Category\Category;
+use App\Database\Upload\UploadedFile;
 
 use App;
 use Auth;
@@ -41,6 +42,14 @@ class StationController extends Controller
 
 		return view('station.submission.index', compact('category', 'entry', 'readonly'));
 	}
+
+	public function files()
+	{
+		$files = UploadedFile::orderBy("category_id")->get();
+
+		return view('station.files', compact('files'));
+	}
+
 
 	public function results()
 	{

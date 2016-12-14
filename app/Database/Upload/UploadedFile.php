@@ -42,6 +42,9 @@ class UploadedFile extends Model
         if ($category == null)
             $category = $this->category;
 
+        if ($category == null)
+            return false;
+
         return $this->uploaded_at->gt($category->closing_at);
     }
 

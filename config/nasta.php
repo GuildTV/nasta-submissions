@@ -29,7 +29,7 @@ return [
     'needs_approval' => 1.10, // Need approval for up to 10%
   ],
 
-  'rules_md5' => "", // md5sum of rules pdf doc in every upload folder
+  'late_edit_period' => 60, // Minutes allowed to edit 
 
   // Folder in dropbox to move uploads once imported into the database
   'dropbox_imported_files_path' => "/Imported", // subfoldered by station name. no trailing slash

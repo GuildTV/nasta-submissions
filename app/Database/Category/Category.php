@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Database\Traits\HasPivotTrait;
 
+use Carbon\Carbon;
+
+use Config;
+
 class Category extends Model
 {
     use HasPivotTrait;
@@ -61,5 +65,9 @@ class Category extends Model
                 return true;
         }
         return false;
+    }
+
+    public function canEditSubmissions(){
+        return Carbon::now()->lt($this->closing_at->addMinutes(Config::get('nasta.late_edit_period')));
     }
 }

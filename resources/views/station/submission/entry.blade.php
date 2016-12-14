@@ -50,7 +50,7 @@
 									<li class="{{ $file->isLate() ? "late_upload" : "" }}">{{ $file->name }} {{ $file->isLate() ? "(Late)" : "" }}</li>
 									@endforeach
 								</ul>
-								<p>Note: files may a few minutes to show here. If it does not show up, <a href="#" target="_new">Click here</a> to link files to this entry</p>
+								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to link files to this entry</p>
 
 								<pre id="filelog"></pre>
 							</div>
