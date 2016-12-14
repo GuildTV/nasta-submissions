@@ -37,7 +37,7 @@
 
 								<ul>
 									@foreach ($entry->uploadedFiles as $file)
-									<li>{{ $file->name }}</li>
+									<li class="{{ $file->isLate() ? "late_upload" : "" }}">{{ $file->name }} {{ $file->isLate() ? "(Late)" : "" }}</li>
 									@endforeach
 								</ul>
 								<p>Note: files may a few minutes to show here. If it does not show up, <a href="#" target="_new">Click here</a> to link files to this entry</p>

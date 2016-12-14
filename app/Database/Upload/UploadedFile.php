@@ -4,6 +4,8 @@ namespace App\Database\Upload;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class UploadedFile extends Model
 {
     
@@ -34,6 +36,13 @@ class UploadedFile extends Model
     public function station()
     {
         return $this->belongsTo('App\Database\User', 'station_id');
+    }
+
+    public function isLate($category=null){
+        if ($category == null)
+            $category = $this->category;
+
+        return $this->uploaded_at->gt($category->closing_at);
     }
 
 }

@@ -45,6 +45,7 @@ Vagrant.configure(2) do |config|
     config.vm.define "nasta-submissions-http-base" do |app|
         app.vm.provider "docker" do |d|
             d.dockerfile = "docker/Dockerfile"
+            d.remains_running = false
             d.build_dir = "."
             d.name = "nasta-submissions-http-base"
             d.build_args = ["--tag=nasta/submissions-base"]
