@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "bootbox": "^4.4.0",
+    "datatables.net": "^1.10.13",
+    "datatables.net-bs": "^1.10.13",
     "jquery-validation": "1.15.0"
   }
 }

@@ -12,6 +12,9 @@ require('bootstrap-sass');
 require('jquery-validation');
 window.bootbox = require('bootbox');
 
+require('datatables.net');
+require('datatables.net-bs');
+
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
