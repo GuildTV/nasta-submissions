@@ -1,6 +1,14 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+--
+-- Database: `Test_Pasta_Web`
+--
+CREATE DATABASE IF NOT EXISTS `Test_Nasta_Submissions` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `Test_Nasta_Submissions`;
+
+
 CREATE TABLE `categories` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
