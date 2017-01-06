@@ -8,6 +8,7 @@ types:
 
 variables:
   APP_ENV: test
+  DOCKER_DAEMON_ARGS: --storage-driver=overlay2
 
 
 build:assets:
@@ -60,7 +61,7 @@ build:base-image:
   type: build-base-image
   tags:
     - docker
-    - dind
+    - dind-overlay
   dependencies:
     - build:assets
     - build:composer
@@ -79,7 +80,7 @@ build:cron:
   type: build-image
   tags:
     - docker
-    - dind
+    - dind-overlay
   dependencies: []
 
 build:http:
@@ -96,7 +97,7 @@ build:http:
   type: build-image
   tags:
     - docker
-    - dind
+    - dind-overlay
   dependencies: []
 
 build:db:
@@ -112,7 +113,7 @@ build:db:
   type: build-image
   tags:
     - docker
-    - dind
+    - dind-overlay
   dependencies: []
 
 test:
@@ -154,7 +155,7 @@ promote:
     - develop
   tags:
     - docker
-    - dind
+    - dind-overlay
   dependencies: []
 
 deploy:
