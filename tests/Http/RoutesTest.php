@@ -23,6 +23,11 @@ class RoutesTest extends TestCase
     'debugbar.'
   ];
 
+  const ALLOWED_RESPONSE_STATUS = [
+    200, 302,
+    404
+  ];
+
   protected $requestCount;
 
   public function testThings()
@@ -107,22 +112,22 @@ class RoutesTest extends TestCase
     // test admin pages
     if($prefix != null && (strpos($prefix, "admin") === 0 || strpos($prefix, "admin") === 1)) {
       $response = $this->actingAs($this->admin)->action('GET', $action, $params);
-      $this->assertContains($response->status(), [200,302], $response->getContent());
+      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
     }
     // test station pages
     else if($prefix != null && (strpos($prefix, "station") === 0 || strpos($prefix, "station") === 1)) {
       $response = $this->actingAs($this->station)->action('GET', $action, $params);
-      $this->assertContains($response->status(), [200,302], $response->getContent());
+      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
     }
     // test judge pages
     else if($prefix != null && (strpos($prefix, "judge") === 0 || strpos($prefix, "judge") === 1)) {
       $response = $this->actingAs($this->judge)->action('GET', $action, $params);
-      $this->assertContains($response->status(), [200,302], $response->getContent());
+      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
     } 
     // public page
     else {
       $response = $this->action('GET', $action, $params);
-      $this->assertContains($response->status(), [200,302], $response->getContent());
+      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
     }
   }
 
