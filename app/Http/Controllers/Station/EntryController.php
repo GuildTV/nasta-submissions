@@ -10,6 +10,7 @@ use App\Http\Requests\Station\SubmitRequest;
 
 use App\Database\Category\Category;
 
+use App;
 use Auth;
 use Redirect;
 
@@ -17,6 +18,9 @@ class EntryController extends Controller
 { 
   public function submit(SubmitRequest $request, Category $category)
   {
+    if (!$category->canEditSubmissions())
+      return App::abort(400);
+
     $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
 
     $entry->name = $request->input('name');
@@ -29,6 +33,9 @@ class EntryController extends Controller
   }
 
   public function edit(Category $category){
+    if (!$category->canEditSubmissions())
+      return App::abort(400);
+
     $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
     $entry->submitted = false;
     $entry->save();

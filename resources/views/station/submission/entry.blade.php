@@ -11,13 +11,13 @@
 						<div class="form-group">
 							<label for="entryname" class="col-sm-2 control-label">Entry Name</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" id="entryname" maxlength="255" placeholder="Entry Name" {{ $readonly ? "disabled='disabled'" : "" }} value="{{ $entry->name }}">
+								<input type="text" class="form-control" id="entryname" name="entryname" maxlength="255" placeholder="Entry Name" {{ $readonly ? "disabled='disabled'" : "" }} value="{{ $entry->name }}">
 							</div>
 						</div>
 
 						@if ($entry->isLate())
 						<div class="form-group">
-							<label for="entrylate" class="col-sm-2 control-label"></label>
+							<label class="col-sm-2 control-label"></label>
 							<div class="col-sm-10">
 								<p class="late_upload">Entry is late!!</p>
 								<p>You may be able to remove the offending files to clear the late status</p>
@@ -28,7 +28,7 @@
 						<div class="form-group">
 							<label for="entrydescription" class="col-sm-2 control-label">Description</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" id="entrydescription" {{ $readonly ? "disabled='disabled'" : "" }} rows="5">{{ $entry->description }}</textarea>
+								<textarea class="form-control" id="entrydescription" name="entrydescription" {{ $readonly ? "disabled='disabled'" : "" }} rows="5">{{ $entry->description }}</textarea>
 							</div>
 						</div>
 
@@ -61,7 +61,7 @@
 							<div class="col-sm-offset-2 col-sm-10">
 								<div class="checkbox">
 									<label>
-										<input id="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the <a target="_new" href="{{ route("rules") }}">rules governing the NaSTA Awards {{ Config::get('nasta.year') }}</a>
+										<input id="entryrules" name="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the <a target="_new" href="{{ route("rules") }}">rules governing the NaSTA Awards {{ Config::get('nasta.year') }}</a>
 									</label>
 								</div>
 							</div>
@@ -69,6 +69,8 @@
 											
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
+								<a href="{{ route("station.categories") }}" class="btn btn-danger">Back</a>
+
 								@if ($closed)
 								  <!-- No editing once closed -->
 								@elseif ($readonly)

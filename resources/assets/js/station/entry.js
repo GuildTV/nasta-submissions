@@ -2,6 +2,7 @@ window.StationEntry = {
 
   BindValidator: function(){
     $("#entryform").validate({
+      debug: true,
       submitHandler: () => window.StationEntry.Submit(),
       rules: {
         entryname: {
@@ -40,7 +41,7 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Submit Entry",
-      message: "Blah blah blah. No more changes",
+      message: "By submitting your entry you acknowledge that your entry is complete. You can unsubmit your entry if you wish to make more changes",
       callback: r => r ? StationEntry.DoSubmit(category, data) : null
     });
   },
@@ -72,7 +73,7 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Edit Entry",
-      message: "Blah blah blah. Allow to make changes. Entry will count as late if done after the deadline",
+      message: "This will change your submission from submitted to a draft. If you do not resubmit your entry before the deadline it will be counted as late",
       callback: r => {
         if (!r) return;
 

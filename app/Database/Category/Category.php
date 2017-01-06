@@ -59,6 +59,12 @@ class Category extends Model
             ]);
     }
 
+    public function hasEntryForStation($sid){
+        return $this->entries()
+            ->where('station_id', $sid)
+            ->count() > 0;
+    }
+
     public function hasConstraint($id){ // TODO - make this nicer!
         foreach ($this->constraints as $constraint){
             if ($constraint->id == $id)

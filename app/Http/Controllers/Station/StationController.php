@@ -37,8 +37,13 @@ class StationController extends Controller
 		if ($category->constraints->isEmpty())
 			throw new DataIntegrityException("No file constraints for category: " . $category->id);
 
-		$entry = $category->getEntryForStation(Auth::user()->id);
+		// Check if there is an entry or one can be created
 		$closed = !$category->canEditSubmissions();
+		if ($closed && !$category->hasEntryForStation(Auth::user()->id))
+			return App::abort(404);
+
+		// create or find an entry
+		$entry = $category->getEntryForStation(Auth::user()->id);
 		$readonly = $closed || $entry->submitted == 1;
 
 		return view('station.submission.index', compact('category', 'entry', 'readonly', 'closed'));
