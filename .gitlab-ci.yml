@@ -8,7 +8,7 @@ types:
 
 variables:
   APP_ENV: test
-  DOCKER_DAEMON_ARGS: --storage-driver=overlay
+  DOCKER_DRIVER: overlay2
 
 
 build:assets:
@@ -54,7 +54,7 @@ build:base-image:
     privileged: 'true'
     DOCKER_HOST: docker:2375
   services:
-    - docker:1.12-dind
+    - julusian/docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta/submissions:base-$CI_BUILD_REF" -f docker/Dockerfile .
     - docker push "registry.julus.uk/nasta/submissions:base-$CI_BUILD_REF"
@@ -72,7 +72,7 @@ build:cron:
     privileged: 'true'
     DOCKER_HOST: docker:2375
   services:
-    - docker:1.12-dind
+    - julusian/docker:1.12-dind
   script:
     - sed -i 's/submissions:base/submissions:base-'$CI_BUILD_REF'/g' docker/cron/Dockerfile
     - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
@@ -89,7 +89,7 @@ build:http:
     privileged: 'true'
     DOCKER_HOST: docker:2375
   services:
-    - docker:1.12-dind
+    - julusian/docker:1.12-dind
   script:
     - sed -i 's/nasta\/submissions-base/registry.julus.uk\/nasta\/submissions:base-'$CI_BUILD_REF'/g' docker/http/Dockerfile
     - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
@@ -106,7 +106,7 @@ build:db:
     privileged: 'true'
     DOCKER_HOST: docker:2375
   services:
-    - docker:1.12-dind
+    - julusian/docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
     - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
@@ -141,7 +141,7 @@ promote:
     privileged: 'true'
     DOCKER_HOST: docker:2375
   services:
-    - docker:1.12-dind
+    - julusian/docker:1.12-dind
   script:
     - docker pull "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
     - docker pull "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
