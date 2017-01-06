@@ -52,7 +52,7 @@ build:base-image:
   image: docker:1.12
   variables:
     privileged: 'true'
-    DOCKER_HOST: docker:2375
+    DOCKER_HOST: julusian-docker:2375
   services:
     - julusian/docker:1.12-dind
   script:
@@ -70,7 +70,7 @@ build:cron:
   image: docker:1.12
   variables:
     privileged: 'true'
-    DOCKER_HOST: docker:2375
+    DOCKER_HOST: julusian-docker:2375
   services:
     - julusian/docker:1.12-dind
   script:
@@ -87,7 +87,7 @@ build:http:
   image: docker:1.12
   variables:
     privileged: 'true'
-    DOCKER_HOST: docker:2375
+    DOCKER_HOST: julusian-docker:2375
   services:
     - julusian/docker:1.12-dind
   script:
@@ -104,7 +104,7 @@ build:db:
   image: docker:1.12
   variables:
     privileged: 'true'
-    DOCKER_HOST: docker:2375
+    DOCKER_HOST: julusian-docker:2375
   services:
     - julusian/docker:1.12-dind
   script:
@@ -139,7 +139,7 @@ promote:
   image: docker:1.12
   variables:
     privileged: 'true'
-    DOCKER_HOST: docker:2375
+    DOCKER_HOST: julusian-docker:2375
   services:
     - julusian/docker:1.12-dind
   script:
