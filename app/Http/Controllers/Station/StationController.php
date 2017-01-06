@@ -35,7 +35,7 @@ class StationController extends Controller
 	public function submission(Category $category)
 	{
 		if ($category->constraints->isEmpty())
-			throw new DataIntegrityException("No file constraints for category: ".$slug);
+			throw new DataIntegrityException("No file constraints for category: " . $category->id);
 
 		$entry = $category->getEntryForStation(Auth::user()->id);
 		$readonly = $entry->submitted == 1;
