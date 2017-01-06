@@ -38,9 +38,10 @@ class StationController extends Controller
 			throw new DataIntegrityException("No file constraints for category: " . $category->id);
 
 		$entry = $category->getEntryForStation(Auth::user()->id);
-		$readonly = $entry->submitted == 1;
+		$closed = !$category->canEditSubmissions();
+		$readonly = $closed || $entry->submitted == 1;
 
-		return view('station.submission.index', compact('category', 'entry', 'readonly'));
+		return view('station.submission.index', compact('category', 'entry', 'readonly', 'closed'));
 	}
 
 	public function files()

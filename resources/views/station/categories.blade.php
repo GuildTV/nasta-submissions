@@ -28,7 +28,9 @@
 								<td>{{ $cat->closing_at->toDayDateTimeString() }}</td>
 								<td>{{ $msg }}<td>
 								<td>
-									<a href="{{ route("station.submission", $cat) }}">View</a>
+								  @if ($cat->canEditSubmissions() || $entry != null)
+								  	<a href="{{ route("station.submission", $cat) }}">View</a>
+								  @endif
 								</td>
 							</tr>
 @endforeach

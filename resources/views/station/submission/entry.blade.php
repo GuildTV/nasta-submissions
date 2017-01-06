@@ -69,7 +69,9 @@
 											
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								@if ($readonly)
+								@if ($closed)
+								  <!-- No editing once closed -->
+								@elseif ($readonly)
 									<button type="submit" class="btn btn-success" id="entryedit">Edit Entry</button>
 								@else
 									<button type="submit" class="btn btn-primary">Save Draft</button>
