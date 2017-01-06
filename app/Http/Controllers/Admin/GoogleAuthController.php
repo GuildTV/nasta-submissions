@@ -17,7 +17,7 @@ class GoogleAuthController extends Controller {
 
   public function index(){
     $accounts = [];
-    $userNames = [];
+    $usedNames = [];
 
     $files = scandir(storage_path()."/google_accounts/");
     foreach($files as $f){
