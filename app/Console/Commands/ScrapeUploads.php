@@ -115,6 +115,12 @@ class ScrapeUploads extends Command
         if (!preg_match("/(.*)_(.*)_(.*)/", $name, $matches))
             return null;
 
-        return Category::where('compact_name', $matches[2])->first();
+        $cats = Category::where('compact_name', $matches[2])->get();
+        foreach ($cats as $cat){
+            if ($cat->canEditSubmissions())
+                return $cat;
+        }
+
+        return null;
     }
 }
