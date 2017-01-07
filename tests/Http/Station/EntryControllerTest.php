@@ -122,6 +122,12 @@ class EntryControllerTest extends TestCase
       'rules' => 1,
       'submit' => 0
     ];
+
+    // ensure there is no entry already
+    Entry::where('category_id', self::$testClosedCategory)
+      ->where('station_id', $this->station->id)
+      ->delete();
+      
     // need to manually assign some as fillable is not set
     $entry = new Entry($origData);
     $entry->category_id = self::$testClosedCategory;
