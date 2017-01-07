@@ -63,7 +63,8 @@ CREATE TABLE `entries` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `entries` (`id`, `category_id`, `station_id`, `name`, `description`, `rules`, `submitted`, `created_at`, `updated_at`) VALUES
-(29, 'animation', 3, 'trsetestse', '', 1, 1, '2016-12-14 22:14:49', '2016-12-14 22:15:58');
+(29, 'animation', 3, 'trsetestse', '', 1, 1, '2016-12-14 22:14:49', '2016-12-14 22:15:58'),
+(72, 'something', 3, 'Test submission', 'Something exciting about pillows.', 1, 1, '2017-01-06 23:49:53', '2017-01-06 23:49:53');
 
 CREATE TABLE `entries_folders` (
   `id` int(10) UNSIGNED NOT NULL,

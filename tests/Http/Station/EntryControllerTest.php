@@ -161,6 +161,7 @@ class EntryControllerTest extends TestCase
       ->where('station_id', $this->station->id)
       ->first();
 
+    $this->assertNotNull($entry);
     $this->assertEquals(0, $entry->submitted);
   }
 
