@@ -41,14 +41,14 @@ class FileController extends Controller
       // track deletion
       UploadedFileLog::create([
         'station_id' => $file->station_id,
-        'category_id' => $file->category->id,
+        'category_id' => $file->category_id,
         'level' => 'info',
         'message' => 'Delete \'' . $file->name . '\'',
       ]);
     } else {
       UploadedFileLog::create([
         'station_id' => $file->station_id,
-        'category_id' => $file->category->id,
+        'category_id' => $file->category_id,
         'level' => 'warning',
         'message' => 'Failed to delete \'' . $file->name . '\' off dropbox',
       ]);
@@ -60,7 +60,30 @@ class FileController extends Controller
     return $file;
   }
 
+  public function link(UploadedFile $file, Category $category)
+  {
+    // Check file belongs to user
+    if ($file->station_id != Auth::user()->id)
+      return App::abort(404);
+
+    if ($file->category_id != null)
+      return App::abort(400);
+
+    if (!$category->canEditSubmissions())
+      return App::abort(400);
+
+    // update file
+    $file->category_id = $category->id;
+    $file->save();
+
+    UploadedFileLog::create([
+      'station_id' => $file->station_id,
+      'category_id' => $file->category_id,
+      'level' => 'info',
+      'message' => 'Linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',
+    ]);
+
+    return $file;
+  }
 
 }
-
-

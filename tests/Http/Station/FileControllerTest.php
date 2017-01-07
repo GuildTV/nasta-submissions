@@ -22,6 +22,7 @@ class FileControllerTest extends TestCase
   private static $testClosedCategory = "something";
 
   private static $deleteUrl = '/station/files/%d/delete';
+  private static $linkUrl = '/station/files/%d/link/%s';
 
   private static $testAccountId = "test";
   private static $testSourceFile = "/test/test_file.png";
@@ -186,8 +187,54 @@ class FileControllerTest extends TestCase
       ->assertResponseStatus(404);
   }
 
+  public function testLinkBadCategory(){
+    $file = UploadedFile::create([
+      'station_id' => $this->station->id,
+      'category_id' => null,
+      'account_id' => self::$testAccountId,
+      'path' => '/dummy-file',
+      'name' => 'Test file for delete',
+      'uploaded_at' => Carbon::now(),
+    ]);
 
+    $this->actingAs($this->station)->postAjax(sprintf(self::$linkUrl, $file->id, "notacategory"), [])
+      ->assertResponseStatus(404);
+  }
 
+  public function testLinkClosedCategory(){
+    $file = UploadedFile::create([
+      'station_id' => $this->station->id,
+      'category_id' => null,
+      'account_id' => self::$testAccountId,
+      'path' => '/dummy-file',
+      'name' => 'Test file for delete',
+      'uploaded_at' => Carbon::now(),
+    ]);
 
+    $this->actingAs($this->station)->postAjax(sprintf(self::$linkUrl, $file->id, self::$testClosedCategory), [])
+      ->assertResponseStatus(400);
+  }
+
+  public function testLinkBadId(){
+    $this->actingAs($this->station)->postAjax(sprintf(self::$linkUrl, 9999999, "animation"), [])
+      ->assertResponseStatus(404);
+  }
+
+  public function testLinkGood(){
+    $file = UploadedFile::create([
+      'station_id' => $this->station->id,
+      'category_id' => null,
+      'account_id' => self::$testAccountId,
+      'path' => '/dummy-file',
+      'name' => 'Test file for delete',
+      'uploaded_at' => Carbon::now(),
+    ]);
+
+    $this->actingAs($this->station)->postAjax(sprintf(self::$linkUrl, $file->id, self::$testCategory), [])
+      ->assertResponseOk();
+
+    $file = UploadedFile::where("id", $file->id)->first();
+    $this->assertEquals(self::$testCategory, $file->category_id);
+  }
 
 }
