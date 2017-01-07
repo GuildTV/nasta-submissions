@@ -20,7 +20,7 @@ class SettingsControllerTest extends TestCase
     if (isset($expected['email']))
       $this->assertEquals($expected['email'], $user->email);
     if (isset($expected['password']))
-      $this->isTrue(Hash::check($user->password, $expected['password']));
+      $this->assertTrue(Hash::check($expected['password'], $user->password));
   }
 
   private function assertSave($data){
@@ -38,8 +38,9 @@ class SettingsControllerTest extends TestCase
       ->assertResponseStatus($status);
 
     $user = User::find($this->station->id);
-
     $this->assertUser($user, $expected);
+
+    return $user;
   }
 
 
@@ -78,35 +79,38 @@ class SettingsControllerTest extends TestCase
   }
 
   public function testSaveDuplicateEmail(){
-    $origData = User::find($this->station->id);
+    $origData = User::find($this->station->id)->toArray();
     $data = [
       'email' => "test@email.com",
       'password' => "testing12345",
       'password_confirmation' => "testing12345"
     ];
 
-    $this->assertSaveFail($data, $origData, 422);
+    $user = $this->assertSaveFail($data, $origData, 422);
+    $this->assertFalse(Hash::check($data['password'], $user->password));
   }
 
   public function testSaveUnmatchedPassword(){
-    $origData = User::find($this->station->id);
+    $origData = User::find($this->station->id)->toArray();
     $data = [
       'email' => "blah@email.com",
       'password' => "testing12345",
       'password_confirmation' => "testing22222"
     ];
 
-    $this->assertSaveFail($data, $origData, 422);
+    $user = $this->assertSaveFail($data, $origData, 422);
+    $this->assertFalse(Hash::check($data['password'], $user->password));
   }
 
   public function testSaveMissingPasswordConfirm(){
-    $origData = User::find($this->station->id);
+    $origData = User::find($this->station->id)->toArray();
     $data = [
       'email' => "blah@email.com",
       'password' => "testing12345",
     ];
 
-    $this->assertSaveFail($data, $origData, 422);
+    $user = $this->assertSaveFail($data, $origData, 422);
+    $this->assertFalse(Hash::check($data['password'], $user->password));
   }
 
 }
