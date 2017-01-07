@@ -30,9 +30,11 @@ $('#files-table').DataTable({
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td>{{ $file->isLate() ? "Yes" : "No" }}</td>
                 <td>
-                  @if ($file->category == null || $file->category->canEditSubmissions())
+                  @if ($file->category == null)
                   <button class="btn btn-primary">Link</button>
-                  <button class="btn btn-danger">Delete</button>
+                  @endif
+                  @if ($file->category == null || $file->category->canEditSubmissions())
+                    <button class="btn btn-danger">Delete</button>
                   @endif
                 </td>
               </tr>
