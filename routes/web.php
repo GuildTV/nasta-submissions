@@ -46,6 +46,9 @@ $router->group([
   Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
   Route::post('/categories/{category}/edit', 'Station\EntryController@edit')->name("station.entry.edit");
   Route::get('/upload', 'Station\EntryController@init_upload')->name("station.entry.upload");
+
+  Route::get('/settings', 'Station\SettingsController@settings')->name("station.settings");
+  Route::post('/settings', 'Station\SettingsController@save')->name("station.settings.save");
 });
 
 $router->group([
