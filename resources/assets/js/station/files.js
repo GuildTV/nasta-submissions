@@ -21,7 +21,7 @@ window.StationFiles = {
           },
           error: function(res) {
             console.log(res);
-            alert("An error occured");
+            bootbox.alert("An error occured whilst attempting to delete this file. <br /> Please reload the page and try again");
           }
         });
       }
@@ -51,7 +51,7 @@ window.StationFiles = {
           },
           error: function(res) {
             console.log(res);
-            alert("An error occured");
+            bootbox.alert("An error occured whilst attempting to delete this file. <br /> Please reload the page and try again");
           }
         });
       }

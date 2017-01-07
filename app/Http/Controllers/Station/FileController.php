@@ -50,7 +50,7 @@ class FileController extends Controller
         'station_id' => $file->station_id,
         'category_id' => $file->category_id,
         'level' => 'warning',
-        'message' => 'Failed to delete \'' . $file->name . '\' off dropbox',
+        'message' => 'File \'' . $file->name . '\' has been deleted, but may remain on Dropbox',
       ]);
     }
 
@@ -80,7 +80,7 @@ class FileController extends Controller
       'station_id' => $file->station_id,
       'category_id' => $file->category_id,
       'level' => 'info',
-      'message' => 'Linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',
+      'message' => 'Manually linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',
     ]);
 
     return $file;

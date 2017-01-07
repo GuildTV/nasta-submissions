@@ -52,7 +52,11 @@
 								</ul>
 								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to link files to this entry</p>
 
-								<pre id="filelog"></pre>
+								<pre id="filelog">
+@foreach ($entry->uploadedFileLog as $log)
+{{ $log->level }}: {{ $log->message }}
+@endforeach								
+</pre>
 							</div>
 						</div>
 
