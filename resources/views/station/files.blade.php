@@ -4,6 +4,17 @@
 $('#files-table').DataTable({
 
 });
+
+window.OpenCategories = [
+  @foreach ($categories as $cat)
+    @if ($cat->canEditSubmissions())
+      {
+        text: "{{ $cat->name }}",
+        value: "{{ $cat->id }}"
+      },
+    @endif
+  @endforeach
+];
 @endsection
 
 @section('content')
@@ -30,9 +41,11 @@ $('#files-table').DataTable({
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td>{{ $file->isLate() ? "Yes" : "No" }}</td>
                 <td>
+                  @if ($file->category == null)
+                  <button class="btn btn-primary" data-id="{{ $file->id }}" data-name="{{ $file->name }}" onclick="window.StationFiles.Link(this)">Link</button>
+                  @endif
                   @if ($file->category == null || $file->category->canEditSubmissions())
-                  <button class="btn btn-primary">Link</button>
-                  <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-danger" data-id="{{ $file->id }}" onclick="window.StationFiles.Delete(this)">Delete</button>
                   @endif
                 </td>
               </tr>

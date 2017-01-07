@@ -48,7 +48,7 @@ CREATE TABLE `dropbox_accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `dropbox_accounts` (`id`, `enabled`, `used_space`, `total_space`, `access_token`, `created_at`, `updated_at`) VALUES
-('test', 0, 2570669653, 11676942336, '', '2016-12-03 16:16:36', '2016-12-03 16:26:54');
+('test', 0, 2570669653, 11676942336, 'oupaw3hcijAAAAAAAAAADNEqcrJR5JKstlbCBrnFTPhQ0WaSNkC_CQAUB9YdfG0z', '2016-12-03 16:16:36', '2016-12-03 16:26:54');
 
 CREATE TABLE `entries` (
   `id` int(10) UNSIGNED NOT NULL,

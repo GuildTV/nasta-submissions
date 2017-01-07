@@ -10,7 +10,7 @@ use App\Database\Category\Category;
 
 class EntryControllerTest extends TestCase
 {
-  // use DatabaseTransactions;
+  use DatabaseTransactions;
 
   private static $testCategory = "animation";
   private static $testClosedCategory = "something";

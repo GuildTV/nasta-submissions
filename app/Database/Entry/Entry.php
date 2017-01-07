@@ -42,6 +42,11 @@ class Entry extends Model
             ->where('station_id', $this->station_id);
     }
 
+    public function uploadedFileLog(){
+        return $this->hasMany('App\Database\Upload\UploadedFileLog', 'category_id', 'category_id')
+            ->where('station_id', $this->station_id);
+    }
+
     public function isLate(){
         foreach ($this->uploadedFiles as $file){
             if ($file->isLate($this->category))

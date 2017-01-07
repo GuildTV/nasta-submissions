@@ -17,7 +17,7 @@ class CreateUploadedFileLogTable extends Migration
         {
             $table->increments('id');
             $table->integer('station_id')->unsigned();
-            $table->string('category_id');
+            $table->string('category_id')->nullable()->default(null);
 
             $table->string('level');
             $table->string('message');
