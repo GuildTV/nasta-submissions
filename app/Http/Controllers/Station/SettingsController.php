@@ -34,7 +34,10 @@ class SettingsController extends Controller
 
     try {
       $user->email = $request->email;
-      $user->password = bcrypt($request->password);
+
+      if ($request->has('password'))
+        $user->password = bcrypt($request->password);
+      
       $user->save();
     } catch (Exception $e){
       return App::abort(422, "Email address already in use");
