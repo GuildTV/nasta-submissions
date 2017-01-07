@@ -46,4 +46,23 @@ class DropboxHelper {
     }
   }
 
+  public function listFolder($path){
+    try {
+      $listFolderContents = $this->cleint->listFolder($path);
+      return $listFolderContents->getItems();
+
+    } catch (Exception $e) {
+      return null;
+    }
+  }
+
+  public function move($src, $dest){
+    try {
+      return $this->cleint->move($src, $dest);
+
+    } catch (Exception $e) {
+      return null;
+    }
+  }
+
 }

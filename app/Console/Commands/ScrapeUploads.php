@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 
+use App\Helpers\DropboxHelper;
+
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
@@ -55,50 +57,58 @@ class ScrapeUploads extends Command
         foreach($folders as $folder){
             Log::info('Scraping uploads for account: '.$folder->station->name);
 
-            try {
-                $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $folder->account->access_token);
-                $dropbox = new Dropbox($client);
+            $this->scrapeFolder($folder);
+        }
+    }
 
-                $listFolderContents = $dropbox->listFolder($folder->folder_name);
-                $files = $listFolderContents->getItems();
+    public function scrapeFolder($folder){
+        try {
+            $client = new DropboxHelper($folder->account->access_token);
 
-                Log::info("Found " . count($files) . " files");
+            $files = $client->listFolder($folder->folder_name);
+            if ($files == null){
+                Log::warning("Failed to list files in folder");
+                return "FAILED_LIST";
+            }
 
-                $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
+            Log::info("Found " . count($files) . " files");
 
-                foreach ($files as $file){
-                    $filename = $targetDir . $file->getName();
-                    $file = $dropbox->move($folder->folder_name . "/" . $file->getName(), $filename);
+            $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
-                    $date = Carbon::parse($file->getServerModified());
-                    $category = $this->parseCategoryName($file->getName());
+            foreach ($files as $file){
+                $filename = $targetDir . $file->getName();
+                $file = $client->move($folder->folder_name . "/" . $file->getName(), $filename);
 
-                    UploadedFile::create([
+                $date = Carbon::parse($file->getServerModified());
+                $category = $this->parseCategoryName($file->getName());
+
+                UploadedFile::create([
+                    'station_id' => $folder->station->id,
+                    'account_id' => $folder->account->id,
+                    'path' => $filename,
+                    'name' => $file->getName(),
+                    'category_id' => $category != null ? $category->id : null,
+                    'uploaded_at' => $date,
+                ]);
+
+                if ($category != null) {
+                    UploadedFileLog::create([
                         'station_id' => $folder->station->id,
-                        'account_id' => $folder->account->id,
-                        'path' => $filename,
-                        'name' => $file->getName(),
-                        'category_id' => $category != null ? $category->id : null,
-                        'late' => false, //$date->gte($category->closing_at), // TODO - is this needed??
-                        'uploaded_at' => $date,
+                        'category_id' => $category->id,
+                        'level' => 'info',
+                        'message' => 'File \'' . $file->getName() . '\' has been added',
                     ]);
-
-                    if ($category != null) {
-                        UploadedFileLog::create([
-                            'station_id' => $folder->station->id,
-                            'category_id' => $category->id,
-                            'level' => 'info',
-                            'message' => 'File \'' . $file->getName() . '\' has been added',
-                        ]);
-                    }
-
-                    Log::info("Imported: " . $file->getName());
                 }
 
-            } catch (Exception $e){
-                Log::error('Failed to scrape: '. $e->getMessage());
+                Log::info("Imported: " . $file->getName());
             }
+
+        } catch (Exception $e){
+            Log::error('Failed to scrape: '. $e->getMessage());
+            return $e;
         }
+
+        return null;
     }
 
     private function parseCategoryName($name){
