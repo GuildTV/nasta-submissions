@@ -10,7 +10,7 @@ class DropboxHelper {
 
   private $client;
 
-  private __construct($access_token){
+  public function __construct($access_token){
     // if(App::environment('testing', 'test'))
     //   return null; // TODO - properly
     //   // $account = "devtest";
@@ -19,7 +19,7 @@ class DropboxHelper {
     $this->client = new Dropbox($client);
   }
 
-  public delete($path){
+  public function delete($path){
     try {
       $this->client->delete($path);
       return true;
@@ -28,10 +28,19 @@ class DropboxHelper {
     }
   }
 
-  public ensureFileExists($src, $dest){
+  public function ensureFileExists($src, $dest){
     try {
       $this->client->simpleUpload($src, $dest);
-      return true;
+    } catch (Exception $e) {
+    }
+
+    return $this->fileExists($dest);
+  }
+
+  public function fileExists($path){
+    try {
+      return $this->client->getMetadata($path) != null;
+
     } catch (Exception $e) {
       return false;
     }
