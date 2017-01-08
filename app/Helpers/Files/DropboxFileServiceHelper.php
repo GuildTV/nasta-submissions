@@ -1,12 +1,14 @@
 <?php 
-namespace App\Helpers;
+namespace App\Helpers\Files;
 
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 
+use App\Helpers\Files\IFileService;
+
 use Exception;
 
-class DropboxHelper {
+class DropboxFileServiceHelper implements IFileService{
 
   private $client;
 
@@ -48,9 +50,17 @@ class DropboxHelper {
 
   public function listFolder($path){
     try {
-      $listFolderContents = $this->cleint->listFolder($path);
-      return $listFolderContents->getItems();
+      $listFolderContents = $this->client->listFolder($path);
 
+      $res = [];
+      foreach ($listFolderContents->getItems() as $file){
+        $res[] = [
+          "name" => $file->getName(),
+          "modified" => Carbon::parse($file->getServerModified()),
+        ];
+      }
+
+      return $res;
     } catch (Exception $e) {
       return null;
     }
@@ -58,7 +68,7 @@ class DropboxHelper {
 
   public function move($src, $dest){
     try {
-      return $this->cleint->move($src, $dest);
+      return $this->client->move($src, $dest);
 
     } catch (Exception $e) {
       return null;
