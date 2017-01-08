@@ -37,7 +37,7 @@ $router->group([
   Route::get('/dashboard', 'Station\StationController@dashboard')->name("station.dashboard");
   Route::get('/categories', 'Station\StationController@categories')->name("station.categories");
   Route::get('/results', 'Station\StationController@results')->name("station.results");
-  Route::get('/categories/{category}', 'Station\StationController@submission')->name("station.submission");
+  Route::get('/categories/{category}', 'Station\StationController@submission')->name("station.entry");
 
   Route::get('/files', 'Station\StationController@files')->name("station.files");
   Route::post('/files/{file}/delete', 'Station\FileController@delete')->name("station.files.delete");

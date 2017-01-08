@@ -29,7 +29,7 @@
 								<td>{{ $msg }}<td>
 								<td>
 								  @if ($cat->canEditSubmissions() || $entry != null)
-								  	<a href="{{ route("station.submission", $cat) }}">View</a>
+								  	<a href="{{ route("station.entry", $cat) }}">View</a>
 								  @endif
 								</td>
 							</tr>
