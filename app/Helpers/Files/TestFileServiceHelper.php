@@ -33,9 +33,10 @@ class TestFileServiceHelper implements IFileService{
     if ($pathlen > 0) $pathlen++;
 
     return [
-        "name" => substr($file['name'], $pathlen),
+        "name"     => substr($file['name'], $pathlen),
         "modified" => $file['modified'],
-        "size" => $file['size'],
+        "size"     => $file['size'],
+        "rev"      => $file['rev'],
       ];
   }
 

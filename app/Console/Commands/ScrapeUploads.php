@@ -78,7 +78,9 @@ class ScrapeUploads extends Command
         $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
         foreach ($files as $file){
-            $filename = $targetDir . $file['name'];
+            $parts = pathinfo($file['name']);
+
+            $filename = $targetDir . $parts['filename'] . "_" . $file['rev'] . "." . $parts['extension'];
             $file = $client->move($folder->folder_name . "/" . $file['name'], $filename);
             if ($file == null) {
                 Log::warning("Failed to move file between dropbox folders");
@@ -111,7 +113,7 @@ class ScrapeUploads extends Command
     }
 
     private function parseCategoryName($name){
-        if (!preg_match("/(.*)_(.*)_(.*)/", $name, $matches))
+        if (!preg_match("/(.*)_(.*)_(.*)/U", $name, $matches))
             return null;
 
         $cats = Category::where('compact_name', $matches[2])->get();

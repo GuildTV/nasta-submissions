@@ -55,9 +55,10 @@ class DropboxFileServiceHelper implements IFileService{
       $res = [];
       foreach ($listFolderContents->getItems() as $file){
         $res[] = [
-          "name" => $file->getName(),
+          "name"     => $file->getName(),
           "modified" => Carbon::parse($file->getServerModified()),
-          "size" => $file->getSize(),
+          "size"     => $file->getSize(),
+          "rev"      => $file->getRev(),
         ];
       }
 
