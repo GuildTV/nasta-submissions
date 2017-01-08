@@ -79,6 +79,7 @@ class ScrapeUploads extends Command
 
         foreach ($files as $file){
             $parts = pathinfo($file['name']);
+            $category = $this->parseCategoryName($file['name']);
 
             $filename = $targetDir . $parts['filename'] . "_" . $file['rev'] . "." . $parts['extension'];
             $file = $client->move($folder->folder_name . "/" . $file['name'], $filename);
@@ -87,26 +88,22 @@ class ScrapeUploads extends Command
                 continue;
             }
 
-            $category = $this->parseCategoryName($file['name']);
-
             UploadedFile::create([
                 'station_id' => $folder->station->id,
                 'account_id' => $folder->account->id,
                 'path' => $filename,
                 'name' => $file['name'],
                 'size' => $file['size'],
-                'category_id' => $category != null ? $category->id : null,
+                'category_id' => $category,
                 'uploaded_at' => $file['modified'],
             ]);
 
-            if ($category != null) {
-                UploadedFileLog::create([
-                    'station_id' => $folder->station->id,
-                    'category_id' => $category->id,
-                    'level' => 'info',
-                    'message' => 'File \'' . $file['name'] . '\' has been added',
-                ]);
-            }
+            UploadedFileLog::create([
+                'station_id' => $folder->station->id,
+                'category_id' => $category,
+                'level' => 'info',
+                'message' => 'File \'' . $file['name'] . '\' has been added',
+            ]);
 
             Log::info("Imported: " . $file['name']);
         }
@@ -119,7 +116,7 @@ class ScrapeUploads extends Command
         $cats = Category::where('compact_name', $matches[2])->get();
         foreach ($cats as $cat){
             if ($cat->canEditSubmissions())
-                return $cat;
+                return $cat->id;
         }
 
         return null;

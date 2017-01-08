@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('scrape:free-space')
                  ->everyFiveMinutes();
         $schedule->command('scrape:uploads')
-                 ->everyMinute();
+                 ->everyFiveMinutes();
     }
 
     /**
