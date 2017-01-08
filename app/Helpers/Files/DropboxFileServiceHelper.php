@@ -8,6 +8,8 @@ use App\Helpers\Files\IFileService;
 
 use Exception;
 
+use Carbon\Carbon;
+
 class DropboxFileServiceHelper implements IFileService{
 
   private $client;
@@ -19,6 +21,15 @@ class DropboxFileServiceHelper implements IFileService{
 
     $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $access_token);
     $this->client = new Dropbox($client);
+  }
+
+  private function genFile($file){
+    return  [
+      "name"     => $file->getName(),
+      "modified" => Carbon::parse($file->getServerModified()),
+      "size"     => $file->getSize(),
+      "rev"      => $file->getRev(),
+    ];
   }
 
   public function delete($path){
@@ -54,12 +65,7 @@ class DropboxFileServiceHelper implements IFileService{
 
       $res = [];
       foreach ($listFolderContents->getItems() as $file){
-        $res[] = [
-          "name"     => $file->getName(),
-          "modified" => Carbon::parse($file->getServerModified()),
-          "size"     => $file->getSize(),
-          "rev"      => $file->getRev(),
-        ];
+        $res[] = $this->genFile($file);
       }
 
       return $res;
@@ -70,7 +76,8 @@ class DropboxFileServiceHelper implements IFileService{
 
   public function move($src, $dest){
     try {
-      return $this->client->move($src, $dest);
+      $file = $this->client->move($src, $dest);
+      return $this->genFile($file);
 
     } catch (Exception $e) {
       return null;

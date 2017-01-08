@@ -107,7 +107,7 @@ class ScrapeUploads extends Command
                 'message' => 'File \'' . $file['name'] . '\' has been added',
             ]);
 
-            dispatch(new DropboxDownloadFile($res))->onQueue('downloading');
+            dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
 
             Log::info("Imported: " . $file['name']);
         }
