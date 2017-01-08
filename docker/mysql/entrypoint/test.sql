@@ -196,7 +196,7 @@ INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `
 CREATE TABLE `uploaded_file_logs` (
   `id` int(10) UNSIGNED NOT NULL,
   `station_id` int(10) UNSIGNED NOT NULL,
-  `category_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `message` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
