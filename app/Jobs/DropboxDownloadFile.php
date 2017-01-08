@@ -7,6 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+use App\Database\Upload\UploadedFile;
+
 class DropboxDownloadFile implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
