@@ -6,5 +6,7 @@ ports:
     - '33306:3306'
   pma:
     - '8002:80'
+  mailhog:
+    - '8013:8025'
 mysql:
   password: 'nastaSubLocal'
