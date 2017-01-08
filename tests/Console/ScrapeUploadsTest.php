@@ -43,7 +43,7 @@ class ScrapeUploadsTest extends TestCase
     $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
     $files = [
-      [ "name" => $folder->folder_name . "/blah", "modified" => Carbon::now() ]
+      [ "name" => $folder->folder_name . "/blah", "modified" => Carbon::now(), "size" => 12443 ]
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
@@ -64,6 +64,7 @@ class ScrapeUploadsTest extends TestCase
     // $this->assertEquals("blah", $file->name);
     $this->assertEquals($folder->user_id, $file->station_id);
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
+    $this->assertEquals($files[0]['size'], $file->size);
 
   }
 
@@ -72,7 +73,7 @@ class ScrapeUploadsTest extends TestCase
     $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
     $files = [
-      [ "name" => $folder->folder_name . "/sdf_".self::$testCategoryCompact."_sfd", "modified" => Carbon::now() ]
+      [ "name" => $folder->folder_name . "/sdf_".self::$testCategoryCompact."_sfd", "modified" => Carbon::now(), "size" => 2355 ]
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
@@ -93,7 +94,7 @@ class ScrapeUploadsTest extends TestCase
     // $this->assertEquals("blah", $file->name);
     $this->assertEquals($folder->user_id, $file->station_id);
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
-
+    $this->assertEquals($files[0]['size'], $file->size);
   }
 
 }

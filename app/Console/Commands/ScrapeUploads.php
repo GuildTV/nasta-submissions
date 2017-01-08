@@ -92,6 +92,7 @@ class ScrapeUploads extends Command
                 'account_id' => $folder->account->id,
                 'path' => $filename,
                 'name' => $file['name'],
+                'size' => $file['size'],
                 'category_id' => $category != null ? $category->id : null,
                 'uploaded_at' => $file['modified'],
             ]);

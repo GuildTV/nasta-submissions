@@ -35,6 +35,7 @@ class TestFileServiceHelper implements IFileService{
     return [
         "name" => substr($file['name'], $pathlen),
         "modified" => $file['modified'],
+        "size" => $file['size'],
       ];
   }
 
