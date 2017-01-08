@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 use App\Helpers\Files\DropboxFileServiceHelper;
 
+use App\Jobs\DropboxDownloadFile;
+
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
@@ -88,7 +90,7 @@ class ScrapeUploads extends Command
                 continue;
             }
 
-            UploadedFile::create([
+            $res = UploadedFile::create([
                 'station_id' => $folder->station->id,
                 'account_id' => $folder->account->id,
                 'path' => $filename,
@@ -104,6 +106,8 @@ class ScrapeUploads extends Command
                 'level' => 'info',
                 'message' => 'File \'' . $file['name'] . '\' has been added',
             ]);
+
+            dispatch(new DropboxDownloadFile($res))->onQueue('downloading');
 
             Log::info("Imported: " . $file['name']);
         }
