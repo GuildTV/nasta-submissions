@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Station;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Helpers\DropboxHelper;
+use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Exceptions\UploadException;
 
@@ -36,7 +36,7 @@ class FileController extends Controller
       throw new UploadException("Missing account on file");
 
     // delete file on dropbox
-    $client = new DropboxHelper($file->account->access_token);
+    $client = new DropboxFileServiceHelper($file->account->access_token);
     if ($client->delete($file->path)) {
       // track deletion
       UploadedFileLog::create([

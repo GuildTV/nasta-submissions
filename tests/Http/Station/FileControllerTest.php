@@ -10,7 +10,7 @@ use App\Database\Category\Category;
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\DropboxAccount;
 
-use App\Helpers\DropboxHelper;
+use App\Helpers\Files\DropboxFileServiceHelper;
 
 use Carbon\Carbon;
 
@@ -93,7 +93,7 @@ class FileControllerTest extends TestCase
     $account = DropboxAccount::where("id", self::$testAccountId)->first();
 
     // ensure file exists on dropbox
-    $dropbox = new DropboxHelper($account->access_token);
+    $dropbox = new DropboxFileServiceHelper($account->access_token);
     $dropbox->ensureFileExists(storage_path().self::$testSourceFile, $filename);
 
     $this->actingAs($this->station)->postAjax(sprintf(self::$deleteUrl, $file->id), [])
@@ -120,7 +120,7 @@ class FileControllerTest extends TestCase
     $account = DropboxAccount::where("id", self::$testAccountId)->first();
 
     // ensure file exists on dropbox
-    $dropbox = new DropboxHelper($account->access_token);
+    $dropbox = new DropboxFileServiceHelper($account->access_token);
     $dropbox->ensureFileExists(storage_path().self::$testSourceFile, $filename);
 
     $this->actingAs($this->station)->postAjax(sprintf(self::$deleteUrl, $file->id), [])
@@ -147,7 +147,7 @@ class FileControllerTest extends TestCase
     $account = DropboxAccount::where("id", self::$testAccountId)->first();
 
     // ensure file exists on dropbox
-    $dropbox = new DropboxHelper($account->access_token);
+    $dropbox = new DropboxFileServiceHelper($account->access_token);
     $this->assertFalse($dropbox->fileExists($filename));
 
     $this->actingAs($this->station)->postAjax(sprintf(self::$deleteUrl, $file->id), [])
@@ -172,7 +172,7 @@ class FileControllerTest extends TestCase
     $account = DropboxAccount::where("id", self::$testAccountId)->first();
 
     // ensure file exists on dropbox
-    $dropbox = new DropboxHelper($account->access_token);
+    $dropbox = new DropboxFileServiceHelper($account->access_token);
     $this->assertFalse($dropbox->fileExists($filename));
 
     $this->actingAs($this->station)->postAjax(sprintf(self::$deleteUrl, $file->id), [])

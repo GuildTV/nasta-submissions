@@ -6,8 +6,9 @@ use Illuminate\Console\Command;
 
 use Carbon\Carbon;
 
-use Kunnu\Dropbox\DropboxApp;
-use Kunnu\Dropbox\Dropbox;
+use App\Helpers\Files\DropboxFileServiceHelper;
+
+use App\Jobs\DropboxDownloadFile;
 
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
@@ -56,55 +57,72 @@ class ScrapeUploads extends Command
             Log::info('Scraping uploads for account: '.$folder->station->name);
 
             try {
-                $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $folder->account->access_token);
-                $dropbox = new Dropbox($client);
-
-                $listFolderContents = $dropbox->listFolder($folder->folder_name);
-                $files = $listFolderContents->getItems();
-
-                Log::info("Found " . count($files) . " files");
-
-                $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
-
-                foreach ($files as $file){
-                    $filename = $targetDir . $file->getName();
-                    $file = $dropbox->move($folder->folder_name . "/" . $file->getName(), $filename);
-
-                    $date = Carbon::parse($file->getServerModified());
-                    $category = $this->parseCategoryName($file->getName());
-
-                    UploadedFile::create([
-                        'station_id' => $folder->station->id,
-                        'account_id' => $folder->account->id,
-                        'path' => $filename,
-                        'name' => $file->getName(),
-                        'category_id' => $category != null ? $category->id : null,
-                        'late' => false, //$date->gte($category->closing_at), // TODO - is this needed??
-                        'uploaded_at' => $date,
-                    ]);
-
-                    if ($category != null) {
-                        UploadedFileLog::create([
-                            'station_id' => $folder->station->id,
-                            'category_id' => $category->id,
-                            'level' => 'info',
-                            'message' => 'File \'' . $file->getName() . '\' has been added',
-                        ]);
-                    }
-
-                    Log::info("Imported: " . $file->getName());
-                }
-
+                $client = new DropboxFileServiceHelper($folder->account->access_token);
+                $this->scrapeFolder($client, $folder);
             } catch (Exception $e){
                 Log::error('Failed to scrape: '. $e->getMessage());
+                return $e;
             }
+
+            return null;
+        }
+    }
+
+    public function scrapeFolder($client, $folder){
+        $files = $client->listFolder($folder->folder_name);
+        if ($files == null){
+            Log::warning("Failed to list files in folder");
+            return "FAILED_LIST";
+        }
+
+        Log::info("Found " . count($files) . " files");
+
+        $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
+
+        foreach ($files as $file){
+            $parts = pathinfo($file['name']);
+            $category = $this->parseCategoryName($file['name']);
+
+            $filename = $targetDir . $parts['filename'] . "_" . $file['rev'] . "." . $parts['extension'];
+            $file = $client->move($folder->folder_name . "/" . $file['name'], $filename);
+            if ($file == null) {
+                Log::warning("Failed to move file between dropbox folders");
+                continue;
+            }
+
+            $res = UploadedFile::create([
+                'station_id' => $folder->station->id,
+                'account_id' => $folder->account->id,
+                'path' => $filename,
+                'name' => $file['name'],
+                'size' => $file['size'],
+                'category_id' => $category,
+                'uploaded_at' => $file['modified'],
+            ]);
+
+            UploadedFileLog::create([
+                'station_id' => $folder->station->id,
+                'category_id' => $category,
+                'level' => 'info',
+                'message' => 'File \'' . $file['name'] . '\' has been added',
+            ]);
+
+            dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
+
+            Log::info("Imported: " . $file['name']);
         }
     }
 
     private function parseCategoryName($name){
-        if (!preg_match("/(.*)_(.*)_(.*)/", $name, $matches))
+        if (!preg_match("/(.*)_(.*)_(.*)/U", $name, $matches))
             return null;
 
-        return Category::where('compact_name', $matches[2])->first();
+        $cats = Category::where('compact_name', $matches[2])->get();
+        foreach ($cats as $cat){
+            if ($cat->canEditSubmissions())
+                return $cat->id;
+        }
+
+        return null;
     }
 }
