@@ -1,5 +1,5 @@
 <?php
-namespace Tests;
+namespace Tests\Mail;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use AutoTestBase;
@@ -21,6 +21,11 @@ class MailTest extends AutoTestBase
 {
   const TARGET_EMAIL = "fakeemail@nasta.tv";
 
+  // Classes to skip
+  const SKIP_NAMES = [
+    'App\Mail\Station\DailyDeadlines',
+  ];
+
   public function testMails()
   {
     $finder = new ClassFinder();
@@ -31,6 +36,9 @@ class MailTest extends AutoTestBase
     $this->emailCount = 0;
 
     foreach ($files as $f) {
+      if (in_array($f, self::SKIP_NAMES))
+        continue;
+      
       $this->runEmail($f);
     }
 
