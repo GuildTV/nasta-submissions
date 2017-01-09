@@ -76,4 +76,9 @@ class Category extends Model
     public function canEditSubmissions(){
         return Carbon::now()->lt($this->closing_at->addMinutes(Config::get('nasta.late_edit_period')));
     }
+
+    public function isCloseToDeadline(){
+        return Carbon::now()->gt($this->closing_at->subMinutes(Config::get('nasta.close_to_deadline_threshold')))
+            && Carbon::now()->lt($this->closing_at);
+    }
 }

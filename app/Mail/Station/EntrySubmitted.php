@@ -13,7 +13,7 @@ class EntrySubmitted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $entry;
+    protected $entry;
 
     /**
      * Create a new message instance.
