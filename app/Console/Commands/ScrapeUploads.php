@@ -116,11 +116,11 @@ class ScrapeUploads extends Command
 
             if ($category == null){
                 // Notify wasnt matched
-                Mail::to($request->user())->send(new EntryFileNoMatch($res));
+                Mail::to($folder->station)->send(new EntryFileNoMatch($res));
 
             } else if ($category->isCloseToDeadline()) {
                 // Notify file was accepted
-                Mail::to($request->user())->send(new EntryFileCloseDeadline($res));
+                Mail::to($folder->station)->send(new EntryFileCloseDeadline($res));
 
             } else if (false) { // TODO - if made entry late - (make a getReasonsLate method on Entry, check that is empty for isLate)
 

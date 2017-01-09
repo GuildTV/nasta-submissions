@@ -6,6 +6,8 @@ use AutoTestBase;
 
 use Illuminate\Filesystem\ClassFinder;
 
+use App\Exceptions\InvalidArgumentException;
+
 use \ReflectionClass;
 
 use Mail;
@@ -33,8 +35,6 @@ class MailTest extends AutoTestBase
     }
 
     print "\nFinished " . count($files) . " mail templates with " . $this->emailCount . " emails\n---\n\n";
-
-    var_dump($files);
   }
 
   private function runEmail($classname)
@@ -64,8 +64,14 @@ class MailTest extends AutoTestBase
   {
     $class = new ReflectionClass($classname);
 
-    $mail = $class->newInstanceArgs($comb);
+    try {
+      $mail = $class->newInstanceArgs($comb);
+    } catch (InvalidArgumentException $e) {
+      return;
+    }
+
     Mail::to(self::TARGET_EMAIL)->send($mail);
+    $this->emailCount++;
   }
 
   private function getMailParams($classname)

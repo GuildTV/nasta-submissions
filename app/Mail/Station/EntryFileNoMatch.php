@@ -33,6 +33,14 @@ class EntryFileNoMatch extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $user = $this->file->station;
+
+        return $this->subject('Unable to match your file \''.$this->file->name.'\' to an entry')
+            ->view('emails.station.file-no-match')
+            ->text('emails.station.file-no-match_plain')
+            ->with([
+                'file' => $this->file,
+                'user' => $user,
+            ]);
     }
 }
