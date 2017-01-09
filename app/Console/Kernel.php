@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\ScrapeFreeSpace::class,
         Commands\ScrapeUploads::class,
         Commands\EmailDailyDeadlines::class,
+        Commands\EmailDailySummary::class,
     ];
 
     /**
@@ -32,6 +33,8 @@ class Kernel extends ConsoleKernel
                  ->everyFiveMinutes();
         $schedule->command('email:daily-deadlines')
                  ->dailyAt('09:00');
+        $schedule->command('email:daily-summary')
+                 ->dailyAt('19:10'); // 10 minutes past last deadline
     }
 
     /**

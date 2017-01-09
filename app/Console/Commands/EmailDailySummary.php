@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use App\Database\Category\Category;
 use App\Database\User;
 
-use App\Mail\Station\DailyDeadlines;
+use App\Mail\Station\DailySummary;
 
 use Carbon\Carbon;
 
@@ -15,21 +15,21 @@ use Log;
 use Exception;
 use Mail;
 
-class EmailDailyDeadlines extends Command
+class EmailDailySummary extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'email:daily-deadlines';
+    protected $signature = 'email:daily-summary';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sends a daily deadlines email to stations';
+    protected $description = 'Sends a daily summary email to stations';
 
     /**
      * Create a new command instance.
@@ -57,7 +57,7 @@ class EmailDailyDeadlines extends Command
         return;
 
       foreach ($users as $user) {
-        $helper = new DailyDeadlines($user, Carbon::now());
+        $helper = new DailySummary($user, Carbon::now());
         Mail::to($user)->send($helper);
       }
 

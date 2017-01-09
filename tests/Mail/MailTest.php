@@ -24,6 +24,7 @@ class MailTest extends AutoTestBase
   // Classes to skip
   const SKIP_NAMES = [
     'App\Mail\Station\DailyDeadlines',
+    'App\Mail\Station\DailySubmitted',
   ];
 
   public function testMails()
