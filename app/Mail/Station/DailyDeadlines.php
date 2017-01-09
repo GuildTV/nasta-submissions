@@ -57,7 +57,7 @@ class DailyDeadlines extends Mailable
     private function getGroupedCategories($date){
         $res = $date == null 
             ? Category::all()
-            : Category::whereDate('closing_at', '=', $date->toDateString())->get();
+            : Category::whereDate('closing_at', '=', $date->startOfDay()->toDateString())->get();
 
         $categories = [];
 

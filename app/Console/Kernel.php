@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\ScrapeFreeSpace::class,
         Commands\ScrapeUploads::class,
+        Commands\EmailDailyDeadlines::class,
     ];
 
     /**
@@ -29,6 +30,8 @@ class Kernel extends ConsoleKernel
                  ->everyFiveMinutes();
         $schedule->command('scrape:uploads')
                  ->everyFiveMinutes();
+        $schedule->command('email:daily-deadlines')
+                 ->dailyAt('09:00');
     }
 
     /**
