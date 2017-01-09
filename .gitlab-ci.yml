@@ -128,13 +128,13 @@ promote:
   script:
     - docker pull "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
     - docker pull "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
-    - docker tag -f "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
-    - docker tag -f "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
     - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
     - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
   type: promote
   only:
-    - master
+    # - master
     - develop
   tags:
     - docker
@@ -148,7 +148,7 @@ deploy:
   type: deploy
   only:
     - develop
-    - master
+    # - master
   tags:
     - docker
   dependencies: []
