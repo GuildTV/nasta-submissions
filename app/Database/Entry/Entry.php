@@ -52,12 +52,21 @@ class Entry extends Model
             ->where('station_id', $this->station_id);
     }
 
-    public function isLate(){
+    public function countReasonsLate(){
+        $reasons = 0;
+
+        if ($this->updated_at->gt($this->category->closing_at))
+            $reasons++;
+
         foreach ($this->uploadedFiles as $file){
             if ($file->isLate($this->category))
-                return true;
+                $reasons++;
         }
 
-        return false;
+        return $reasons;
+    }
+
+    public function isLate(){
+        return $this->countReasonsLate() > 0;
     }
 }
