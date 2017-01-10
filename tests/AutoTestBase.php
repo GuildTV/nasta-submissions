@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use TestCase;
 
 abstract class AutoTestBase extends TestCase
 {

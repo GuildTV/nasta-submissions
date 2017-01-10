@@ -9,7 +9,7 @@ A reminder of the deadlines coming up.
 @endforeach
 @endforeach
 
-You can login to view your entries at {{ route('station.categories') }}
+You can view your full list of entries at {{ route('station.categories') }}
 
 Regards,
 The Asset Acquisitions Team

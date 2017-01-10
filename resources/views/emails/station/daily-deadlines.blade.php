@@ -18,7 +18,7 @@
 
   @endforeach
 
-  <p>You can login to view your entries <a href="{{ route('station.categories') }}">here</a>.</p>
+  <p>You can view your full list of entries <a href="{{ route('station.categories') }}">here</a>.</p>
 
   <p>Regards,<br/ >The Asset Acquisitions Team</p>
 </body>

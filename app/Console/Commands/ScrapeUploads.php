@@ -95,6 +95,8 @@ class ScrapeUploads extends Command
                 continue;
             }
 
+            $count = $this->countReasonsLate($folder->station, $category);
+
             $res = UploadedFile::create([
                 'station_id' => $folder->station->id,
                 'account_id' => $folder->account->id,
@@ -104,6 +106,8 @@ class ScrapeUploads extends Command
                 'category_id' => $categoryId,
                 'uploaded_at' => $file['modified'],
             ]);
+
+            $isNowLate = $count == 0 && $this->countReasonsLate($folder->station, $category) > 0;
 
             UploadedFileLog::create([
                 'station_id' => $folder->station->id,
@@ -122,7 +126,9 @@ class ScrapeUploads extends Command
                 // Notify file was accepted
                 Mail::to($folder->station)->send(new EntryFileCloseDeadline($res));
 
-            } else if (false) { // TODO - if made entry late - (make a getReasonsLate method on Entry, check that is empty for isLate)
+            } else if ($isNowLate) {
+                // File made entry late
+                Mail::to($folder->station)->send(new EntryFileMadeLate($category, $res));
 
             } // else, we dont need gto notify them
 
@@ -141,5 +147,13 @@ class ScrapeUploads extends Command
         }
 
         return null;
+    }
+
+    private function countReasonsLate($user, $cat){
+        if ($cat == null)
+            return 0;
+
+        $entry = $cat->getEntryForStation($user->id);
+        return $entry->countReasonsLate();
     }
 }
