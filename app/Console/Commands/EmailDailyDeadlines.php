@@ -50,11 +50,11 @@ class EmailDailyDeadlines extends Command
     {
       $deadlines = Category::whereDate('closing_at', '=', Carbon::now()->startOfDay()->toDateString())->count();
       if ($deadlines == 0)
-        return;
+        return "NO_DEADLINES";
 
       $users = User::where("type", "station")->get();
       if (count($users) == 0)
-        return;
+        return "NO_USERS";
 
       foreach ($users as $user) {
         $helper = new DailyDeadlines($user, Carbon::now());
@@ -62,5 +62,6 @@ class EmailDailyDeadlines extends Command
       }
 
       Log::error('Sent emails to ' . count($users) . ' stations');
+      return count($users);
     }
 }

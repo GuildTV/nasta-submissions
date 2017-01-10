@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use App\Database\Category\Category;
 use App\Database\User;
 
-use App\Mail\Station\DailySummary;
+use App\Mail\Station\DailySubmitted;
 
 use Carbon\Carbon;
 
@@ -50,17 +50,18 @@ class EmailDailySummary extends Command
     {
       $deadlines = Category::whereDate('closing_at', '=', Carbon::now()->startOfDay()->toDateString())->count();
       if ($deadlines == 0)
-        return;
+        return "NO_DEADLINES";
 
       $users = User::where("type", "station")->get();
       if (count($users) == 0)
-        return;
+        return "NO_USERS";
 
       foreach ($users as $user) {
-        $helper = new DailySummary($user, Carbon::now());
+        $helper = new DailySubmitted($user, Carbon::now());
         Mail::to($user)->send($helper);
       }
 
       Log::error('Sent emails to ' . count($users) . ' stations');
+      return count($users);
     }
 }

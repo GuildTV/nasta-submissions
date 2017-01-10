@@ -12,8 +12,8 @@ Your summary of todays deadlines:
   echo $cat->name;
   echo ": ";
 
-  $entry = $entries[$cat->id];
-  if ($entry) {
+  if (isset($entries[$cat->id])) {
+    $entry = $entries[$cat->id];
     echo $entry->name;
     echo " - ";
     echo $entry->uploadedFiles()->count();
