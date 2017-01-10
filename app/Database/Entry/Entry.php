@@ -25,6 +25,11 @@ class Entry extends Model
         'name', 'description',
     ];
 
+    
+    public function station()
+    {
+        return $this->belongsTo('App\Database\User', 'station_id');
+    }
 
     public function category()
     {

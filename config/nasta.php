@@ -30,6 +30,7 @@ return [
   ],
 
   'late_edit_period' => 60, // Minutes allowed to edit 
+  'close_to_deadline_threshold' => 30, // Minutes classed as close to deadline
 
   // Folder in dropbox to move uploads once imported into the database
   'dropbox_imported_files_path' => "/Imported", // subfoldered by station name. no trailing slash

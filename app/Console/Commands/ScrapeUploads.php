@@ -10,6 +10,9 @@ use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Jobs\DropboxDownloadFile;
 
+use App\Mail\Station\EntryFileNoMatch;
+use App\Mail\Station\EntryFileCloseDeadline;
+
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
@@ -18,6 +21,7 @@ use App\Database\Category\Category;
 use Log;
 use Exception;
 use Config;
+use Mail;
 
 class ScrapeUploads extends Command
 {
@@ -82,6 +86,7 @@ class ScrapeUploads extends Command
         foreach ($files as $file){
             $parts = pathinfo($file['name']);
             $category = $this->parseCategoryName($file['name']);
+            $categoryId = $category != null ? $category->id : null;
 
             $filename = $targetDir . $parts['filename'] . "_" . $file['rev'] . "." . $parts['extension'];
             $file = $client->move($folder->folder_name . "/" . $file['name'], $filename);
@@ -96,18 +101,30 @@ class ScrapeUploads extends Command
                 'path' => $filename,
                 'name' => $file['name'],
                 'size' => $file['size'],
-                'category_id' => $category,
+                'category_id' => $categoryId,
                 'uploaded_at' => $file['modified'],
             ]);
 
             UploadedFileLog::create([
                 'station_id' => $folder->station->id,
-                'category_id' => $category,
+                'category_id' => $categoryId,
                 'level' => 'info',
                 'message' => 'File \'' . $file['name'] . '\' has been added',
             ]);
 
             dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
+
+            if ($category == null){
+                // Notify wasnt matched
+                Mail::to($folder->station)->send(new EntryFileNoMatch($res));
+
+            } else if ($category->isCloseToDeadline()) {
+                // Notify file was accepted
+                Mail::to($folder->station)->send(new EntryFileCloseDeadline($res));
+
+            } else if (false) { // TODO - if made entry late - (make a getReasonsLate method on Entry, check that is empty for isLate)
+
+            } // else, we dont need gto notify them
 
             Log::info("Imported: " . $file['name']);
         }
@@ -120,7 +137,7 @@ class ScrapeUploads extends Command
         $cats = Category::where('compact_name', $matches[2])->get();
         foreach ($cats as $cat){
             if ($cat->canEditSubmissions())
-                return $cat->id;
+                return $cat;
         }
 
         return null;

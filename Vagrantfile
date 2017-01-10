@@ -42,13 +42,12 @@ Vagrant.configure(2) do |config|
         end
     end
 
-    config.vm.define "nasta-submissions-http-base" do |app|
+    config.vm.define "nasta-submissions-mailhog" do |app|
         app.vm.provider "docker" do |d|
-            d.dockerfile = "docker/Dockerfile"
-            d.remains_running = false
-            d.build_dir = "."
-            d.name = "nasta-submissions-http-base"
-            d.build_args = ["--tag=nasta/submissions-base"]
+            d.name = "nasta-submissions-mailhog"
+            d.image = "mailhog/mailhog"
+
+            d.ports = $settings['ports']['mailhog']
         end
     end
 
@@ -62,6 +61,7 @@ Vagrant.configure(2) do |config|
             d.build_args = ["--tag=nasta/submissions"]   
 
             d.link("nasta-submissions-db:db")
+            d.link("nasta-submissions-mailhog:mailhog")
 
             d.volumes = ["#{vagrant_root}:/src"]
             config.vm.synced_folder '.', '/vagrant', :disabled => true
