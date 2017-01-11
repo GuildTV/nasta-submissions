@@ -4,8 +4,6 @@ namespace Tests\Mail\Station;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use TestCase;
 
-use Illuminate\Filesystem\ClassFinder;
-
 use App\Database\Category\Category;
 
 use App\Mail\Station\DailySubmitted;
@@ -14,11 +12,6 @@ use Mail;
 
 use Carbon\Carbon;
 
-/**
- * Test all of the webpage routes in the router to check for any exceptions when rendering.
- * Not guaranteed to catch every case, and might need to be disabled for some routes.
- * Works based on various combinations of data already in the database
- */
 class DailySubmittedTest extends TestCase
 {
   const TARGET_EMAIL = "fakeemail@nasta.tv";
