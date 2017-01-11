@@ -41,7 +41,13 @@ class ScrapeUploadsTest extends TestCase
     $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
     $files = [
-      [ "name" => $folder->folder_name . "/blah.mp4", "modified" => Carbon::now(), "size" => 12443, "rev" => "sgsdsgdg" ]
+      [ 
+        "name" => $folder->folder_name . "/blah.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 12443, 
+        "rev" => "sgsdsgdg", 
+        "hash" => "hfisisfsd",
+      ]
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
@@ -63,6 +69,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($folder->user_id, $file->station_id);
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
     $this->assertEquals($files[0]['size'], $file->size);
+    $this->assertEquals($files[0]['hash'], $file->hash);
   }
 
   public function testScrapeImportMatchCategory(){
@@ -70,7 +77,13 @@ class ScrapeUploadsTest extends TestCase
     $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
     $files = [
-      [ "name" => $folder->folder_name . "/sdf_".self::$testCategoryCompact."_sfd.mp4", "modified" => Carbon::now(), "size" => 2355, "rev" => "sfaffberr" ]
+      [ 
+        "name" => $folder->folder_name . "/sdf_".self::$testCategoryCompact."_sfd.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
@@ -92,6 +105,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($folder->user_id, $file->station_id);
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
     $this->assertEquals($files[0]['size'], $file->size);
+    $this->assertEquals($files[0]['hash'], $file->hash);
   }
 
 }
