@@ -103,6 +103,7 @@ class ScrapeUploads extends Command
                 'path' => $filename,
                 'name' => $file['name'],
                 'size' => $file['size'],
+                'hash' => $file['hash'],
                 'category_id' => $categoryId,
                 'uploaded_at' => $file['modified'],
             ]);
