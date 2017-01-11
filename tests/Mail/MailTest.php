@@ -13,8 +13,8 @@ use \ReflectionClass;
 use Mail;
 
 /**
- * Test all of the webpage routes in the router to check for any exceptions when rendering.
- * Not guaranteed to catch every case, and might need to be disabled for some routes.
+ * Test all of the mailables to check for any exceptions when rendering.
+ * Not guaranteed to catch every case, and might need to be disabled for some types.
  * Works based on various combinations of data already in the database
  */
 class MailTest extends AutoTestBase
@@ -25,6 +25,7 @@ class MailTest extends AutoTestBase
   const SKIP_NAMES = [
     'App\Mail\Station\DailyDeadlines',
     'App\Mail\Station\DailySubmitted',
+    'App\Mail\Admin\ExceptionEmail',
   ];
 
   public function testMails()
@@ -35,15 +36,17 @@ class MailTest extends AutoTestBase
     print "\n\n---\nTesting " . count($files) . " mail templates\n";
 
     $this->emailCount = 0;
+    $typeCount = 0;
 
     foreach ($files as $f) {
       if (in_array($f, self::SKIP_NAMES))
         continue;
       
       $this->runEmail($f);
+      $typeCount++;
     }
 
-    print "\nFinished " . count($files) . " mail templates with " . $this->emailCount . " emails\n---\n\n";
+    print "\nFinished " . $typeCount . " mail templates with " . $this->emailCount . " emails\n---\n\n";
   }
 
   private function runEmail($classname)

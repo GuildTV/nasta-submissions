@@ -6,6 +6,11 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use GrahamCampbell\Exceptions\NewExceptionHandler;
 
+use App\Mail\Admin\ExceptionEmail;
+
+use Auth;
+use Log;
+
 class Handler extends NewExceptionHandler
 {
     /**
@@ -48,7 +53,16 @@ class Handler extends NewExceptionHandler
      */
     public function report(Exception $e)
     {
-        // TODO - email webmaster if not in debug mode
+        // email exception report
+        if ($this->shouldReport($e)) {
+            try {
+                $user = Auth::user();
+                $subject = "NaSTA Exception for " . ($user == null ? "Anonymous" : $user->name);
+                ExceptionEmail::notifyAdmin($e, $subject);
+            } catch (Exception $e){
+                Log::error("Failed to send exception email: ", $e);
+            }
+        }
         
         parent::report($e);
     }
