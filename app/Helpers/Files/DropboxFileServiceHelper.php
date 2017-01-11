@@ -24,11 +24,13 @@ class DropboxFileServiceHelper implements IFileService{
   }
 
   private function genFile($file){
+    // var_dump($file->getData());
     return  [
       "name"     => $file->getName(),
       "modified" => Carbon::parse($file->getServerModified()),
       "size"     => $file->getSize(),
       "rev"      => $file->getRev(),
+      "hash"     => $file->__get("content_hash"),
     ];
   }
 

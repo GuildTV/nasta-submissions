@@ -37,6 +37,7 @@ class TestFileServiceHelper implements IFileService{
         "modified" => $file['modified'],
         "size"     => $file['size'],
         "rev"      => $file['rev'],
+        "hash"     => $file['hash'],
       ];
   }
 
