@@ -11,6 +11,8 @@ use App\Database\Upload\DropboxAccount;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 
+use App\Mail\Admin\ExceptionEmail;
+
 use Log;
 use Exception;
 
@@ -71,6 +73,7 @@ class ScrapeFreeSpace extends Command
 
             } catch (Exception $e){
                 Log::error('Failed to scrape: '. $e->getMessage());
+                ExceptionEmail::notifyAdmin($e, "Google free space scrape failure: #" . $account->id);
             }
         }
 
@@ -90,6 +93,7 @@ class ScrapeFreeSpace extends Command
               $account->save();
             } catch (Exception $e){
                 Log::error('Failed to scrape: '. $e->getMessage());
+                ExceptionEmail::notifyAdmin($e, "Dropbox free space scrape failure: #" . $account->id);
             }
 
         }

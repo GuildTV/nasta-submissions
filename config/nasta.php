@@ -34,4 +34,6 @@ return [
 
   // Folder in dropbox to move uploads once imported into the database
   'dropbox_imported_files_path' => "/Imported", // subfoldered by station name. no trailing slash
+
+  'local_entries_path' => env('LOCAL_ENTRY_DIR', storage_path("app/entries") . "/"),
 ];
