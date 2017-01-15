@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta name="description" content="Submit your entries to NaSTA Awards 2017.">
 
-    <link rel="icon" href="/assets/images/icons/favicon.ico">
+    <link rel="icon" href="/images/icons/favicon.ico">
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
