@@ -43,7 +43,7 @@ class DropboxDownloadFile implements ShouldQueue
         // If already downloaded, nothing to do!
         if ($this->file->path_local != null) {    
             Log::warning('Skipping download of #' . $this->file->id . ', as db already has it marked local');
-            return;
+            return false;
         }
 
         Log::info('Starting download of #' . $this->file->id);
@@ -73,6 +73,8 @@ class DropboxDownloadFile implements ShouldQueue
         $this->file->path_local = $target;
         $this->file->save();
         Log::info('Download complete');
+
+        return true;
     }
 
     private function targetDir()

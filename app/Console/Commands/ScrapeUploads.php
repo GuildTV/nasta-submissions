@@ -117,7 +117,11 @@ class ScrapeUploads extends Command
                 'message' => 'File \'' . $file['name'] . '\' has been added',
             ]);
 
-            dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
+            try {
+                dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
+            } catch (Exception $e) {
+                Log::warning("Dropbox download for file failed. Ignoring.");
+            }
 
             if ($category == null){
                 // Notify wasnt matched
@@ -131,7 +135,7 @@ class ScrapeUploads extends Command
                 // File made entry late
                 Mail::to($folder->station)->send(new EntryFileMadeLate($category, $res));
 
-            } // else, we dont need gto notify them
+            } // else, we dont need to notify them
 
             Log::info("Imported: " . $file['name']);
         }

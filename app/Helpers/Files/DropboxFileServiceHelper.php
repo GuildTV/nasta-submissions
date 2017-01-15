@@ -116,6 +116,12 @@ class DropboxFileServiceHelper implements IFileService{
 
       // get curl response
       curl_exec($ch); 
+      $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+      if ($status != 200)
+        throw new Exception("Bad status code downloading file");
+
+      // close up
       curl_close($ch);
       fclose($fp);
 
