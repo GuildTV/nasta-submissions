@@ -14,8 +14,8 @@ $panel-inner-border: $laravel-border-color;
 $brand-primary: #0EA5DA;
 $brand-info: #105263;
 $brand-success: #00A651;
-$brand-warning: #cbb956;
-$brand-danger: #bf5329;
+$brand-warning: #F7941E;
+$brand-danger: #CF5252;
 
 // Typography
 $font-family-sans-serif: kayak-sans-light, sans-serif;
@@ -38,4 +38,4 @@ $input-color-placeholder: lighten($text-color, 30%);
 $panel-default-heading-bg: #fff;
 
 // Box Shadow
-$box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+$box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
