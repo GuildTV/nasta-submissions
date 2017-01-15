@@ -8,8 +8,14 @@
 				<div class="panel-heading">Dashboard</div>
 
 				<div class="panel-body">
-					<a href="{{ route("station.categories") }}">Categories</a>
-					<a href="{{ route("station.results") }}">Results</a>
+					<div class="row card-container">
+						<div class="card">
+							<a href="{{ route("station.categories") }}">Categories</a>
+						</div>
+						<div class="card">
+							<a href="{{ route("station.results") }}">Results</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

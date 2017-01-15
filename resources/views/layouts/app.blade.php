@@ -9,6 +9,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <meta name="description" content="Submit your entries to NaSTA Awards 2017.">
+
+    <link rel="icon" href="/assets/images/icons/favicon.ico">
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -43,11 +46,13 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>
+                        <li><a <?=(@View::getSections()['page_selected']=="results"?' class="active"':'')?> href="{{ route("station.results") }}">Results</a></li>
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
@@ -79,8 +84,17 @@
             </div>
         </nav>
 
-        @yield('content')
+        <section class="page-content">
+            @yield('content')
+        </section>
+
+        <footer class="footer">
+            <div class="footer__content" role="presentation">
+                <p>&copy; The NaSTA Conference and Awards Weekend 2017</p>
+            </div>
+        </footer>
     </div>
+
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>

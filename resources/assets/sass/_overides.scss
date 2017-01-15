@@ -1,0 +1,119 @@
+.navbar-default {
+    height: 72px;
+
+    border: none;
+    box-shadow: $box-shadow;
+
+    & .container {
+        height: 100%;
+    }
+    
+    & .navbar-nav,
+    .navbar-header {
+        height: auto;
+        width: auto;
+        position: relative;
+        margin: 11px 0;
+        padding: 0;
+        top: 0;
+        right: 0;
+    }
+
+    & .navbar-brand,
+    .navbar-nav > li > a {
+        background: none;
+        color: #2E2F2F;
+    }
+
+    & .navbar-brand:hover,
+    .navbar-brand:focus,
+    .navbar-brand:active,
+    .navbar-nav > li > a:hover,
+    .navbar-nav > li > a:focus,
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .navbar-nav > .open > a:active {
+        background: none;
+        color: $brand-primary;
+    }
+
+    & .navbar-nav > li > a.active,
+    & .navbar-nav > li > a:active {
+        background: none;
+        color: $brand-success;
+    }
+}
+
+.panel-default {
+    border-radius: 2px;
+    box-shadow: $box-shadow;
+}
+
+.panel-default > .panel-heading {
+    border: none;
+
+    padding: 24px 16px 16px;
+
+    font-size: 24px;
+
+    text-align: center;
+}
+
+.panel-default > .panel-body {
+    padding: 8px 16px 24px;
+    
+}
+
+.navbar-nav > li > .dropdown-menu {
+    border: none;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border-radius: 0 0 2px 2px;
+
+    & a:hover,
+    a:focus,
+    a:active {
+        color: $brand-primary;
+        background: none;
+    }
+}
+
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none;
+}
+
+.form-horizontal {
+    padding: 24px 16px 24px;
+    & .form-group {
+        margin: 10px 0;
+
+        & div > .form-control {
+            font-size:18px;
+            padding:10px 10px 10px 5px;
+            display:block;
+            width:300px;
+            border:none;
+            border-radius: 0;
+            box-shadow: none;
+            border-bottom:1px solid #757575;
+        }
+
+        & div > p {
+            margin: 8px 0 0 0;
+        }
+    }
+}
+
+// Stops double border bug
+.table > thead > tr > th {
+    border: none;
+}
+
+@media (max-width: 600px) {
+    .cell-overflow {
+        height: 10vh;
+        overflow: scroll;
+    }
+}

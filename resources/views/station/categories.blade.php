@@ -1,19 +1,20 @@
 @extends('layouts.app')
+@section('page_selected', 'categories')
 
 @section('content')
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">Dashboard</div>
+				<div class="panel-heading">Categories</div>
 
 				<div class="panel-body">
 					<table class="table">
 						<thead>
 							<th>Name</th>
 							<th>Description</th>
-							<th>Closing Date/Time</th>
-							<th>Submission</th>
+							<th>Deadline</th>
+							<th>Entered</th>
 							<th>&nbsp;</th>
 						</thead>
 						<tbody>
@@ -24,7 +25,7 @@
 ?>
 							<tr>
 								<td>{{ $cat->name }}</td>
-								<td>{{ $cat->description }}</td>
+								<td><p class="cell-overflow">{{ $cat->description }}</p></td>
 								<td>{{ $cat->closing_at->toDayDateTimeString() }}</td>
 								<td>{{ $msg }}<td>
 								<td>
