@@ -191,7 +191,8 @@ CREATE TABLE `uploaded_files` (
 INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `path`, `name`, `uploaded_at`, `created_at`, `updated_at`) VALUES
 (20, 3, 'animation', 'test', '/Imported/Test Station/Julian Waller - LSTV_Male_DennisTheMenace22.mp4', 'Julian Waller - LSTV_Male_DennisTheMenace22.mp4', '2016-12-03 19:49:44', '2016-12-03 19:49:44', '2016-12-03 19:49:44'),
 (21, 3, NULL, 'test', '/Imported/Test Station/test  - fgf - LSTV_Male_DennisTheMenace22.mp4', 'test  - fgf - LSTV_Male_DennisTheMenace22.mp4', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
-(22, 3, 'something', 'test', 'Nope', 'Fake file', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46');
+(22, 3, 'something', 'test', 'Nope', 'Fake file', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+(131, 3, 'something', 'test', 'Nope', 'Fake file', '', '', 'Nope', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46');
 
 CREATE TABLE `uploaded_file_logs` (
   `id` int(10) UNSIGNED NOT NULL,
