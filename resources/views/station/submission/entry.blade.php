@@ -19,7 +19,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label"></label>
 							<div class="col-sm-10">
-								<p class="late_upload">Entry is late!!</p>
+								<p class="late-upload">Entry is late!!</p>
 								<p>You may be able to remove the offending files to clear the late status</p>
 							</div>
 						</div>
@@ -37,7 +37,7 @@
 							<div class="col-sm-10">
 
 								@if ($readonly)
-									<p>You cannot upload new files to your submitted entry</p>
+									<p class="entry-closed">Entry is closed</p>
 								@else
 									<a target="_new" class="btn btn-primary" href="{{ route("station.entry.upload") }}">Upload Files</a>
 
@@ -47,16 +47,17 @@
 
 								<ul>
 									@foreach ($entry->uploadedFiles as $file)
-									<li class="{{ $file->isLate() ? "late_upload" : "" }}">{{ $file->name }} {{ $file->isLate() ? "(Late)" : "" }}</li>
+									<li class="{{ $file->isLate() ? "late-upload" : "" }}">{{ $file->name }} {{ $file->isLate() ? " - (Late)" : "" }}</li>
 									@endforeach
 								</ul>
+								<hr>
 								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to link files to this entry</p>
 
-								<pre id="filelog">
-@foreach ($entry->uploadedFileLog as $log)
-{{ $log->level }}: {{ $log->message }}
-@endforeach								
-</pre>
+								<div class="filelog">
+									@foreach ($entry->uploadedFileLog as $log)
+									<p class="{{ $log->level }}">{{ $log->level }}: {{ $log->message }}</p>
+									@endforeach								
+								</div>
 							</div>
 						</div>
 

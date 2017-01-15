@@ -98,12 +98,37 @@ a:active {
             border-radius: 0;
             box-shadow: none;
             border-bottom:1px solid #757575;
+
+            &#entrydescription {
+                width: 100%;
+            }
         }
 
-        & div > p {
+        & div > .form-control[disabled],
+        div > .form-control[readonly],
+        div > fieldset[disabled] .form-control {
+            background: none;
+            color: #757575;
+            border-bottom:1px dashed lighten(#757575, 2%);
+        }
+
+        & div > p,
+        div > ul {
             margin: 8px 0 0 0;
         }
+
+        & div > ul {
+            padding: 0;
+        }
+
     }
+}
+
+.btn {
+    min-width: 64px;
+    height: 36px;
+    border-radius: 2px;
+    padding: 3px 16px;
 }
 
 // Stops double border bug

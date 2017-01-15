@@ -18,6 +18,9 @@
 @import "zindex";
 @import "cards";
 
+// Pages
+@import "submissions";
+
 
 html, body{
   padding: 0;
@@ -33,6 +36,16 @@ html, body{
   justify-content: space-between;
 }
 
-.late_upload {
-  color: red;
+
+.late-entry,
+.late-upload {
+  color: $brand-danger;
+}
+
+.submitted-upload {
+  color: $brand-success;
+}
+
+.draft-upload {
+  color: $brand-warning;
 }

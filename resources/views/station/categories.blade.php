@@ -14,20 +14,20 @@
 							<th>Name</th>
 							<th>Description</th>
 							<th>Deadline</th>
-							<th>Entered</th>
-							<th>&nbsp;</th>
+							<th style="width: 110px;">Entry Status</th>
+							<th>Submission</th>
 						</thead>
 						<tbody>
 @foreach ($categories as $cat)
 <?php
 	$entry = $cat->entries->where('station_id', Auth::user()->id)->first();
-	$msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate() ? "Late" : "Complete") : "Incomplete");
+	$msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate() ? "Late Submission" : "Submitted") : "Draft");
 ?>
 							<tr>
 								<td>{{ $cat->name }}</td>
 								<td><p class="cell-overflow">{{ $cat->description }}</p></td>
 								<td>{{ $cat->closing_at->toDayDateTimeString() }}</td>
-								<td>{{ $msg }}<td>
+								<td class="{{ $entry->submitted ? ($entry->isLate() ? "late-upload" : "submitted-upload") : "draft-upload" }}">{{ $msg }}</td>
 								<td>
 								  @if ($cat->canEditSubmissions() || $entry != null)
 								  	<a href="{{ route("station.entry", $cat) }}">View</a>
