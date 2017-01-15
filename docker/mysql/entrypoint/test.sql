@@ -1,13 +1,8 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
---
--- Database: `Test_Pasta_Web`
---
 CREATE DATABASE IF NOT EXISTS `Test_Nasta_Submissions` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `Test_Nasta_Submissions`;
-
 
 CREATE TABLE `categories` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -48,7 +43,7 @@ CREATE TABLE `dropbox_accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `dropbox_accounts` (`id`, `enabled`, `used_space`, `total_space`, `access_token`, `created_at`, `updated_at`) VALUES
-('test', 0, 2570669653, 11676942336, 'oupaw3hcijAAAAAAAAAADNEqcrJR5JKstlbCBrnFTPhQ0WaSNkC_CQAUB9YdfG0z', '2016-12-03 16:16:36', '2016-12-03 16:26:54');
+('test', 0, 27272822, 2147483648, 'oupaw3hcijAAAAAAAAAADNEqcrJR5JKstlbCBrnFTPhQ0WaSNkC_CQAUB9YdfG0z', '2016-12-03 16:16:36', '2017-01-15 22:20:55');
 
 CREATE TABLE `entries` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -133,7 +128,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (41, '2016_12_03_161959_create_station_folder', 10),
 (44, '2016_12_03_174632_create_uploaded_files_table', 11),
 (45, '2016_12_03_194216_alter_category_add_compact', 12),
-(46, '2016_12_03_203551_create_uploaded_file_log_table', 13);
+(46, '2016_12_03_203551_create_uploaded_file_log_table', 13),
+(47, '2017_01_08_170342_alter_uploaded_files_add_size', 14),
+(48, '2017_01_11_191252_alter_uploaded_files_add_hash', 15),
+(49, '2017_01_15_140523_alter_uploaded_files_add_local_path', 16);
 
 CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -183,15 +181,18 @@ CREATE TABLE `uploaded_files` (
   `account_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hash` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `path_local` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `uploaded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `path`, `name`, `uploaded_at`, `created_at`, `updated_at`) VALUES
-(20, 3, 'animation', 'test', '/Imported/Test Station/Julian Waller - LSTV_Male_DennisTheMenace22.mp4', 'Julian Waller - LSTV_Male_DennisTheMenace22.mp4', '2016-12-03 19:49:44', '2016-12-03 19:49:44', '2016-12-03 19:49:44'),
-(21, 3, NULL, 'test', '/Imported/Test Station/test  - fgf - LSTV_Male_DennisTheMenace22.mp4', 'test  - fgf - LSTV_Male_DennisTheMenace22.mp4', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
-(22, 3, 'something', 'test', 'Nope', 'Fake file', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `path`, `name`, `size`, `hash`, `path_local`, `uploaded_at`, `created_at`, `updated_at`) VALUES
+(20, 3, 'animation', 'test', '/Imported/Test Station/Julian Waller - LSTV_Male_DennisTheMenace22.mp4', 'Julian Waller - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, '2016-12-03 19:49:44', '2016-12-03 19:49:44', '2016-12-03 19:49:44'),
+(21, 3, NULL, 'test', '/Imported/Test Station/test  - fgf - LSTV_Male_DennisTheMenace22.mp4', 'test  - fgf - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+(22, 3, 'something', 'test', 'Nope', 'Fake file', '', '', NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
 (131, 3, 'something', 'test', 'Nope', 'Fake file', '', '', 'Nope', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46');
 
 CREATE TABLE `uploaded_file_logs` (
@@ -270,6 +271,7 @@ ALTER TABLE `station_folders`
 
 ALTER TABLE `uploaded_files`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uploaded_files_path_local_unique` (`path_local`),
   ADD KEY `uploaded_files_account_id_foreign` (`account_id`),
   ADD KEY `uploaded_files_station_id_foreign` (`station_id`),
   ADD KEY `uploaded_files_category_id_foreign` (`category_id`);
@@ -286,9 +288,9 @@ ALTER TABLE `users`
 
 
 ALTER TABLE `category_file_constraint`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 ALTER TABLE `entries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 ALTER TABLE `entries_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `file_constraints`
@@ -296,15 +298,15 @@ ALTER TABLE `file_constraints`
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 ALTER TABLE `revisions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 ALTER TABLE `station_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `uploaded_files`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 ALTER TABLE `uploaded_file_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
