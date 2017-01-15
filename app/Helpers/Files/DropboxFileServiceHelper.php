@@ -6,7 +6,10 @@ use Kunnu\Dropbox\Dropbox;
 
 use App\Helpers\Files\IFileService;
 
+use App\Mail\Admin\ExceptionEmail;
+
 use Exception;
+use Storage;
 
 use Carbon\Carbon;
 
@@ -18,6 +21,7 @@ class DropboxFileServiceHelper implements IFileService{
     // if(App::environment('testing', 'test'))
     //   return null; // TODO - properly
     //   // $account = "devtest";
+    $this->access_token = $access_token;
 
     $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $access_token);
     $this->client = new Dropbox($client);
@@ -83,6 +87,45 @@ class DropboxFileServiceHelper implements IFileService{
 
     } catch (Exception $e) {
       return null;
+    }
+  }
+
+  public function download($src, $dest){
+    $fp = null;
+    $ch = null;
+
+    try {
+      // curl -X POST https://content.dropboxapi.com/2/files/download \
+      // --header "Authorization: Bearer <get access token>" \
+      // --header "Dropbox-API-Arg: {\"path\": \"/Homework/math/Prime_Numbers.txt\"}"
+
+      //This is the file where we save the information
+      $fp = fopen($dest, 'w+');
+
+      //Here is the file we are downloading, replace spaces with %20
+      $ch = curl_init("https://content.dropboxapi.com/2/files/download");
+      curl_setopt($ch, CURLOPT_TIMEOUT, 300); // 3gb oveer 5min = 160mbit/s
+      curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer " . $this->access_token,
+        "Dropbox-API-Arg: ". json_encode([ "path" => $src ]),
+      ]);
+
+      // write curl response to file
+      curl_setopt($ch, CURLOPT_FILE, $fp); 
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+      // get curl response
+      curl_exec($ch); 
+      curl_close($ch);
+      fclose($fp);
+
+      return true;
+    } catch (Exception $e) {
+      if ($fp != null)
+        fclose($fp);
+      if ($ch != null)
+        curl_close($ch);
+      throw $e;
     }
   }
 

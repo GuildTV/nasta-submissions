@@ -103,4 +103,17 @@ class TestFileServiceHelper implements IFileService{
     return false;
   }
 
+  public function download($src, $dest){
+    $this->addOperation([ "move", $src, $dest ]);
+
+    foreach ($this->files as $k=>$f){
+      if ($f['name'] != $src)
+        continue;
+
+      return true;
+    }
+
+    return false;
+  }
+
 }

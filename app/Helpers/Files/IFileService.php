@@ -17,4 +17,6 @@ interface IFileService {
 
   public function move($src, $dest);
 
+  public function download($src, $dest);
+
 }

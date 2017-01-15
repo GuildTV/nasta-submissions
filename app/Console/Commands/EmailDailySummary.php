@@ -69,7 +69,7 @@ class EmailDailySummary extends Command
         $sent++;
       }
 
-      Log::error('Sent emails to ' . $sent . ' stations');
+      Log::info('Sent emails to ' . $sent . ' stations');
       return $sent;
     }
 }

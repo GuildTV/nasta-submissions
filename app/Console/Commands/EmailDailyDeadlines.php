@@ -61,7 +61,7 @@ class EmailDailyDeadlines extends Command
         Mail::to($user)->send($helper);
       }
 
-      Log::error('Sent emails to ' . count($users) . ' stations');
+      Log::info('Sent emails to ' . count($users) . ' stations');
       return count($users);
     }
 }
