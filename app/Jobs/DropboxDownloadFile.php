@@ -15,7 +15,6 @@ use App\Database\Upload\UploadedFile;
 use Config;
 use Exception;
 use Log;
-use Storage;
 
 class DropboxDownloadFile implements ShouldQueue
 {
@@ -49,9 +48,9 @@ class DropboxDownloadFile implements ShouldQueue
         Log::info('Starting download of #' . $this->file->id);
         $client = new DropboxFileServiceHelper($this->file->account->access_token);
 
-        @mkdir(storage_path('app') . $this->targetDir(), 0775, true);
+        @mkdir(Config::get('nasta.local_entries_path') . $this->targetDir(), 0775, true);
         $target = $this->targetFilename();
-        $fullTarget = storage_path('app') . $target;
+        $fullTarget = Config::get('nasta.local_entries_path') . $target;
 
         try {
             $client->download($this->file->path, $fullTarget);
@@ -64,7 +63,7 @@ class DropboxDownloadFile implements ShouldQueue
             $this->checkFileMatchesHashAndSize($fullTarget);
         } catch (Exception $e) {
             // delete file if it exists
-            @Storage::delete($target);
+            @unlink($target);
 
             throw $e;
         }
@@ -79,7 +78,7 @@ class DropboxDownloadFile implements ShouldQueue
 
     private function targetDir()
     {
-        return '/entries/' . $this->file->station->name . "/";
+        return $this->file->station->name . "/";
     }
 
     private function targetFilename()

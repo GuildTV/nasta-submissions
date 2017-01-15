@@ -13,6 +13,7 @@ use App\Jobs\DropboxDownloadFile;
 use Carbon\Carbon;
 
 use Exception;
+use Config;
 
 class ScrapeUploadsTest extends TestCase
 {
@@ -139,6 +140,9 @@ class ScrapeUploadsTest extends TestCase
     $job = new DropboxDownloadFile($file);
 
     $job->handle();
+
+    // ensure file exists
+    $this->assertTrue(file_exists(Config::get('nasta.local_entries_path') . $file->path_local));
   }
 
   public function testFileHash(){
