@@ -1,11 +1,11 @@
 .footer {
   position: relative;
+  margin-top: -3vmax;
   width: 100%;
   height: $baseline * 18;
   color: #FFF;
   display: flex;
   align-items: flex-end;
-  margin-top: -$baseline * 2.5;
   background: #DDDEE0;
   &::before {
     width: 100%;
