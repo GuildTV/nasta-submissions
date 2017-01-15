@@ -56,12 +56,20 @@ class EmailDailySummary extends Command
       if (count($users) == 0)
         return "NO_USERS";
 
+      $sent = 0;
+
       foreach ($users as $user) {
         $helper = new DailySubmitted($user, Carbon::now());
+
+        // Skip station that has no categories
+        if (count($helper->categories) == 0)
+            continue;
+
         Mail::to($user)->send($helper);
+        $sent++;
       }
 
-      Log::error('Sent emails to ' . count($users) . ' stations');
-      return count($users);
+      Log::error('Sent emails to ' . $sent . ' stations');
+      return $sent;
     }
 }
