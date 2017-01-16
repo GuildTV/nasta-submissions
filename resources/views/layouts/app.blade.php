@@ -51,14 +51,13 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>
-                        <li><a <?=(@View::getSections()['page_selected']=="files"?' class="active"':'')?> href="{{ route("station.files") }}">Files</a></li>
-                        <!--<li><a <?=(@View::getSections()['page_selected']=="results"?' class="active"':'')?> href="{{ route("station.results") }}">Results</a></li>-->
-                        <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
+                            <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>
+                            <li><a <?=(@View::getSections()['page_selected']=="files"?' class="active"':'')?> href="{{ route("station.files") }}">Files</a></li>
+                            <!--<li><a <?=(@View::getSections()['page_selected']=="results"?' class="active"':'')?> href="{{ route("station.results") }}">Results</a></li>-->
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
