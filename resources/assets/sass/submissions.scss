@@ -1,0 +1,32 @@
+.form-horizontal > .form-group > div >.filelog {
+  margin: 24px 0;
+  padding: 16px 8px;
+  font-size: 14px;
+  box-shadow: $box-shadow;
+  border: none;
+  border-radius: 2px;
+  background: none;
+
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+  & p {
+    margin: 8px 4px;
+
+    &.info {
+      color: $brand-info;
+    }
+
+    &.warning {
+      color: $brand-warning;
+    }
+  }
+}
+
+.form-horizontal > .form-group  > div  > ul {
+  list-style: none;
+}
+
+.entry-closed {
+  color: lighten($text-color, 20%);
+  float: right;
+}

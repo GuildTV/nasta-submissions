@@ -3,7 +3,7 @@
 		<div class="panel-heading">Details</div>
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6 col-md-offset-1">
 				<dl class="dl-horizontal">
 					<h3>Details</h3>
 
@@ -24,7 +24,7 @@
 					@endif
 				</dl>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-5">
 				<dl class="dl-horizontal">
 					<h3>Requirements</h3>
 

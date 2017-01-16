@@ -1,6 +1,6 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import "fonts";
 
 // Variables
 @import "variables";
@@ -9,6 +9,49 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "node_modules/datatables.net-bs/css/dataTables.bootstrap";
 
-.late_upload {
-  color: red;
+// Overides
+@import "overides";
+
+// Additions
+@import "footer";
+@import "page-content";
+@import "zindex";
+
+// Pages
+@import "dashboard";
+@import "submissions";
+@import "files";
+
+html, body{
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: #FAFAFA;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.late-entry,
+.late-upload {
+  color: $brand-danger;
+}
+
+.submitted-upload {
+  color: $brand-success;
+}
+
+.draft-upload {
+  color: $brand-warning;
 }

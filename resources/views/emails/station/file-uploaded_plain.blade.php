@@ -1,6 +1,6 @@
 Hi {{ $user->name }},
 
-Relax, your file '{{ $file->name }}' has successfully been added to your entry for the {{ $file->category->name }} award.
+'{{ $file->name }}' has successfully been added to your entry for the {{ $file->category->name }} award.
 
 @if ($entry != null && !$entry->submitted)
 Remember that you still need to submit your entry before the deadline

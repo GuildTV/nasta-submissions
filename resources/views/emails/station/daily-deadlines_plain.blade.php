@@ -1,9 +1,8 @@
 Hi {{ $user->name }},
 
-A reminder of the deadlines coming up.
+Awards Categories that close today:-
 
 @foreach ($groupedCategories as $date => $group)
-{{ \Carbon\Carbon::parse($date)->format("l jS") }}:
 @foreach ($group as $cat)
   * {{ $cat->name }}
 @endforeach

@@ -73,7 +73,7 @@ class FileConstraintsSeeder extends Seeder
       // 9
       FileConstraint::create([
         'name' => 'Online interview',
-        'description' => 'There will be an online interview for selected broadcasters.',
+        'description' => 'There will be an online interview for selected entries.',
         'mimetypes' => ''
       ]);
 
