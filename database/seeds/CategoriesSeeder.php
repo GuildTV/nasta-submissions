@@ -125,7 +125,7 @@ class CategoriesSeeder extends Seeder
       ]);
       
       Category::create([
-        'id' => 'new-curent-affairs',
+        'id' => 'news-current-affairs',
         'name' => 'News and Current Affairs',
         'compact_name' => 'NewsCurrentAffairs',
         'description' => 'A single programme (or a shortened edit from an episode or series) reporting or commenting on news or current affairs.',

@@ -55,7 +55,7 @@ class Entry extends Model
     public function countReasonsLate(){
         $reasons = 0;
 
-        if ($this->updated_at->gt($this->category->closing_at))
+        if ($this->updated_at != null && $this->updated_at->gt($this->category->closing_at))
             $reasons++;
 
         foreach ($this->uploadedFiles as $file){
