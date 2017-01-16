@@ -5,4 +5,5 @@ if [ -n "$UID" ]; then
   usermod -u $UID www-data
 fi
 
+cd /src
 php artisan queue:work "$@"
