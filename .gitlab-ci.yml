@@ -55,8 +55,8 @@ build:cron:
   services:
     - julusian/docker:1.12-dind
   script:
-    - docker build --pull -t "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
-    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
+    - docker build --pull -t "registry.julus.uk/nasta-sub/cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
+    - docker push "registry.julus.uk/nasta-sub/cron-$CI_BUILD_REF"
   type: build-image
   tags:
     - docker
@@ -73,8 +73,26 @@ build:http:
   services:
     - julusian/docker:1.12-dind
   script:
-    - docker build --pull -t "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" -f docker/http/Dockerfile .
-    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+    - docker build --pull -t "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" -f docker/http/Dockerfile .
+    - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
+  type: build-image
+  tags:
+    - docker
+    - dind-overlay
+  dependencies:
+    - build:assets
+    - build:composer
+
+build:queue:
+  image: docker:1.12
+  variables:
+    privileged: 'true'
+    DOCKER_HOST: julusian-docker:2375
+  services:
+    - julusian/docker:1.12-dind
+  script:
+    - docker build --pull -t "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" -f docker/queue/Dockerfile .
+    - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
   type: build-image
   tags:
     - docker
@@ -100,7 +118,7 @@ build:db:
   dependencies: []
 
 test:
-  image: registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF
+  image: registry.julus.uk/nasta-sub/http:$CI_BUILD_REF
   services:
     - registry.julus.uk/nasta/test-db:$CI_BUILD_REF
     - mailhog/mailhog
@@ -128,15 +146,20 @@ promote:
   services:
     - julusian/docker:1.12-dind
   script:
-    - docker pull "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
-    - docker pull "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF"
-    - docker tag "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
-    - docker tag "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF" "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
-    - docker push "registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF_NAME"
-    - docker push "registry.julus.uk/nasta/submissions:cron-$CI_BUILD_REF_NAME"
+    - docker pull "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
+    - docker pull "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
+    - docker pull "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
+
+    - docker tag "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF_NAME"
+
+    - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF_NAME"
+    - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF_NAME"
+    - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF_NAME"
   type: promote
   only:
-    # - master
+    - master
     - develop
   tags:
     - docker
@@ -146,11 +169,12 @@ promote:
 deploy:
   image: registry.julus.uk/kubectl
   script:
-    - kubectl --context=guild rolling-update "nasta-$CI_BUILD_REF_NAME" --image="registry.julus.uk/nasta/submissions:http-$CI_BUILD_REF"
+    - sed -i 's/:latest/:'$CI_BUILD_REF'/g' deployment.yaml
+    - kubectl --context=guild --namespace=nasta apply -f deployment.yaml
   type: deploy
   only:
     - develop
-    # - master
+    - master
   tags:
     - docker
   dependencies: []

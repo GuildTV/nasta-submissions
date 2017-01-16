@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    labels:
+      name: sub-http
+    name: sub-http
+    namespace: nasta
+  spec:
+    replicas: 1
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          name: sub-http
+      spec:
+        containers:
+        - image: registry.julus.uk/nasta-sub/http:latest
+          name: sub-http
+          env:
+            - name: VM_ENV
+              value: production
+            - name: APP_ENV
+              value: production
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /VAULT
+              name: vault-data
+            - mountPath: /src/storage
+              name: storage
+        volumes:
+        - name: vault-data
+          hostPath:
+            path: "/VAULT-NASTA"
+        - name: storage
+          hostPath:
+            path: "/mnt/nfs/nasta/storage"
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    labels:
+      name: sub-cron
+    name: sub-cron
+    namespace: nasta
+  spec:
+    replicas: 1
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          name: sub-cron
+      spec:
+        containers:
+        - image: registry.julus.uk/nasta-sub/cron:latest
+          name: sub-cron
+          env:
+            - name: VM_ENV
+              value: production
+            - name: APP_ENV
+              value: production
+          volumeMounts:
+            - mountPath: /VAULT
+              name: vault-data
+            - mountPath: /src/storage
+              name: storage
+        volumes:
+        - name: vault-data
+          hostPath:
+            path: "/VAULT-NASTA"
+        - name: storage
+          hostPath:
+            path: "/mnt/nfs/nasta/storage"
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    labels:
+      name: sub-queue
+    name: sub-queue
+    namespace: nasta
+  spec:
+    replicas: 1
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          name: sub-queue
+      spec:
+        containers:
+        - image: registry.julus.uk/nasta-sub/queue:latest
+          name: sub-queue
+          args: ["--timeout=10", "--tries=3", "--delay=10"]
+          env:
+            - name: VM_ENV
+              value: production
+            - name: APP_ENV
+              value: production
+          volumeMounts:
+            - mountPath: /VAULT
+              name: vault-data
+            - mountPath: /src/storage
+              name: storage
+        volumes:
+        - name: vault-data
+          hostPath:
+            path: "/VAULT-NASTA"
+        - name: storage
+          hostPath:
+            path: "/mnt/nfs/nasta/storage"
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    labels:
+      name: sub-queue-downloads
+    name: sub-queue-downloads
+    namespace: nasta
+  spec:
+    replicas: 1
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          name: sub-queue-downloads
+      spec:
+        containers:
+        - image: registry.julus.uk/nasta-sub/queue:latest
+          name: sub-queue-downloads
+          args: ["--queue=downloads", "--timeout=300", "--tries=3", "--delay=120", "--memory=256"]
+          env:
+            - name: VM_ENV
+              value: production
+            - name: APP_ENV
+              value: production
+          volumeMounts:
+            - mountPath: /VAULT
+              name: vault-data
+            - mountPath: /src/storage
+              name: storage
+        volumes:
+        - name: vault-data
+          hostPath:
+            path: "/VAULT-NASTA"
+        - name: storage
+          hostPath:
+            path: "/mnt/nfs/nasta/storage"
+
