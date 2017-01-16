@@ -29,6 +29,12 @@ html, body{
   min-height: 100%;
 }
 
+body {
+  background: #FAFAFA;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
 #app {
   min-height: 100vh;
   display: flex;
