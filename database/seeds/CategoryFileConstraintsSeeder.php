@@ -43,7 +43,7 @@ class CategoryFileConstraintsSeeder extends Seeder
       $this->add('ident', 4);
 
       // Light Entertainment
-      $this->add('light-entertainment', );
+      $this->add('light-entertainment', 1);
 
       // Live Broadcast
       $this->add('live', 1);

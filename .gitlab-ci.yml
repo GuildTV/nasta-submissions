@@ -55,8 +55,8 @@ build:cron:
   services:
     - julusian/docker:1.12-dind
   script:
-    - docker build --pull -t "registry.julus.uk/nasta-sub/cron-$CI_BUILD_REF" -f docker/cron/Dockerfile .
-    - docker push "registry.julus.uk/nasta-sub/cron-$CI_BUILD_REF"
+    - docker build --pull -t "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" -f docker/cron/Dockerfile .
+    - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
   type: build-image
   tags:
     - docker
@@ -162,6 +162,7 @@ promote:
     - master
     - develop
   tags:
+    - guild
     - docker
     - dind-overlay
   dependencies: []
@@ -169,8 +170,8 @@ promote:
 deploy:
   image: registry.julus.uk/kubectl
   script:
-    - sed -i 's/:latest/:'$CI_BUILD_REF'/g' deployment.yaml
-    - kubectl --context=guild --namespace=nasta apply -f deployment.yaml
+    - sed -i 's/:latest/:'$CI_BUILD_REF'/g' kubernetes/deployment.yaml
+    - kubectl --context=guild --namespace=nasta apply -f kubernetes/deployment.yaml
   type: deploy
   only:
     - develop

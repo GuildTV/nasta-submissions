@@ -41,8 +41,9 @@ items:
           hostPath:
             path: "/VAULT-NASTA"
         - name: storage
-          hostPath:
-            path: "/mnt/nfs/nasta/storage"
+          nfs:
+            server: files.guild.julus.uk
+            path: "/exports/kubernetes/nasta/storage"
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
@@ -80,8 +81,9 @@ items:
           hostPath:
             path: "/VAULT-NASTA"
         - name: storage
-          hostPath:
-            path: "/mnt/nfs/nasta/storage"
+          nfs:
+            server: files.guild.julus.uk
+            path: "/exports/kubernetes/nasta/storage"
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
@@ -120,8 +122,9 @@ items:
           hostPath:
             path: "/VAULT-NASTA"
         - name: storage
-          hostPath:
-            path: "/mnt/nfs/nasta/storage"
+          nfs:
+            server: files.guild.julus.uk
+            path: "/exports/kubernetes/nasta/storage"
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
@@ -160,6 +163,7 @@ items:
           hostPath:
             path: "/VAULT-NASTA"
         - name: storage
-          hostPath:
-            path: "/mnt/nfs/nasta/storage"
+          nfs:
+            server: files.guild.julus.uk
+            path: "/exports/kubernetes/nasta/storage"
 

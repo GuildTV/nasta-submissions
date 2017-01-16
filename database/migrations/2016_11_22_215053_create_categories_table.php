@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->timestamp('closing_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('opening_at')->nullable();
             $table->timestamps();

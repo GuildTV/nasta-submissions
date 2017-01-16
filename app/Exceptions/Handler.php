@@ -60,7 +60,7 @@ class Handler extends NewExceptionHandler
                 $subject = "NaSTA Exception for " . ($user == null ? "Anonymous" : $user->name);
                 ExceptionEmail::notifyAdmin($e, $subject);
             } catch (Exception $e){
-                Log::error("Failed to send exception email: ", $e);
+                Log::error("Failed to send exception email: ". $e->getMessage());
             }
         }
         
