@@ -1,0 +1,7 @@
+table > tbody > tr > td > a {
+    cursor: pointer;
+}
+
+table > tbody > tr > td > .delete {
+    color: $brand-danger;
+}

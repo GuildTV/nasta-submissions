@@ -33,6 +33,25 @@
         a:hover,
         a:focus,
         a:active {
+            background: url(/images/icons/ic_description_white_24px.svg) center center no-repeat;
+            background-size: 50% 50%;
+            background-position: 50% 25%;
+        }
+    }
+
+    &:nth-child(2) {
+        background: $brand-success;
+
+        &:hover,
+        :focus,
+        :active {
+            background: darken( $brand-success, 2% );
+        }
+
+        & a,
+        a:hover,
+        a:focus,
+        a:active {
             background: url(/images/icons/ic_video_library_white_24px.svg) center center no-repeat;
             background-size: 50% 50%;
             background-position: 50% 25%;
@@ -40,12 +59,12 @@
     }
 
     &:last-child {
-        background: $brand-success;
+        background: $brand-secondary;
 
         &:hover,
         :focus,
         :active {
-            background: darken( $brand-success, 2% );
+            background: darken( $brand-secondary, 2% );
         }
         
         & a {

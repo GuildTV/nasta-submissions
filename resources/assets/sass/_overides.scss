@@ -124,6 +124,26 @@ a:active {
     }
 }
 
+.pagination > li > a {
+    color: $text-color;
+}
+.pagination > li > a:hover,
+.pagination > li > a:focus,
+.pagination > li > a:active,
+.pagination > .active > a:hover,
+.pagination > .active > a:focus,
+.pagination > .active > a:active {
+    border: 1px solid #ddd;
+    background: none;
+    color: $brand-primary;
+}
+
+.pagination > .active > a {
+    border: 1px solid #ddd;
+    background: none;
+    color: $brand-success;
+}
+
 .btn {
     min-width: 64px;
     height: 36px;

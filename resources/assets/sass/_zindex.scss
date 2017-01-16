@@ -9,3 +9,7 @@ nav {
 footer {
     z-index: 1;
 }
+
+table > tbody > tr > td > a {
+    z-index: 4;
+}
