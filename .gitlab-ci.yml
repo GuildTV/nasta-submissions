@@ -138,34 +138,34 @@ test:
     - docker
   dependencies: []
 
-promote:
-  image: docker:1.12
-  variables:
-    privileged: 'true'
-    DOCKER_HOST: julusian-docker:2375
-  services:
-    - julusian/docker:1.12-dind
-  script:
-    - docker pull "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
-    - docker pull "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
-    - docker pull "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
+# promote:
+#   image: docker:1.12
+#   variables:
+#     privileged: 'true'
+#     DOCKER_HOST: julusian-docker:2375
+#   services:
+#     - julusian/docker:1.12-dind
+#   script:
+#     - docker pull "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
+#     - docker pull "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
+#     - docker pull "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
 
-    - docker tag "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF_NAME"
-    - docker tag "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF_NAME"
-    - docker tag "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF_NAME"
+#     - docker tag "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF_NAME"
+#     - docker tag "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF_NAME"
+#     - docker tag "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF_NAME"
 
-    - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF_NAME"
-    - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF_NAME"
-    - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF_NAME"
-  type: promote
-  only:
-    - master
-    - develop
-  tags:
-    - guild
-    - docker
-    - dind-overlay
-  dependencies: []
+#     - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF_NAME"
+#     - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF_NAME"
+#     - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF_NAME"
+#   type: promote
+#   only:
+#     - master
+#     - develop
+#   tags:
+#     - guild
+#     - docker
+#     - dind-overlay
+#   dependencies: []
 
 deploy:
   image: registry.julus.uk/kubectl
