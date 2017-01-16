@@ -22,12 +22,13 @@
 <?php
 	$entry = $cat->entries->where('station_id', Auth::user()->id)->first();
 	$msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate() ? "Late Submission" : "Submitted") : "Draft");
+	$class = $entry == null ? "" : ($entry->submitted ? ($entry->isLate() ? "late-upload" : "submitted-upload") : "draft-upload");
 ?>
 							<tr>
 								<td>{{ $cat->name }}</td>
 								<td><p class="cell-overflow">{{ $cat->description }}</p></td>
 								<td>{{ $cat->closing_at->toDayDateTimeString() }}</td>
-								<td class="{{ $entry->submitted ? ($entry->isLate() ? "late-upload" : "submitted-upload") : "draft-upload" }}">{{ $msg }}</td>
+								<td class="{{ $class }}">{{ $msg }}</td>
 								<td>
 								  @if ($cat->canEditSubmissions() || $entry != null)
 								  	<a href="{{ route("station.entry", $cat) }}">View</a>

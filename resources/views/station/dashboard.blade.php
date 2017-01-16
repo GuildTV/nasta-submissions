@@ -15,9 +15,9 @@
 						<div class="card">
 							<a href="{{ route("station.files") }}">Uploaded Files</a>
 						</div>
-						<div class="card">
+						{{-- <div class="card">
 							<a href="{{ route("station.results") }}">Results</a>
-						</div>
+						</div> --}}
 					</div>
 				</div>
 			</div>
