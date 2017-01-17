@@ -15,7 +15,7 @@
 							</div>
 						</div>
 
-						@if ($entry->isLate())
+						@if ($entry->isLate($category))
 						<div class="form-group">
 							<label class="col-sm-2 control-label"></label>
 							<div class="col-sm-10">
@@ -47,7 +47,7 @@
 
 								<ul>
 									@foreach ($entry->uploadedFiles as $file)
-									<li class="{{ $file->isLate() ? "late-upload" : "" }}">{{ $file->name }} {{ $file->isLate() ? " - (Late)" : "" }}</li>
+									<li class="{{ $file->isLate($category) ? "late-upload" : "" }}">{{ $file->name }} {{ $file->isLate($category) ? " - (Late)" : "" }}</li>
 									@endforeach
 								</ul>
 								<hr>

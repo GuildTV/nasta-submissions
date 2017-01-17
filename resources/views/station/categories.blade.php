@@ -20,7 +20,7 @@
 						<tbody>
 @foreach ($categories as $cat)
 <?php
-	$entry = $cat->entries->where('station_id', Auth::user()->id)->first();
+	$entry = $cat->myEntry;
 	$msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate() ? "Late Submission" : "Submitted") : "Draft");
 	$class = $entry == null ? "" : ($entry->submitted ? ($entry->isLate() ? "late-upload" : "submitted-upload") : "draft-upload");
 ?>

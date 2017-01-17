@@ -9,6 +9,7 @@ use App\Database\Traits\HasPivotTrait;
 use Carbon\Carbon;
 
 use Config;
+use Auth;
 
 class Category extends Model
 {
@@ -53,18 +54,31 @@ class Category extends Model
         return $this->hasMany('App\Database\Entry\Entry');
     }
 
+    public function myEntry()
+    {
+        $user = Auth::user();
+        if ($user == null)
+            return null;
+
+        return $this->hasOne('App\Database\Entry\Entry')->where('station_id', $user->id);
+    }
+
+    public function myEntryOrNew()
+    {
+        $entry = $this->myEntry;
+        if ($entry != null)
+            return $entry;
+
+        return new self([
+            'station_id' => $sid,
+        ]);
+    }
 
     public function getEntryForStation($sid){
         return $this->entries()
             ->firstOrNew([
                 'station_id' => $sid,
             ]);
-    }
-
-    public function hasEntryForStation($sid){
-        return $this->entries()
-            ->where('station_id', $sid)
-            ->count() > 0;
     }
 
     public function hasConstraint($id){ // TODO - make this nicer!

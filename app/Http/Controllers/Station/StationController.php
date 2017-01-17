@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Exceptions\DataIntegrityException;
 
+use App\Database\Entry\Entry;
 use App\Database\Category\Category;
 use App\Database\Upload\UploadedFile;
 
@@ -27,7 +28,7 @@ class StationController extends Controller
 
 	public function categories()
 	{
-		$categories = Category::all();
+		$categories = Category::with('myEntry')->get();
 
 		return view('station.categories', compact('categories'));
 	}
@@ -39,11 +40,11 @@ class StationController extends Controller
 
 		// Check if there is an entry or one can be created
 		$closed = !$category->canEditSubmissions();
-		if ($closed && !$category->hasEntryForStation(Auth::user()->id))
+		if ($closed && !$category->myEntry != null)
 			return App::abort(404);
 
 		// create or find an entry
-		$entry = $category->getEntryForStation(Auth::user()->id);
+		$entry = $category->myEntryOrNew();
 		$readonly = $closed || $entry->submitted == 1;
 
 		return view('station.submission.index', compact('category', 'entry', 'readonly', 'closed'));
@@ -52,7 +53,7 @@ class StationController extends Controller
 	public function files()
 	{
 		$categories = Category::all();
-		$files = UploadedFile::orderBy("category_id")->get();
+		$files = UploadedFile::orderBy("category_id")->with('category')->get();
 
 		return view('station.files', compact('files', 'categories'));
 	}

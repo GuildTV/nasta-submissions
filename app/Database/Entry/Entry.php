@@ -52,21 +52,24 @@ class Entry extends Model
             ->where('station_id', $this->station_id);
     }
 
-    public function countReasonsLate(){
+    public function countReasonsLate($category=null){
+        if ($category == null)
+            $category = $this->category;
+
         $reasons = 0;
 
-        if ($this->updated_at != null && $this->updated_at->gt($this->category->closing_at))
+        if ($this->updated_at != null && $this->updated_at->gt($category->closing_at))
             $reasons++;
 
         foreach ($this->uploadedFiles as $file){
-            if ($file->isLate($this->category))
+            if ($file->isLate($category))
                 $reasons++;
         }
 
         return $reasons;
     }
 
-    public function isLate(){
-        return $this->countReasonsLate() > 0;
+    public function isLate($category=null){
+        return $this->countReasonsLate($category) > 0;
     }
 }
