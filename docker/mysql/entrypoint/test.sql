@@ -222,7 +222,7 @@ INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `remember_to
 (1, 'Test Admin', 'test_admin', 'test@email.com', '$2y$10$EVf9rQNjszZywYF/7/opyOXuzo6heEfn8G4TD6Py6hUTPfMhKGDmO', '5WzQAVQSUiwxaDHippU7tgxHwtobQ2b7WuitkkxjQvJzpBKWU5EXE4SIndNS', 'admin', '2016-11-26 16:57:31', '2016-12-03 16:45:37'),
 (2, 'Test Judge', 'test_judge', 'judge@email.com', '$2y$10$J82DBmvgsH59vsKxrMDCHe1BVu9ufIV/w44ldggAM6HCDpMvqxhvK', NULL, 'judge', '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
 (3, 'Test Station', 'test_station', 'station@email.com', '$2y$10$qBA1pYoTPOLNMgi14B8P2u4GIf9kNu.XDSzOfQPn9XNr5Mo5Lvocm', 'QvY1MEsiYXWZbcwJvxroEOq8hd7nAZfv6PrsBYf2jThn4vtqCXcesnwP3Z75', 'station', '2016-11-26 16:57:31', '2016-12-03 15:51:24'),
-(4, 'Station no submissions', 'no-subs', 'no"subs.com', '', NULL, 'station', '2017-01-17 09:09:57', '2017-01-17 09:09:57');
+(4, 'Station no submissions', 'no-subs', 'no@subs.com', '', NULL, 'station', '2017-01-17 09:09:57', '2017-01-17 09:09:57');
 
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
