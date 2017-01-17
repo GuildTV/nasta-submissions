@@ -115,7 +115,7 @@ window.StationEntry = {
       callback: r => {
         if (!r) return;
 
-        window.open(url);        
+        window.open(url, "upload_window");
       }
     });
   }

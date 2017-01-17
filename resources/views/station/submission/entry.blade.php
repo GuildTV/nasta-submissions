@@ -8,22 +8,27 @@
 
 						<input type="hidden" id="entrycategory" value="{{ $category->id }}">
 
+						@if ($entry->submitted)
+						<div id="alert_holder">
+							<div class="alert {{ $entry->isLate($category) ? "alert-warning" : "alert-success" }}" id="update_status">
+								<p>You submitted your entry on the {{ $entry->updated_at->format("jS F \\a\\t H:i") }}</p>
+								@if ($entry->isLate($category))
+									<p class="late-upload">Your entry has been marked as  late!!</p>
+									@if (!$closed)
+									<p>It is still possible to remove offending files to clear the late status</p>
+									@endif
+								@endif
+								<p><a href="{{ route('station.categories') }}">Back</a> to categories list</p>
+							</div>
+						</div>
+						@endif
+
 						<div class="form-group">
 							<label for="entryname" class="col-sm-2 control-label">Entry Name</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="entryname" name="entryname" maxlength="255" placeholder="Entry Name" {{ $readonly ? "disabled='disabled'" : "" }} value="{{ $entry->name }}">
 							</div>
 						</div>
-
-						@if ($entry->isLate($category))
-						<div class="form-group">
-							<label class="col-sm-2 control-label"></label>
-							<div class="col-sm-10">
-								<p class="late-upload">Entry is late!!</p>
-								<p>You may be able to remove the offending files to clear the late status</p>
-							</div>
-						</div>
-						@endif
 						
 						<div class="form-group">
 							<label for="entrydescription" class="col-sm-2 control-label">Description</label>
@@ -42,7 +47,6 @@
 									<button class="btn btn-primary" data-url="{{ route("station.entry.upload") }}" data-filename="{{ $filename }}"
 										onclick="StationEntry.ShowUpload(this); return false">Upload Files</button>
 									
-
 									<br />
 									<br />
 								@endif

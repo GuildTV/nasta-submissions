@@ -15,12 +15,12 @@
 
 					@if ($category->opening_at)
 						<dt>Opening Date</dt>
-						<dd>{{ $category->opening_at->toDayDateTimeString() }}</dd>
+						<dd>{{ $category->opening_at->format('l jS F \\a\\t H:i') }}</dd>
 					@endif
 
 					@if ($category->closing_at)
 						<dt>Closing Date</dt> 
-						<dd>{{ $category->closing_at->toDayDateTimeString() }}</dd>
+						<dd>{{ $category->closing_at->format('l jS F \\a\\t H:i') }}</dd>
 					@endif
 				</dl>
 			</div>
