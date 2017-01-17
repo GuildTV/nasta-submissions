@@ -16,6 +16,7 @@ use App;
 use Auth;
 use Redirect;
 use Mail;
+use Session;
 
 class EntryController extends Controller
 { 
@@ -38,6 +39,8 @@ class EntryController extends Controller
 
     Mail::to($request->user())->queue(new EntrySubmitted($entry));
 
+    Session::flash('entry.save', 'Your changes have been saved');
+
     return $entry;
   }
 
@@ -48,6 +51,8 @@ class EntryController extends Controller
     $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
     $entry->submitted = false;
     $entry->save();
+
+    Session::flash('entry.edit', 'You entry has been un-submitted');
 
     return $entry; 
   }

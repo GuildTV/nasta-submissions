@@ -8,22 +8,39 @@
 
 						<input type="hidden" id="entrycategory" value="{{ $category->id }}">
 
+						@if ($entry->submitted)
+						<div id="alert_holder">
+							<div class="alert {{ $entry->isLate($category) ? "alert-warning" : "alert-success" }}" id="update_status">
+								<p>You submitted your entry on the {{ $entry->updated_at->format("jS F \\a\\t H:i") }}</p>
+								@if ($entry->isLate($category))
+									<p class="late-upload">Your entry has been marked as  late!!</p>
+									@if (!$closed)
+									<p>It is still possible to remove offending files to clear the late status</p>
+									@endif
+								@endif
+								<p><a href="{{ route('station.categories') }}">Back</a> to categories list</p>
+							</div>
+						</div>
+						@elseif (\Session::has('entry.edit'))
+						<div id="alert_holder">
+							<div class="alert alert-warning">
+								<p>{{ \Session::get('entry.edit') }}</p>
+							</div>
+						</div>
+						@elseif (\Session::has('entry.save'))
+						<div id="alert_holder">
+							<div class="alert alert-success">
+								<p>{{ \Session::get('entry.save') }}</p>
+							</div>
+						</div>
+						@endif
+
 						<div class="form-group">
 							<label for="entryname" class="col-sm-2 control-label">Entry Name</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="entryname" name="entryname" maxlength="255" placeholder="Entry Name" {{ $readonly ? "disabled='disabled'" : "" }} value="{{ $entry->name }}">
 							</div>
 						</div>
-
-						@if ($entry->isLate($category))
-						<div class="form-group">
-							<label class="col-sm-2 control-label"></label>
-							<div class="col-sm-10">
-								<p class="late-upload">Entry is late!!</p>
-								<p>You may be able to remove the offending files to clear the late status</p>
-							</div>
-						</div>
-						@endif
 						
 						<div class="form-group">
 							<label for="entrydescription" class="col-sm-2 control-label">Description</label>
@@ -39,8 +56,9 @@
 								@if ($readonly)
 									<p class="entry-closed">Entry is closed</p>
 								@else
-									<a target="_new" class="btn btn-primary" href="{{ route("station.entry.upload") }}">Upload Files</a>
-
+									<button class="btn btn-primary" data-url="{{ route("station.entry.upload") }}" data-filename="{{ $filename }}"
+										onclick="StationEntry.ShowUpload(this); return false">Upload Files</button>
+									
 									<br />
 									<br />
 								@endif
@@ -51,13 +69,7 @@
 									@endforeach
 								</ul>
 								<hr>
-								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to link files to this entry</p>
-
-								<div class="filelog">
-									@foreach ($entry->uploadedFileLog as $log)
-									<p class="{{ $log->level }}">{{ $log->level }}: {{ $log->message }}</p>
-									@endforeach								
-								</div>
+								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to view all of your uploaded files</p>
 							</div>
 						</div>
 

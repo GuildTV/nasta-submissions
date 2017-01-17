@@ -52,11 +52,7 @@ window.StationEntry = {
       method: 'POST',
       data: data,
       success: function(res) {
-        // submitted entry, so reload to get everything be readonly
-        if (data.submit == 1)
           return window.location.reload();
-
-        alert("Saved!");
       },
       error: function(res) {
         console.log(res);
@@ -89,6 +85,33 @@ window.StationEntry = {
             alert("An error occured");
           }
         });
+      }
+    });
+  },
+
+  ShowUpload: function(btn){
+    const url = btn.getAttribute("data-url");
+    const filename = btn.getAttribute("data-filename");
+    if (!url)
+      return alert("Missing upload url!")
+
+    bootbox.confirm({
+      title: "Upload Files",
+      message: "A new window will now open, please follow the instructions to upload your submission. When the upload is complete, please close the window to return to this page. <br/>"
+              +"Filenames should be of the format: " + filename,
+      buttons: {
+        confirm: {
+          label: 'To the uploader!',
+          className: 'btn-success'
+        },
+          cancel: {
+            label: 'Cancel',
+        }
+      },
+      callback: r => {
+        if (!r) return;
+
+        window.open(url, "upload_window");
       }
     });
   }

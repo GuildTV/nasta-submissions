@@ -32,7 +32,7 @@ class DailyDeadlines extends Mailable
     {
         $this->user = $user;
         $this->date = $date;
-        $this->groupedCategories = $this->getGroupedCategories($date);
+        $this->groupedCategories = Category::getAllGrouped($date);
 
         if (count($this->groupedCategories) == 0) 
             throw new InvalidArgumentException("no categories for date");
@@ -52,24 +52,5 @@ class DailyDeadlines extends Mailable
                 'groupedCategories' => $this->groupedCategories,
                 'user' => $this->user,
             ]);
-    }
-
-    private function getGroupedCategories($date){
-        $res = $date == null 
-            ? Category::all()
-            : Category::whereDate('closing_at', '=', $date->startOfDay()->toDateString())->get();
-
-        $categories = [];
-
-        foreach ($res as $cat) {
-            $roundedDate = $cat->closing_at->startOfDay()->toIso8601String();
-
-            if (!isset($categories[$roundedDate]))
-                $categories[$roundedDate] = [];
-
-            $categories[$roundedDate][] = $cat;
-        }
-
-        return $categories;
     }
 }
