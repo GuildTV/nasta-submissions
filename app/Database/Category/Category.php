@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Database\Traits\HasPivotTrait;
 
+use App\Database\Entry\Entry;
+
 use Carbon\Carbon;
 
 use Config;
@@ -69,8 +71,12 @@ class Category extends Model
         if ($entry != null)
             return $entry;
 
-        return new self([
-            'station_id' => $sid,
+        $user = Auth::user();
+        if ($user == null)
+            return null;
+
+        return new Entry([
+            'station_id' => $user->id,
         ]);
     }
 

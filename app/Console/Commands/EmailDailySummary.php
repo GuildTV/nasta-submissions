@@ -62,7 +62,7 @@ class EmailDailySummary extends Command
         $helper = new DailySubmitted($user, Carbon::now());
 
         // Skip station that has no categories
-        if (count($helper->categories) == 0)
+        if (count($helper->entries) == 0)
             continue;
 
         Mail::to($user)->queue($helper);

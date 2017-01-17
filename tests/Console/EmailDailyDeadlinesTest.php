@@ -7,6 +7,7 @@ use TestCase;
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
 use App\Database\Category\Category;
+use App\Database\User;
 
 use App\Console\Commands\EmailDailyDeadlines;
 
@@ -36,7 +37,7 @@ class EmailDailyDeadlinesTest extends TestCase
   public function testNoUsers(){
     $this->createDeadline();
 
-    $this->station->delete();
+    User::where('type', 'station')->delete();
 
     $scraper = new EmailDailyDeadlines();
     $res = $scraper->handle();
@@ -48,7 +49,7 @@ class EmailDailyDeadlinesTest extends TestCase
 
     $scraper = new EmailDailyDeadlines();
     $res = $scraper->handle();
-    $this->assertEquals(1, $res);
+    $this->assertEquals(User::where('type', 'station')->count(), $res);
   }
 
 }

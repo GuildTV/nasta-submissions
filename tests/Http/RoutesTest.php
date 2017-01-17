@@ -4,6 +4,8 @@ namespace Tests\Http;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use AutoTestBase;
 
+use App\Database\User;
+
 use Illuminate\Routing\Route as IllRoute;
 
 use Route;
@@ -51,6 +53,12 @@ class RoutesTest extends AutoTestBase
     }
 
     $routes = collect($validRoutes);
+
+    // load all users to test with
+    $this->stations = User::where('type', 'station')->get();
+    $this->assertTrue(count($this->stations) > 0);
+    $this->judges = User::where('type', 'judge')->get();
+    $this->assertTrue(count($this->judges) > 0);
 
     print "\n\n---\nTesting " . $routes->count() . " routes\n";
 
@@ -105,27 +113,33 @@ class RoutesTest extends AutoTestBase
     if(strpos($action, "App\\Http\\Controllers\\") === 0)
       $action = substr($action, 21);
 
-    $this->requestCount++;
-
     $prefix = $route->getPrefix();
 
     // test admin pages
     if($prefix != null && (strpos($prefix, "admin") === 0 || strpos($prefix, "admin") === 1)) {
+      $this->requestCount++;
       $response = $this->actingAs($this->admin)->action('GET', $action, $params);
       $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
     }
     // test station pages
     else if($prefix != null && (strpos($prefix, "station") === 0 || strpos($prefix, "station") === 1)) {
-      $response = $this->actingAs($this->station)->action('GET', $action, $params);
-      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+      foreach ($this->stations as $station) {
+        $this->requestCount++;
+        $response = $this->actingAs($station)->action('GET', $action, $params);
+        $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+      }
     }
     // test judge pages
     else if($prefix != null && (strpos($prefix, "judge") === 0 || strpos($prefix, "judge") === 1)) {
-      $response = $this->actingAs($this->judge)->action('GET', $action, $params);
-      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+      foreach ($this->judges as $judge) {
+        $this->requestCount++;
+        $response = $this->actingAs($judge)->action('GET', $action, $params);
+        $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+      }
     } 
     // public page
     else {
+      $this->requestCount++;
       $response = $this->action('GET', $action, $params);
       $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
     }

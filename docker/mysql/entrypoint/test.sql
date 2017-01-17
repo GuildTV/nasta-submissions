@@ -172,7 +172,8 @@ CREATE TABLE `station_folders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `station_folders` (`id`, `user_id`, `account_id`, `request_url`, `folder_name`, `created_at`, `updated_at`) VALUES
-(1, 3, 'test', 'https://www.dropbox.com/request/1FSUznsCcBN83Tzj7F56', '/File requests/Test Station Submissions', '2016-12-03 16:58:31', '2016-12-03 16:58:31');
+(1, 3, 'test', 'https://www.dropbox.com/request/1FSUznsCcBN83Tzj7F56', '/File requests/Test Station Submissions', '2016-12-03 16:58:31', '2016-12-03 16:58:31'),
+(2, 4, 'test', '', '', NULL, NULL);
 
 CREATE TABLE `uploaded_files` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -220,8 +221,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `remember_token`, `type`, `created_at`, `updated_at`) VALUES
 (1, 'Test Admin', 'test_admin', 'test@email.com', '$2y$10$EVf9rQNjszZywYF/7/opyOXuzo6heEfn8G4TD6Py6hUTPfMhKGDmO', '5WzQAVQSUiwxaDHippU7tgxHwtobQ2b7WuitkkxjQvJzpBKWU5EXE4SIndNS', 'admin', '2016-11-26 16:57:31', '2016-12-03 16:45:37'),
 (2, 'Test Judge', 'test_judge', 'judge@email.com', '$2y$10$J82DBmvgsH59vsKxrMDCHe1BVu9ufIV/w44ldggAM6HCDpMvqxhvK', NULL, 'judge', '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
-(3, 'Test Station', 'test_station', 'station@email.com', '$2y$10$qBA1pYoTPOLNMgi14B8P2u4GIf9kNu.XDSzOfQPn9XNr5Mo5Lvocm', 'QvY1MEsiYXWZbcwJvxroEOq8hd7nAZfv6PrsBYf2jThn4vtqCXcesnwP3Z75', 'station', '2016-11-26 16:57:31', '2016-12-03 15:51:24');
-
+(3, 'Test Station', 'test_station', 'station@email.com', '$2y$10$qBA1pYoTPOLNMgi14B8P2u4GIf9kNu.XDSzOfQPn9XNr5Mo5Lvocm', 'QvY1MEsiYXWZbcwJvxroEOq8hd7nAZfv6PrsBYf2jThn4vtqCXcesnwP3Z75', 'station', '2016-11-26 16:57:31', '2016-12-03 15:51:24'),
+(4, 'Station no submissions', 'no-subs', 'no"subs.com', '', NULL, 'station', '2017-01-17 09:09:57', '2017-01-17 09:09:57');
 
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);

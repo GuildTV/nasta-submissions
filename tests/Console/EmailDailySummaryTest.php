@@ -8,6 +8,7 @@ use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
 use App\Database\Category\Category;
 use App\Database\Entry\Entry;
+use App\Database\User;
 
 use App\Console\Commands\EmailDailySummary;
 
@@ -37,7 +38,8 @@ class EmailDailySummaryTest extends TestCase
   public function testNoUsers(){
     $this->createDeadline();
 
-    $this->station->delete();
+
+    User::where('type', 'station')->delete();
 
     $scraper = new EmailDailySummary();
     $res = $scraper->handle();
@@ -48,15 +50,15 @@ class EmailDailySummaryTest extends TestCase
     $this->createDeadline();
     $cat = $this->createDeadline();
 
-    // $entry = new Entry([
-    //   'station_id' => $this->station->id,
-    //   'name' => str_random(10), 
-    //   'description' => str_random(50),
-    // ]);
-    // $entry->category_id = $cat->id;
-    // $entry->rules = true;
-    // $entry->submitted = true;
-    // $entry->save();
+    $entry = new Entry([
+      'station_id' => $this->station->id,
+      'name' => str_random(10), 
+      'description' => str_random(50),
+    ]);
+    $entry->category_id = $cat->id;
+    $entry->rules = true;
+    $entry->submitted = true;
+    $entry->save();
 
     $scraper = new EmailDailySummary();
     $res = $scraper->handle();
