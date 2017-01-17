@@ -39,7 +39,9 @@
 								@if ($readonly)
 									<p class="entry-closed">Entry is closed</p>
 								@else
-									<a target="_new" class="btn btn-primary" href="{{ route("station.entry.upload") }}">Upload Files</a>
+									<button class="btn btn-primary" data-url="{{ route("station.entry.upload") }}" data-filename="{{ $filename }}"
+										onclick="StationEntry.ShowUpload(this); return false">Upload Files</button>
+									
 
 									<br />
 									<br />
@@ -51,13 +53,7 @@
 									@endforeach
 								</ul>
 								<hr>
-								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to link files to this entry</p>
-
-								<div class="filelog">
-									@foreach ($entry->uploadedFileLog as $log)
-									<p class="{{ $log->level }}">{{ $log->level }}: {{ $log->message }}</p>
-									@endforeach								
-								</div>
+								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to view all of your uploaded files</p>
 							</div>
 						</div>
 

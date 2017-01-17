@@ -91,6 +91,33 @@ window.StationEntry = {
         });
       }
     });
+  },
+
+  ShowUpload: function(btn){
+    const url = btn.getAttribute("data-url");
+    const filename = btn.getAttribute("data-filename");
+    if (!url)
+      return alert("Missing upload url!")
+
+    bootbox.confirm({
+      title: "Upload Files",
+      message: "A new window will now open, please follow the instructions to upload your submission. When the upload is complete, please close the window to return to this page. <br/>"
+              +"Filenames should be of the format: " + filename,
+      buttons: {
+        confirm: {
+          label: 'To the uploader!',
+          className: 'btn-success'
+        },
+          cancel: {
+            label: 'Cancel',
+        }
+      },
+      callback: r => {
+        if (!r) return;
+
+        window.open(url);        
+      }
+    });
   }
 
 };
