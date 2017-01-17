@@ -52,11 +52,7 @@ window.StationEntry = {
       method: 'POST',
       data: data,
       success: function(res) {
-        // submitted entry, so reload to get everything be readonly
-        if (data.submit == 1)
           return window.location.reload();
-
-        alert("Saved!");
       },
       error: function(res) {
         console.log(res);

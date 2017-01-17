@@ -19,6 +19,7 @@ use App;
 use Auth;
 use Redirect;
 use Exception;
+use Session;
 
 class FileController extends Controller
 { 
@@ -57,6 +58,8 @@ class FileController extends Controller
     // delete from our db
     $file->delete();
 
+    Session::flash('files.delete', 'File \'' . $file->name . '\' has been deleted');
+
     return $file;
   }
 
@@ -82,6 +85,8 @@ class FileController extends Controller
       'level' => 'info',
       'message' => 'Manually linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',
     ]);
+
+    Session::flash('files.link', 'File \'' . $file->name . '\' was added to category \'' . $category->name . '\'');
 
     return $file;
   }

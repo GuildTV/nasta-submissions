@@ -31,6 +31,20 @@ window.OpenCategories = [
         <div class="panel-heading">Uploaded Files</div>
 
         <div class="panel-body">
+        @if (\Session::has('files.link'))
+          <div id="alert_holder">
+            <div class="alert alert-success">
+              <p>{{ \Session::get('files.link') }}</p>
+            </div>
+          </div>
+        @elseif (\Session::has('files.delete'))
+          <div id="alert_holder">
+            <div class="alert alert-danger">
+              <p>{{ \Session::get('files.delete') }}</p>
+            </div>
+          </div>
+        @endif
+
           <table class="table" id="files-table">
             <thead>
               <th>Category</th>

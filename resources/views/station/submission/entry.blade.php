@@ -21,6 +21,18 @@
 								<p><a href="{{ route('station.categories') }}">Back</a> to categories list</p>
 							</div>
 						</div>
+						@elseif (\Session::has('entry.edit'))
+						<div id="alert_holder">
+							<div class="alert alert-warning">
+								<p>{{ \Session::get('entry.edit') }}</p>
+							</div>
+						</div>
+						@elseif (\Session::has('entry.save'))
+						<div id="alert_holder">
+							<div class="alert alert-success">
+								<p>{{ \Session::get('entry.save') }}</p>
+							</div>
+						</div>
 						@endif
 
 						<div class="form-group">
