@@ -21,6 +21,7 @@ class DailySubmitted extends Mailable
 
     private $user;
     private $date;
+    private $entries;
 
     public $categories;
 

@@ -21,13 +21,14 @@ class ExceptionEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $exception;
+    private $body;
+    private $subjectStr;
 
-    public static function notifyAdmin(Exception $exception, $subject=null)
+    public static function notifyAdmin(Exception $exception, $subjectStr=null)
     {
         $address = env("MAIL_ADMIN", "");
         if (strlen($address) > 0)
-            Mail::to($address)->queue(new ExceptionEmail($exception, $subject));
+            Mail::to($address)->queue(new ExceptionEmail($exception, $subjectStr));
     }
 
     /**
@@ -35,10 +36,10 @@ class ExceptionEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(Exception $exception, $subject=null)
+    public function __construct(Exception $exception, $subjectStr=null)
     {
-        $this->exception = $exception;
-        $this->subject = $subject == null ? "NaSTA submissions exception!" : $subject;
+        $this->body = $this->whoops()->handleException($exception);
+        $this->subjectStr = $subjectStr == null ? "NaSTA submissions exception!" : $subjectStr;
     }
 
     /**
@@ -48,12 +49,10 @@ class ExceptionEmail extends Mailable
      */
     public function build()
     {
-        $body = $this->whoops()->handleException($this->exception);
-
-        return $this->subject($this->subject)
+        return $this->subject($this->subjectStr)
             ->view('emails.admin.exception')
             ->with([
-                'body' => $body,
+                'body' => $this->body,
             ]);
     }
 
