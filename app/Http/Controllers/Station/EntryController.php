@@ -36,7 +36,7 @@ class EntryController extends Controller
     $entry->submitted = $request->has('submit') && $request->input('submit');
     $entry->save();
 
-    Mail::to($request->user())->send(new EntrySubmitted($entry));
+    Mail::to($request->user())->queue(new EntrySubmitted($entry));
 
     return $entry;
   }

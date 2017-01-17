@@ -58,7 +58,7 @@ class EmailDailyDeadlines extends Command
 
       foreach ($users as $user) {
         $helper = new DailyDeadlines($user, Carbon::now());
-        Mail::to($user)->send($helper);
+        Mail::to($user)->queue($helper);
       }
 
       Log::info('Sent emails to ' . count($users) . ' stations');

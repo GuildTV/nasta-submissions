@@ -27,7 +27,7 @@ class ExceptionEmail extends Mailable
     {
         $address = env("MAIL_ADMIN", "");
         if (strlen($address) > 0)
-            Mail::to($address)->send(new ExceptionEmail($exception, $subject));
+            Mail::to($address)->queue(new ExceptionEmail($exception, $subject));
     }
 
     /**

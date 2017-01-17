@@ -65,7 +65,7 @@ class EmailDailySummary extends Command
         if (count($helper->categories) == 0)
             continue;
 
-        Mail::to($user)->send($helper);
+        Mail::to($user)->queue($helper);
         $sent++;
       }
 
