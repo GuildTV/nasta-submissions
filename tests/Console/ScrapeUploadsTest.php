@@ -78,7 +78,7 @@ class ScrapeUploadsTest extends TestCase
 
     $files = [
       [ 
-        "name" => $folder->folder_name . "/sdf_".self::$testCategoryCompact."_sfd.mp4", 
+        "name" => $folder->folder_name . "/".self::$testCategoryCompact."_station_entryname.mp4", 
         "modified" => Carbon::now(), 
         "size" => 2355, 
         "rev" => "sfaffberr",
@@ -87,7 +87,7 @@ class ScrapeUploadsTest extends TestCase
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . "sdf_".self::$testCategoryCompact."_sfd_".$files[0]['rev'].".mp4" ]
+      [ "move", $files[0]['name'], $targetDir . self::$testCategoryCompact."_station_entryname_".$files[0]['rev'].".mp4" ]
     ];
 
     $scraper = new ScrapeUploads();
@@ -101,6 +101,42 @@ class ScrapeUploadsTest extends TestCase
     $file = UploadedFile::where("path", $expectedOps[1][2])->first();
     $this->assertNotNull($file);
     $this->assertEquals(self::$testCategoryId, $file->category_id);
+    // $this->assertEquals("blah", $file->name);
+    $this->assertEquals($folder->user_id, $file->station_id);
+    $this->assertEquals($files[0]['modified'], $file->uploaded_at);
+    $this->assertEquals($files[0]['size'], $file->size);
+    $this->assertEquals($files[0]['hash'], $file->hash);
+  }
+
+  public function testScrapeImportMatchNamePrefix(){
+    $folder = StationFolder::find(1);
+    $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
+
+    $files = [
+      [ 
+        "name" => $folder->folder_name . "/Soem person - blah_entryname.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
+    ];
+    $expectedOps = [
+      [ "list", $folder->folder_name ],
+      [ "move", $files[0]['name'], $targetDir . "blah_entryname_".$files[0]['rev'].".mp4" ]
+    ];
+
+    $scraper = new ScrapeUploads();
+    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
+
+    // check scraper worked as expected
+    $res = $scraper->scrapeFolder($helper, $folder);
+    $this->assertEquals(null, $res);
+    $this->assertEquals($expectedOps, $helper->getOperations());
+
+    $file = UploadedFile::where("path", $expectedOps[1][2])->first();
+    $this->assertNotNull($file);
+    $this->assertNull($file->category_id);
     // $this->assertEquals("blah", $file->name);
     $this->assertEquals($folder->user_id, $file->station_id);
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);

@@ -84,8 +84,9 @@ class ScrapeUploads extends Command
         $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
 
         foreach ($files as $file){
-            $parts = pathinfo($file['name']);
-            $category = $this->parseCategoryName($file['name']);
+            $rawName = $this->stripSubmitterName($file['name']);
+            $parts = pathinfo($rawName);
+            $category = $this->parseCategoryName($rawName);
             $categoryId = $category != null ? $category->id : null;
 
             $filename = $targetDir . $parts['filename'] . "_" . $file['rev'] . "." . $parts['extension'];
@@ -101,7 +102,7 @@ class ScrapeUploads extends Command
                 'station_id' => $folder->station->id,
                 'account_id' => $folder->account->id,
                 'path' => $filename,
-                'name' => $file['name'],
+                'name' => $rawName,
                 'size' => $file['size'],
                 'hash' => $file['hash'],
                 'category_id' => $categoryId,
@@ -142,16 +143,23 @@ class ScrapeUploads extends Command
     }
 
     private function parseCategoryName($name){
-        if (!preg_match("/(.*)_(.*)_(.*)/U", $name, $matches))
+        if (!preg_match("/^(.*)_(.*)/U", $name, $matches))
             return null;
 
-        $cats = Category::where('compact_name', $matches[2])->get();
+        $cats = Category::where('compact_name', $matches[1])->get();
         foreach ($cats as $cat){
             if ($cat->canEditSubmissions())
                 return $cat;
         }
 
         return null;
+    }
+
+    private function stripSubmitterName($name){
+        if (!preg_match("/^(.*) - (.*?)$/U", $name, $matches))
+            return $name;
+
+        return $matches[2];
     }
 
     private function countReasonsLate($user, $cat){
