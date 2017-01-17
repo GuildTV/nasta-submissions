@@ -14,7 +14,7 @@
 							<th>Name</th>
 							<th>Description</th>
 							<th>Deadline</th>
-							<th style="width: 110px;">Entry Status</th>
+							<th style="width: 120px;">Entry Status</th>
 							<th>Submission</th>
 						</thead>
 						<tbody>
