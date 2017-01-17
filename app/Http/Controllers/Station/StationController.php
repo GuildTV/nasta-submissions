@@ -28,9 +28,9 @@ class StationController extends Controller
 
 	public function categories()
 	{
-		$categories = Category::with('myEntry')->get();
+		$groupedCategories = Category::getAllGrouped(null, true);
 
-		return view('station.categories', compact('categories'));
+		return view('station.categories', compact('groupedCategories'));
 	}
 
 	public function submission(Category $category)

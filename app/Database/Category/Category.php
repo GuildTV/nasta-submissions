@@ -103,4 +103,29 @@ class Category extends Model
         return Carbon::now()->gt($this->closing_at->subMinutes(Config::get('nasta.close_to_deadline_threshold')))
             && Carbon::now()->lt($this->closing_at);
     }
+
+    public static function getAllGrouped($date, $loadMyEntry=false){
+        $query = self::query();
+
+        if ($loadMyEntry)
+            $query = $query->with('myEntry')->with('myEntry.uploadedFiles');
+
+        if ($date != null)
+            $query = $query->whereDate('closing_at', '=', $date->startOfDay()->toDateString());
+
+        $res = $query->orderBy("closing_at")->orderBy("name")->get();
+
+        $categories = [];
+
+        foreach ($res as $cat) {
+            $roundedDate = $cat->closing_at->startOfDay()->toIso8601String();
+
+            if (!isset($categories[$roundedDate]))
+                $categories[$roundedDate] = [];
+
+            $categories[$roundedDate][] = $cat;
+        }
+
+        return $categories;
+    }
 }
