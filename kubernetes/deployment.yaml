@@ -106,6 +106,7 @@ items:
         containers:
         - image: registry.julus.uk/nasta-sub/queue:latest
           name: sub-queue
+          command: ["/start.sh"]
           args: ["--timeout=10", "--tries=3", "--delay=10"]
           env:
             - name: VM_ENV
@@ -147,6 +148,7 @@ items:
         containers:
         - image: registry.julus.uk/nasta-sub/queue:latest
           name: sub-queue-downloads
+          command: ["/start.sh"]
           args: ["--queue=downloads", "--timeout=300", "--tries=3", "--delay=120", "--memory=256"]
           env:
             - name: VM_ENV

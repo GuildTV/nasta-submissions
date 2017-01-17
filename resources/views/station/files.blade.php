@@ -4,7 +4,11 @@
 
 @section('js')
 $('#files-table').DataTable({
-
+  paging: false,
+  searching: false,
+  language: {
+    emptyTable: "You have not uploaded any files!"
+  }
 });
 
 window.OpenCategories = [
