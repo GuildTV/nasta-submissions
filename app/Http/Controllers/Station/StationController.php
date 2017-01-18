@@ -46,7 +46,7 @@ class StationController extends Controller
 		// create or find an entry
 		$entry = $category->myEntryOrNew();
 		$readonly = $closed || $entry->submitted == 1;
-		$filename = $category->compact_name . "_" . Auth::user()->name . "_ExampleFile.mp4";
+		$filename = $category->compact_name . "_" . Auth::user()->compact_name . "_ExampleFile.mp4";
 
 		return view('station.submission.index', compact('category', 'entry', 'readonly', 'closed', 'filename'));
 	}
