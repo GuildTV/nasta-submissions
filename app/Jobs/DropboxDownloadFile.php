@@ -83,7 +83,8 @@ class DropboxDownloadFile implements ShouldQueue
 
     private function targetFilename()
     {
-        return $this->targetDir() . $this->file->name;
+        $parts = pathinfo($this->file->name);
+        return $this->targetDir() . $parts['filename'] . "_" . $this->file->hash . "." . $parts['extension'];
     }
 
     private function checkFileMatchesHashAndSize($path)

@@ -89,7 +89,7 @@ class ScrapeUploads extends Command
             $category = $this->parseCategoryName($rawName);
             $categoryId = $category != null ? $category->id : null;
 
-            $filename = $targetDir . $parts['filename'] . "_" . $file['rev'] . "." . $parts['extension'];
+            $filename = $targetDir . $parts['filename'] . "_" . $file['hash'] . "." . $parts['extension'];
             $file = $client->move($folder->folder_name . "/" . $file['name'], $filename);
             if ($file == null) {
                 Log::warning("Failed to move file between dropbox folders");

@@ -15,7 +15,7 @@ use Carbon\Carbon;
 use Exception;
 use Config;
 
-class ScrapeUploadsTest extends TestCase
+class DropboxDownloadFileTest extends TestCase
 {
   use DatabaseTransactions;
 
@@ -129,7 +129,7 @@ class ScrapeUploadsTest extends TestCase
       'category_id' => null,
       'account_id' => self::$testAccountId,
       'path' => $filename,
-      'name' => 'Test file for delete',
+      'name' => 'Test file for delete.tmp',
       'hash' => self::$testSourceHash,
       'size' => filesize($srcFile),
       'uploaded_at' => Carbon::now(),
