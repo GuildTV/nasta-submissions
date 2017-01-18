@@ -17,12 +17,18 @@ use Route;
  */
 class RoutesTest extends AutoTestBase
 {
-  // use DatabaseTransactions;
+  use DatabaseTransactions;
 
   // Route names to skip
   const SKIP_NAMES = [
     'auth.reset',
     'debugbar.'
+  ];
+
+  // route, params, user
+  const EXPECTED_EXCEPTIONS = [
+    [ "station.entry.upload", [], 4],
+    [ "station.entry", [ 'no-constraints' ], null],
   ];
 
   const ALLOWED_RESPONSE_STATUS = [
@@ -117,32 +123,55 @@ class RoutesTest extends AutoTestBase
 
     // test admin pages
     if($prefix != null && (strpos($prefix, "admin") === 0 || strpos($prefix, "admin") === 1)) {
-      $this->requestCount++;
-      $response = $this->actingAs($this->admin)->action('GET', $action, $params);
-      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+      $this->sendRequest($route, $action, $params, $this->admin);
     }
     // test station pages
     else if($prefix != null && (strpos($prefix, "station") === 0 || strpos($prefix, "station") === 1)) {
       foreach ($this->stations as $station) {
-        $this->requestCount++;
-        $response = $this->actingAs($station)->action('GET', $action, $params);
-        $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+        $this->sendRequest($route, $action, $params, $station);
       }
     }
     // test judge pages
     else if($prefix != null && (strpos($prefix, "judge") === 0 || strpos($prefix, "judge") === 1)) {
       foreach ($this->judges as $judge) {
-        $this->requestCount++;
-        $response = $this->actingAs($judge)->action('GET', $action, $params);
-        $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+        $this->sendRequest($route, $action, $params, $judge);
       }
     } 
     // public page
     else {
-      $this->requestCount++;
-      $response = $this->action('GET', $action, $params);
-      $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, $response->getContent());
+      $this->sendRequest($route, $action, $params, null);
     }
+  }
+
+  private function sendRequest($route, $action, $params, $user){
+    $req = $this;
+    if ($user != null)
+      $req = $req->actingAs($user);
+
+    $paramIds = [];
+    foreach ($params as $p){
+      $paramIds[] = $p['id'];
+    }
+
+    $this->requestCount++;
+    $response = $req->action('GET', $action, $params);
+    if ($response->status() == 500) {
+      foreach(self::EXPECTED_EXCEPTIONS as $ex){
+        if ($ex[0] != $route->getName())
+          continue;
+
+        if ($paramIds != $ex[1])
+          continue;
+
+        if ($ex[2] != null && $user != null && $user->id != $ex[2])
+          continue;
+
+        // valid match
+        return;
+      }
+    }
+
+    $this->assertContains($response->status(), self::ALLOWED_RESPONSE_STATUS, sprintf("Route: %s, Params: [ %s ], User: %s, Code: %d, Response: %s", $route->getName(), implode(", ", $paramIds), $user ? $user->id : null, $response->status(), $response->getContent()));
   }
 
   private function getRouteParams(IllRoute $route)

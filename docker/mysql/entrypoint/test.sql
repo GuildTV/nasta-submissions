@@ -16,7 +16,9 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `categories` (`id`, `name`, `compact_name`, `description`, `closing_at`, `opening_at`, `created_at`, `updated_at`) VALUES
+('already-closed', 'Already closed', 'already-closed', '', '2016-12-21 00:00:00', NULL, '2017-01-18 21:21:31', '2017-01-18 21:21:31'),
 ('animation', 'Animation', 'Male', 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by your station.', '2017-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
+('no-constraints', 'no file constraints!', 'no-constraints', '', '2028-04-17 00:00:00', NULL, '2017-01-18 21:15:43', '2017-01-18 21:15:43'),
 ('something', 'Something', 'Something', 'fbsgsdd', '2016-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31');
 
 CREATE TABLE `category_file_constraint` (
@@ -30,7 +32,8 @@ CREATE TABLE `category_file_constraint` (
 INSERT INTO `category_file_constraint` (`id`, `category_id`, `file_constraint_id`, `created_at`, `updated_at`) VALUES
 (1, 'animation', 1, NULL, NULL),
 (2, 'animation', 2, NULL, NULL),
-(3, 'something', 3, '2017-01-06 18:32:55', '2017-01-06 18:32:55');
+(3, 'something', 3, '2017-01-06 18:32:55', '2017-01-06 18:32:55'),
+(4, 'already-closed', 3, '2017-01-18 21:25:59', '2017-01-18 21:25:59');
 
 CREATE TABLE `dropbox_accounts` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -131,7 +134,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (46, '2016_12_03_203551_create_uploaded_file_log_table', 13),
 (47, '2017_01_08_170342_alter_uploaded_files_add_size', 14),
 (48, '2017_01_11_191252_alter_uploaded_files_add_hash', 15),
-(49, '2017_01_15_140523_alter_uploaded_files_add_local_path', 16);
+(49, '2017_01_15_140523_alter_uploaded_files_add_local_path', 16),
+(50, '2017_01_18_002345_alter_users_add_compact_name', 17);
 
 CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -151,16 +155,6 @@ CREATE TABLE `revisions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `revisions` (`id`, `revisionable_type`, `revisionable_id`, `user_id`, `key`, `old_value`, `new_value`, `created_at`, `updated_at`) VALUES
-(1, 'App\\Database\\Entry\\Entry', 26, 3, 'submitted', '0', '1', '2016-12-03 14:48:47', '2016-12-03 14:48:47'),
-(2, 'App\\Database\\Entry\\Entry', 26, 3, 'submitted', '1', '0', '2016-12-03 14:49:06', '2016-12-03 14:49:06'),
-(3, 'App\\Database\\Entry\\Entry', 26, 3, 'submitted', '0', '1', '2016-12-03 14:50:15', '2016-12-03 14:50:15'),
-(4, 'App\\Database\\Entry\\Entry', 26, 3, 'submitted', '1', '0', '2016-12-03 16:45:52', '2016-12-03 16:45:52'),
-(5, 'App\\Database\\Entry\\Entry', 29, 3, 'rules', '0', '1', '2016-12-14 22:14:58', '2016-12-14 22:14:58'),
-(6, 'App\\Database\\Entry\\Entry', 29, 3, 'submitted', '0', '1', '2016-12-14 22:14:58', '2016-12-14 22:14:58'),
-(7, 'App\\Database\\Entry\\Entry', 29, 3, 'submitted', '1', '0', '2016-12-14 22:15:41', '2016-12-14 22:15:41'),
-(8, 'App\\Database\\Entry\\Entry', 29, 3, 'submitted', '0', '1', '2016-12-14 22:15:58', '2016-12-14 22:15:58');
-
 CREATE TABLE `station_folders` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -172,8 +166,7 @@ CREATE TABLE `station_folders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `station_folders` (`id`, `user_id`, `account_id`, `request_url`, `folder_name`, `created_at`, `updated_at`) VALUES
-(1, 3, 'test', 'https://www.dropbox.com/request/1FSUznsCcBN83Tzj7F56', '/File requests/Test Station Submissions', '2016-12-03 16:58:31', '2016-12-03 16:58:31'),
-(2, 4, 'test', '', '', NULL, NULL);
+(1, 3, 'test', 'https://www.dropbox.com/request/1FSUznsCcBN83Tzj7F56', '/File requests/Test Station Submissions', '2016-12-03 16:58:31', '2016-12-03 16:58:31');
 
 CREATE TABLE `uploaded_files` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -194,7 +187,11 @@ INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `
 (20, 3, 'animation', 'test', '/Imported/Test Station/Julian Waller - LSTV_Male_DennisTheMenace22.mp4', 'Julian Waller - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, '2016-12-03 19:49:44', '2016-12-03 19:49:44', '2016-12-03 19:49:44'),
 (21, 3, NULL, 'test', '/Imported/Test Station/test  - fgf - LSTV_Male_DennisTheMenace22.mp4', 'test  - fgf - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
 (22, 3, 'something', 'test', 'Nope', 'Fake file', '', '', NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
-(131, 3, 'something', 'test', 'Nope', 'Fake file', '', '', 'Nope', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46');
+(131, 3, 'something', 'test', 'Nope', 'Fake file', '', '', 'Nope', '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+(190, 3, 'already-closed', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(191, 3, NULL, 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(192, 3, 'something', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(193, 3, 'animation', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53');
 
 CREATE TABLE `uploaded_file_logs` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -209,6 +206,7 @@ CREATE TABLE `uploaded_file_logs` (
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `compact_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -218,11 +216,12 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `remember_token`, `type`, `created_at`, `updated_at`) VALUES
-(1, 'Test Admin', 'test_admin', 'test@email.com', '$2y$10$EVf9rQNjszZywYF/7/opyOXuzo6heEfn8G4TD6Py6hUTPfMhKGDmO', '5WzQAVQSUiwxaDHippU7tgxHwtobQ2b7WuitkkxjQvJzpBKWU5EXE4SIndNS', 'admin', '2016-11-26 16:57:31', '2016-12-03 16:45:37'),
-(2, 'Test Judge', 'test_judge', 'judge@email.com', '$2y$10$J82DBmvgsH59vsKxrMDCHe1BVu9ufIV/w44ldggAM6HCDpMvqxhvK', NULL, 'judge', '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
-(3, 'Test Station', 'test_station', 'station@email.com', '$2y$10$qBA1pYoTPOLNMgi14B8P2u4GIf9kNu.XDSzOfQPn9XNr5Mo5Lvocm', 'QvY1MEsiYXWZbcwJvxroEOq8hd7nAZfv6PrsBYf2jThn4vtqCXcesnwP3Z75', 'station', '2016-11-26 16:57:31', '2016-12-03 15:51:24'),
-(4, 'Station no submissions', 'no-subs', 'no@subs.com', '', NULL, 'station', '2017-01-17 09:09:57', '2017-01-17 09:09:57');
+INSERT INTO `users` (`id`, `name`, `compact_name`, `username`, `email`, `password`, `remember_token`, `type`, `created_at`, `updated_at`) VALUES
+(1, 'Test Admin', 'TestAdmin', 'test_admin', 'test@email.com', '$2y$10$EVf9rQNjszZywYF/7/opyOXuzo6heEfn8G4TD6Py6hUTPfMhKGDmO', '5WzQAVQSUiwxaDHippU7tgxHwtobQ2b7WuitkkxjQvJzpBKWU5EXE4SIndNS', 'admin', '2016-11-26 16:57:31', '2016-12-03 16:45:37'),
+(2, 'Test Judge', 'TestJudge', 'test_judge', 'judge@email.com', '$2y$10$J82DBmvgsH59vsKxrMDCHe1BVu9ufIV/w44ldggAM6HCDpMvqxhvK', NULL, 'judge', '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
+(3, 'Test Station', 'TestStation', 'test_station', 'station@email.com', '$2y$10$qBA1pYoTPOLNMgi14B8P2u4GIf9kNu.XDSzOfQPn9XNr5Mo5Lvocm', 'QvY1MEsiYXWZbcwJvxroEOq8hd7nAZfv6PrsBYf2jThn4vtqCXcesnwP3Z75', 'station', '2016-11-26 16:57:31', '2016-12-03 15:51:24'),
+(4, 'Station no submissions', 'Stationnosubmissions', 'no-subs', 'no@subs.com', '', NULL, 'station', '2017-01-17 09:09:57', '2017-01-17 09:09:57');
+
 
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
@@ -285,13 +284,14 @@ ALTER TABLE `uploaded_file_logs`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_username_unique` (`username`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_compact_name_unique` (`compact_name`);
 
 
 ALTER TABLE `category_file_constraint`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `entries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 ALTER TABLE `entries_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `file_constraints`
@@ -299,17 +299,17 @@ ALTER TABLE `file_constraints`
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 ALTER TABLE `revisions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 ALTER TABLE `station_folders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `uploaded_files`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 ALTER TABLE `uploaded_file_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `category_file_constraint`
   ADD CONSTRAINT `category_file_constraint_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
