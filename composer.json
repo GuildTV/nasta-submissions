@@ -14,14 +14,16 @@
         "doctrine/dbal": "^2.5",
         "venturecraft/revisionable": "^1.28",
         "kunalvarma05/dropbox-php-sdk": "^0.1.4",
-        "fideloper/proxy": "^3.2"
+        "fideloper/proxy": "^3.2",
+        "fedeisas/laravel-mail-css-inliner": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "symfony/dom-crawler": "3.1.*",
+        "themsaid/laravel-mail-preview": "^1.2"
     },
     "autoload": {
         "classmap": [

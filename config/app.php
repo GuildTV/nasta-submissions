@@ -170,6 +170,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        Themsaid\MailPreview\MailPreviewServiceProvider::class,
+        Fedeisas\LaravelMailCssInliner\LaravelMailCssInlinerServiceProvider::class,
 
         /*
          * Application Service Providers...
