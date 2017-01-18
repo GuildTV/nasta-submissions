@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Http\User;
+namespace Tests\Http\Station;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use TestCase;
