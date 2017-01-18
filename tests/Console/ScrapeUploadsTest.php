@@ -51,7 +51,7 @@ class ScrapeUploadsTest extends TestCase
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . "blah_".$files[0]['rev'].".mp4" ]
+      [ "move", $files[0]['name'], $targetDir . "blah_".$files[0]['hash'].".mp4" ]
     ];
 
     $scraper = new ScrapeUploads();
@@ -87,7 +87,7 @@ class ScrapeUploadsTest extends TestCase
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . self::$testCategoryCompact."_station_entryname_".$files[0]['rev'].".mp4" ]
+      [ "move", $files[0]['name'], $targetDir . self::$testCategoryCompact."_station_entryname_".$files[0]['hash'].".mp4" ]
     ];
 
     $scraper = new ScrapeUploads();
@@ -123,7 +123,7 @@ class ScrapeUploadsTest extends TestCase
     ];
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . "blah_entryname_".$files[0]['rev'].".mp4" ]
+      [ "move", $files[0]['name'], $targetDir . "blah_entryname_".$files[0]['hash'].".mp4" ]
     ];
 
     $scraper = new ScrapeUploads();
