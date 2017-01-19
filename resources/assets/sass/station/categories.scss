@@ -1,0 +1,50 @@
+table > thead:first-child > tr:first-child > th {
+    &.categories_description {
+        width: 50%;
+    }
+    &.categories_status {
+        width: 30%;
+    }
+}
+
+@media (min-width: 424px) {
+    &.categories_description {
+        width: 50%;
+    }
+    &.categories_status {
+        width: 25%;
+    }
+}
+
+@media (min-width: 600px) {
+    table > thead:first-child > tr:first-child > th {
+        &.categories_description {
+            width: 60%;
+        }
+        &.categories_status {
+            width: 25%;
+        }
+    }
+}
+
+@media (min-width: 800px) {
+    table > thead:first-child > tr:first-child > th {
+        &.categories_description {
+            width: 60%;
+        }
+        &.categories_status {
+            width: 15%;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    table > thead:first-child > tr:first-child > th {
+        &.categories_description {
+            width: 65%;
+        }
+        &.categories_status {
+            width: 10%;
+        }
+    }
+}

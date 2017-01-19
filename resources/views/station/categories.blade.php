@@ -14,15 +14,15 @@
 					<table class="table">
 						<thead>
 							<th>Name</th>
-							<th>Description</th>
-							<th style="width: 120px;">Entry Status</th>
+							<th class="categories_description">Description</th>
+							<th class="categories_status">Entry Status</th>
 							<th>Submission</th>
 						</thead>
 						<tbody>
 @foreach ($group as $cat)
 <?php
 	$entry = $cat->myEntry;
-	$msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate($cat) ? "Late Submission" : "Submitted") : "Draft");
+	$msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate($cat) ? "Late" : "Submitted") : "Draft");
 	$class = $entry == null ? "" : ($entry->submitted ? ($entry->isLate($cat) ? "late-upload" : "submitted-upload") : "draft-upload");
 ?>
 							<tr>
@@ -31,7 +31,7 @@
 								<td class="{{ $class }}">{{ $msg }}</td>
 								<td>
 								  @if ($cat->canEditSubmissions() || $entry != null)
-								  	<a href="{{ route("station.entry", $cat) }}">View</a>
+								  	<a class="btn btn-primary" href="{{ route("station.entry", $cat) }}">View</a>
 								  @endif
 								</td>
 							</tr>

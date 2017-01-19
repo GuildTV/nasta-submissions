@@ -18,9 +18,10 @@
 @import "zindex";
 
 // Pages
-@import "dashboard";
-@import "submissions";
-@import "files";
+@import "station/dashboard";
+@import "station/categories";
+@import "station/submissions";
+@import "station/files";
 
 html, body{
   padding: 0;
