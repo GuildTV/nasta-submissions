@@ -6,6 +6,7 @@ use TestCase;
 
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
+use App\Database\Category\Category;
 
 use App\Console\Commands\ScrapeUploads;
 
@@ -147,8 +148,97 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['hash'], $file->hash);
   }
 
-  // TODO - test hitting EntryFileMadeLate
-  // TODO - test hitting EntryFileAlreadySubmitted
-  // TODO - test hitting EntryFileCloseDeadline
+  // hits EntryFileMadeLate
+  public function testScrapeImportEntryMadeLate(){
+    $cat = Category::create([
+      "id" => str_random(10),
+      "name" => str_random(10),
+      "compact_name" => str_random(10),
+      "closing_at" => Carbon::now()->subMinutes(2),
+    ]);
+
+    $folder = StationFolder::find(1);
+
+    $files = [
+      [ 
+        "name" => $folder->folder_name . "/Soem person - " . $cat->compact_name . "_entrymadelate.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
+    ];
+
+    $scraper = new ScrapeUploads();
+    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
+
+    // check scraper worked as expected
+    $res = $scraper->scrapeFolder($helper, $folder);
+    $this->assertEquals(null, $res);
+    $this->assertEmailSent();
+  }
+
+  // hits EntryFileAlreadySubmitted
+  public function testScrapeImportEntryAlreadySubmitted(){
+    $cat = Category::create([
+      "id" => str_random(10),
+      "name" => str_random(10),
+      "compact_name" => str_random(10),
+      "closing_at" => Carbon::now()->subMinutes(2),
+    ]);
+
+    $folder = StationFolder::find(1);
+    $entry = $cat->getEntryForStation($folder->user_id);
+    $entry->submitted = true;
+    $entry->save();
+
+    $files = [
+      [ 
+        "name" => $folder->folder_name . "/Soem person - " . $cat->compact_name . "_entrymadelate.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
+    ];
+
+    $scraper = new ScrapeUploads();
+    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
+
+    // check scraper worked as expected
+    $res = $scraper->scrapeFolder($helper, $folder);
+    $this->assertEquals(null, $res);
+    $this->assertEmailSent();
+  }
+
+  // hits EntryFileCloseDeadline
+  public function testScrapeImportEntryCloseDeadline(){
+    $cat = Category::create([
+      "id" => str_random(10),
+      "name" => str_random(10),
+      "compact_name" => str_random(10),
+      "closing_at" => Carbon::now()->addMinutes(2),
+    ]);
+
+    $folder = StationFolder::find(1);
+
+    $files = [
+      [ 
+        "name" => $folder->folder_name . "/Soem person - " . $cat->compact_name . "_entrymadelate.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
+    ];
+
+    $scraper = new ScrapeUploads();
+    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
+
+    // check scraper worked as expected
+    $res = $scraper->scrapeFolder($helper, $folder);
+    $this->assertEquals(null, $res);
+    $this->assertEmailSent();
+  }
 
 }
