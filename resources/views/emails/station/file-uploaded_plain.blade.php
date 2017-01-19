@@ -13,4 +13,4 @@ You can link this file to a entry at {{ route('station.files') }}
 @endif
 
 Regards,
-The Asset Acquisitions Team
+The Submissions Team

@@ -10,4 +10,4 @@ Remember that you can still edit this submission up until the deadline.
 You can view your full list of entries at {{ route('station.categories') }}
 
 Regards,
-The Asset Acquisitions Team
+The Submissions Team

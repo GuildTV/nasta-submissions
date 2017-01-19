@@ -5,4 +5,4 @@ We have received your file '{{ $file->name }}' but the automated system was unab
 You can link this file to a entry at {{ route('station.files') }} or wait for the submissions team to do it for you.
 
 Regards,
-The Asset Acquisitions Team
+The Submissions Team

@@ -127,8 +127,6 @@
     }
     .page-content a {
         color: #00A651;
-        "
-
     }
     footer.footer {
         position: relative;
@@ -165,8 +163,8 @@
       <div class="menu">
         <div class="menu__nav">
           <ul class="menu__nav-item-container">
-            <li class="menu__nav-item">Awards</a></li>
-            <li class="menu__nav-item">Submissions</a></li>
+            <li class="menu__nav-item"><a rel="noopener" target="_blank" href="https://awards.nasta.tv">Awards</a></li>
+            <li class="menu__nav-item"><a rel="noopener" target="_blank" href="https://submissions.nasta.tv">Submissions</a></li>
           </ul>
         </div>
       </div>

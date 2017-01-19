@@ -6,4 +6,4 @@ If we have matched this to the wrong entry, please let us know and we shall look
 You can view your full list of entries at {{ route('station.categories') }}
 
 Regards,
-The Asset Acquisitions Team
+The Submissions Team
