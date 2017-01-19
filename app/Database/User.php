@@ -5,6 +5,10 @@ namespace App\Database;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Mail\Auth\ResetPassword;
+
+use Mail;
+
 class User extends Authenticatable
 {
 	use Notifiable;
@@ -30,6 +34,10 @@ class User extends Authenticatable
 
 	public function station_folder(){
 		return $this->hasOne('App\Database\Upload\StationFolder');
+	}
+
+	public function sendPasswordResetNotification($token){
+		Mail::to($this)->queue(new ResetPassword($this, $token));
 	}
 
 }
