@@ -19,6 +19,7 @@ class ExceptionEmailTest extends TestCase
     } catch (Exception $e){
       // Note: Not rendering the email, but no error was thrown whilst trying to do so
       ExceptionEmail::notifyAdmin($e);
+      $this->assertEmailCount(1);
     }
   }
 

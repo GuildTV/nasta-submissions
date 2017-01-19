@@ -20,6 +20,7 @@ class DailyDeadlinesTest extends TestCase
   {
     $mail = new DailyDeadlines($this->station, null);
     Mail::to(self::TARGET_EMAIL)->send($mail);
+    $this->assertEmailCount(1);
   }
 
   public function testDays()
@@ -34,6 +35,8 @@ class DailyDeadlinesTest extends TestCase
 
       Mail::to(self::TARGET_EMAIL)->send($mail);
     }
+
+    $this->assertEmailCount(count($dates));
   }
 
   private function getDates(){

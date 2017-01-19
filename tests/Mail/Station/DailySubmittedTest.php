@@ -33,6 +33,8 @@ class DailySubmittedTest extends TestCase
 
       Mail::to(self::TARGET_EMAIL)->send($mail);
     }
+    
+    $this->assertEmailCount(count($dates));
   }
 
   private function getDates(){
