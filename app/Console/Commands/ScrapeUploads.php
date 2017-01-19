@@ -12,6 +12,8 @@ use App\Jobs\DropboxDownloadFile;
 
 use App\Mail\Station\EntryFileNoMatch;
 use App\Mail\Station\EntryFileCloseDeadline;
+use App\Mail\Station\EntryFileMadeLate;
+use App\Mail\Station\EntryFileAlreadySubmitted;
 
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
@@ -136,7 +138,15 @@ class ScrapeUploads extends Command
                 // File made entry late
                 Mail::to($folder->station)->queue(new EntryFileMadeLate($category, $res));
 
-            } // else, we dont need to notify them
+            } else {
+                $entry = $category->getEntryForStation($folder->station->id);
+                $entry->category = $category;
+                if ($entry != null && $entry->submitted) {
+                    // file was added after submitted
+                    Mail::to($folder->station)->queue(new EntryFileAlreadySubmitted($entry, $res));
+
+                } // else, we dont need to notify them
+            }
 
             Log::info("Imported: " . $file['name']);
         }
