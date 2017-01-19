@@ -56,16 +56,19 @@ window.OpenCategories = [
             <tbody>
 @foreach ($files as $file)
               <tr>
-                <td>{{ $file->category ? $file->category->name : " - " }}</td>
+                <td>
+                  @if ($file->category == null)
+                    <a class="btn btn-primary" data-id="{{ $file->id }}" data-name="{{ $file->name }}" onclick="window.StationFiles.Link(this)">Add to a category</button>
+                  @else
+                    {{ $file->category->name }}
+                  @endif
+                </td>
                 <td>{{ $file->name }}</td>
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td class="{{ $file->isLate() ? "late-upload" : "submitted-upload" }}">{{ $file->isLate() ? "Yes" : "No" }}</td>
                 <td>
-                  @if ($file->category == null)
-                  <a class="link" data-id="{{ $file->id }}" data-name="{{ $file->name }}" onclick="window.StationFiles.Link(this)">Link</button>
-                  @endif
                   @if ($file->category == null || $file->category->canEditSubmissions())
-                    <a class="delete" data-id="{{ $file->id }}" onclick="window.StationFiles.Delete(this)">Delete</button>
+                    <a class="btn btn-danger" data-id="{{ $file->id }}" onclick="window.StationFiles.Delete(this)">Delete</button>
                   @endif
                 </td>
               </tr>

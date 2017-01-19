@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - 503 Service Unavailable</title>
+    <title>{{ config('app.name', 'Laravel') }} - 404 Not Found</title>
     <meta name="description" content="Submit your entries to NaSTA Awards 2017.">
 
     <link rel="icon" href="/images/icons/favicon.ico">
@@ -88,7 +88,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        Be right back.                     
+                        Whoops, looks like this page doesn't exist.                      
                     </div>
                 </div>
                 <br/>

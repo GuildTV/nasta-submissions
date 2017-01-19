@@ -9,13 +9,13 @@
 
 				<div class="panel-body">
 					<div class="row card-container">
-						<div class="card">
+						<div class="card card-categories">
 							<a href="{{ route("station.categories") }}">Categories</a>
 						</div>
-						<div class="card">
+						<div class="card card-files">
 							<a href="{{ route("station.files") }}">Uploaded Files</a>
 						</div>
-						{{-- <div class="card">
+						{{-- <div class="card card-results">
 							<a href="{{ route("station.results") }}">Results</a>
 						</div> --}}
 					</div>

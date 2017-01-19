@@ -20,7 +20,7 @@
         font-size: 30px;
     }
 
-    &:first-child {
+    &.card-categories {
         background: $brand-primary;
 
         &:hover,
@@ -39,7 +39,7 @@
         }
     }
 
-    &:nth-child(2) {
+    &.card-files {
         background: $brand-success;
 
         &:hover,
@@ -58,7 +58,7 @@
         }
     }
 
-    &:last-child {
+    &.card-results {
         background: $brand-secondary;
 
         &:hover,
@@ -67,7 +67,10 @@
             background: darken( $brand-secondary, 2% );
         }
         
-        & a {
+        & a
+        a:hover,
+        a:focus,
+        a:active {
             background: url(/images/icons/ic_assessment_white_24px.svg) center center no-repeat;
             background-size: 50% 50%;
             background-position: 50% 25%;

@@ -1,0 +1,201 @@
+.smpte-container {
+    display: flex;
+    justify-content: center;
+}
+.smpte{
+  position: relative;
+  display:flex;
+  flex-direction: column;
+  height: calc(80vw*9/16);
+  width: 80vw;
+  
+  &:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .col{
+    flex: 1 0 auto;
+  }
+}
+
+.smpte-top{
+  display: flex;
+  flex: 1 0 66.7%;
+  overflow: hidden;
+
+  .col1{
+    background: silver;
+  }
+
+  .col2{
+    background: #c0c000;
+  }
+
+  .col3{
+    background: #00c0c0;
+  }
+  
+  .col4{
+    background: #00c000;
+  }
+
+  .col5{
+    background: #c000c0;
+  }
+
+  .col6{
+    background: #c00000;
+  }
+  
+  .col7{
+    background: #0000c0;
+  }
+}
+
+.smpte-mid{
+  display: flex;
+  flex: 1 1 8%;
+
+  &:before{
+    content: "NaSTA 2017";
+    font-size: 2vw;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: 200;
+    width: 20vw;
+    position: absolute;
+    text-align: center;
+    top: calc(calc(100% - 2vw) / 1.7);
+    left: calc(calc(100% - 20vw) / 2);
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.7)
+  }
+
+  &:after{
+    content: "";
+    background: lighten(silver, 10%);
+    position: absolute;
+    width: 15vw;
+    height: calc(15vw*9/16);
+    left: calc(calc(100% - 15vw) / 2);
+    top: 10%;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: bounce;
+    animation-timing-function: linear;
+  }
+
+  @keyframes bounce {
+    0% {
+        top: 10%;
+    }
+
+    50% {
+        top: 25%;
+    }
+
+    100% {
+        top: 10%;
+    }
+    
+   }
+  
+  .col1{
+    background: #0000c0;
+  }
+
+  .col2{
+    background: #131313;
+  }
+
+  .col3{
+    background: #c000c0;
+  }
+  
+  .col4{
+    background: #131313;
+  }
+
+  .col5{
+    background: #00c0c0;
+  }
+
+  .col6{
+    background: #131313;
+  }
+  
+  .col7{
+    background: silver;
+  }
+}
+
+.smpte-bottom{
+  display: flex;
+  flex: 1 1 25%;
+  overflow: hidden;
+  
+  .col:nth-child(-n+4){
+    flex: 1 0 17.85%;
+  }
+  
+  .col:nth-child(n+5):nth-child(-n+7){
+    flex: 1 1 4.7%;
+  }
+  
+  .col:nth-child(8){
+    flex: 1 0 14.4%;
+  }
+  
+  .col1{
+    background: #00214c;
+  }
+
+  .col2{
+    background: white;
+  }
+
+  .col3{
+    background: #32006a;
+  }
+  
+  .col4{
+    background: #131313;
+  }
+
+  .col5{
+    background: #090909;
+  }
+
+  .col6{
+    background: #131313;
+  }
+  
+  .col7{
+    background: #191919;
+  }
+  
+  .col8{
+    background: #131313;
+  }
+}
+
+@media (min-width: 1200px) {
+    .smpte{
+        position: relative;
+        display:flex;
+        flex-direction: column;
+        height: calc(56.5vw*9/16);
+        width: 56.5vw;
+
+        .smpte-mid{
+            &:before{
+            }
+            &:after {
+            }
+        }
+    }
+}
