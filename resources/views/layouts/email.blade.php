@@ -114,7 +114,7 @@
         padding: 8px;
         margin: 48px auto;
         max-width: 830px;
-        min-height: 48vh;
+        min-height: 73.8vh;
     }
     .page-content h2 {
         padding-top: 8px;
