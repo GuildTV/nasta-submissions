@@ -55,6 +55,8 @@ $router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
+  Route::get('/dashboard', 'Admin\AdminController@dashboard')->name("admin.dashboard");
+
   Route::get('/google-auth', 'Admin\GoogleAuthController@index')->name("admin.googleauth");
   Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");
   Route::get('/google-auth/callback', 'Admin\GoogleAuthController@callback')->name("admin.googleauth.callback");

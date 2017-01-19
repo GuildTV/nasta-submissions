@@ -54,9 +54,16 @@
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
                         @else
-                            <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>
-                            <li><a <?=(@View::getSections()['page_selected']=="files"?' class="active"':'')?> href="{{ route("station.files") }}">Files</a></li>
-                            <!--<li><a <?=(@View::getSections()['page_selected']=="results"?' class="active"':'')?> href="{{ route("station.results") }}">Results</a></li>-->
+                            @if (Auth::user()->type == "admin")
+                                <li><a href="{{ route("admin.dashboard") }}">Dashboard</a></li>
+
+                            @elseif (Auth::user()->type == "judge")
+
+                            @else
+                                <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>
+                                <li><a <?=(@View::getSections()['page_selected']=="files"?' class="active"':'')?> href="{{ route("station.files") }}">Files</a></li>
+                                <!--<li><a <?=(@View::getSections()['page_selected']=="results"?' class="active"':'')?> href="{{ route("station.results") }}">Results</a></li>-->
+                            @endif
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
