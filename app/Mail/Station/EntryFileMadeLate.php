@@ -16,6 +16,8 @@ class EntryFileMadeLate extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $category;
+    protected $entry;
     protected $file;
 
     /**
@@ -27,10 +29,6 @@ class EntryFileMadeLate extends Mailable
     {
         $this->category = $category;
         $this->file = $file;
-        $this->entry = $category->getEntryForStation($file->station_id);
-
-        if ($this->entry == null)
-            throw new InvalidArgumentException("category->entry should not be null");
     }
 
     /**
@@ -41,13 +39,14 @@ class EntryFileMadeLate extends Mailable
     public function build()
     {
         $user = $this->file->station;
+        $entry = $this->category->getEntryForStation($this->file->station_id);
 
         return $this->subject('Your entry for the '.$this->category->name.' award is now late')
             ->view('emails.station.file-made-late')
             ->text('emails.station.file-made-late_plain')
             ->with([
                 'file' => $this->file,
-                'entry' => $this->entry,
+                'entry' => $entry,
                 'category' => $this->category,
                 'user' => $user,
             ]);

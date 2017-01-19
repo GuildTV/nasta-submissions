@@ -9,8 +9,8 @@
 						<input type="hidden" id="entrycategory" value="{{ $category->id }}">
 
 						@if ($entry->submitted)
-						<div id="alert_holder">
-							<div class="alert {{ $entry->isLate($category) ? "alert-warning" : "alert-success" }}" id="update_status">
+						<div id="alert_holder" class="row">
+							<div class="alert col-sm-10 col-sm-offset-1 {{ $entry->isLate($category) ? "alert-warning" : "alert-success" }}" id="update_status">
 								<p>You submitted your entry on the {{ $entry->updated_at->format("jS F \\a\\t H:i") }}</p>
 								@if ($entry->isLate($category))
 									<p class="late-upload">Your entry has been marked as  late!!</p>
@@ -22,14 +22,14 @@
 							</div>
 						</div>
 						@elseif (\Session::has('entry.edit'))
-						<div id="alert_holder">
-							<div class="alert alert-warning">
+						<div id="alert_holder" class="row">
+							<div class="alert alert-warning col-sm-10 col-sm-offset-1">
 								<p>{{ \Session::get('entry.edit') }}</p>
 							</div>
 						</div>
 						@elseif (\Session::has('entry.save'))
-						<div id="alert_holder">
-							<div class="alert alert-success">
+						<div id="alert_holder" class="row">
+							<div class="alert alert-success col-sm-10 col-sm-offset-1">
 								<p>{{ \Session::get('entry.save') }}</p>
 							</div>
 						</div>
@@ -37,21 +37,21 @@
 
 						<div class="form-group">
 							<label for="entryname" class="col-sm-2 control-label">Entry Name</label>
-							<div class="col-sm-10">
+							<div class="col-sm-9">
 								<input type="text" class="form-control" id="entryname" name="entryname" maxlength="255" placeholder="Entry Name" {{ $readonly ? "disabled='disabled'" : "" }} value="{{ $entry->name }}">
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="entrydescription" class="col-sm-2 control-label">Description</label>
-							<div class="col-sm-10">
+							<div class="col-sm-9">
 								<textarea class="form-control" id="entrydescription" name="entrydescription" {{ $readonly ? "disabled='disabled'" : "" }} rows="5">{{ $entry->description }}</textarea>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="files" class="col-sm-2 control-label">Files</label>
-							<div class="col-sm-10">
+							<div class="col-sm-9">
 
 								@if ($readonly)
 									<p class="entry-closed">Entry is closed</p>
@@ -75,7 +75,7 @@
 
 
 						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
+							<div class="col-sm-offset-2 col-sm-9">
 								<div class="checkbox">
 									<label>
 										<input id="entryrules" name="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the <a target="_new" href="{{ route("rules") }}">rules governing the NaSTA Awards {{ Config::get('nasta.year') }}</a>
@@ -85,7 +85,7 @@
 						</div>
 											
 						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
+							<div class="col-sm-offset-2 col-sm-9">
 								<a href="{{ route("station.categories") }}" class="btn btn-danger">Back</a>
 
 								@if ($closed)
