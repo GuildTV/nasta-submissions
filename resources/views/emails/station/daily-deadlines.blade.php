@@ -14,8 +14,6 @@
 
   @endforeach
 
-  <p>You can view your full list of entries <a href="{{ route('station.categories') }}">here</a>.</p>
-
   <h2>
     Regards,
     <br/ ><br/ >

@@ -8,7 +8,5 @@ Awards Categories that close today:-
 @endforeach
 @endforeach
 
-You can view your full list of entries at {{ route('station.categories') }}
-
 Regards,
 The Submissions Team
