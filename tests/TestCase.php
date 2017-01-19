@@ -15,6 +15,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
+    public $emailCount = 0;
+
     // user instances
     public $station = null;
     public $judge = null;
@@ -52,6 +54,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->assertNotNull($this->admin, "Missing 'admin' entry in database");
 
         $this->faker = \Faker\Factory::create();
+
+        Mail::getSwiftMailer()->registerPlugin(new TestMailListener($this));
     }
 
     public function loadStation()
@@ -102,5 +106,26 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->assertNotNull($json);
 
         return $json;
+    }
+
+    public function assertEmailCount($count) {
+        $this->assertEquals($count, $this->emailCount);
+    }
+
+    public function assertEmailSent(){
+        $this->assertNotEquals(0, $this->emailCount);
+    }
+}
+
+class TestMailListener implements Swift_Events_SendListener {
+    public function __construct($parent){
+        $this->parent = $parent;
+    }
+
+    public function beforeSendPerformed(Swift_Events_SendEvent $ev){
+        $this->parent->emailCount++;
+    }
+
+    public function sendPerformed(Swift_Events_SendEvent $ev){
     }
 }

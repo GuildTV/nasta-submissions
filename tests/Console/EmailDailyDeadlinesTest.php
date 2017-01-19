@@ -50,6 +50,7 @@ class EmailDailyDeadlinesTest extends TestCase
     $scraper = new EmailDailyDeadlines();
     $res = $scraper->handle();
     $this->assertEquals(User::where('type', 'station')->count(), $res);
+    $this->assertEmailSent();
   }
 
 }

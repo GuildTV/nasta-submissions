@@ -61,6 +61,7 @@ class ScrapeUploadsTest extends TestCase
     $res = $scraper->scrapeFolder($helper, $folder);
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
+    $this->assertEmailSent();
 
     $file = UploadedFile::where("path", $expectedOps[1][2])->first();
     $this->assertNotNull($file);
@@ -97,6 +98,7 @@ class ScrapeUploadsTest extends TestCase
     $res = $scraper->scrapeFolder($helper, $folder);
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
+    $this->assertEmailSent();
 
     $file = UploadedFile::where("path", $expectedOps[1][2])->first();
     $this->assertNotNull($file);
@@ -133,6 +135,7 @@ class ScrapeUploadsTest extends TestCase
     $res = $scraper->scrapeFolder($helper, $folder);
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
+    $this->assertEmailSent();
 
     $file = UploadedFile::where("path", $expectedOps[1][2])->first();
     $this->assertNotNull($file);
@@ -143,5 +146,9 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['size'], $file->size);
     $this->assertEquals($files[0]['hash'], $file->hash);
   }
+
+  // TODO - test hitting EntryFileMadeLate
+  // TODO - test hitting EntryFileAlreadySubmitted
+  // TODO - test hitting EntryFileCloseDeadline
 
 }

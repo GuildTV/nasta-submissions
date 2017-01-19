@@ -38,7 +38,6 @@ class EmailDailySummaryTest extends TestCase
   public function testNoUsers(){
     $this->createDeadline();
 
-
     User::where('type', 'station')->delete();
 
     $scraper = new EmailDailySummary();
@@ -63,6 +62,7 @@ class EmailDailySummaryTest extends TestCase
     $scraper = new EmailDailySummary();
     $res = $scraper->handle();
     $this->assertEquals(1, $res);
+    $this->assertEmailSent();
   }
 
 }
