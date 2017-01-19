@@ -52,7 +52,7 @@ class ExceptionEmail extends Mailable
         return $this->subject($this->subjectStr)
             ->view('emails.admin.exception')
             ->with([
-                'body' => $this->body,
+                'body' => $this->body ? $this->body : "No message",
             ]);
     }
 
