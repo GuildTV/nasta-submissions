@@ -6,11 +6,14 @@
     <div class="col-md-10 col-md-offset-1">
 
       <div class="panel panel-default">
-        <div class="panel-heading">Dashboard</div>
+        <div class="panel-heading">Stations</div>
 
         <div class="panel-body">
-         
-         
+          <div class="center">
+            <a class="btn btn-default" href="{{ route("admin.submissions") }}">Submissions</a>
+            <a class="btn btn-default" href="">Unmatched files</a>
+            <a class="btn btn-default" href="">Users</a>
+          </div>
         </div>
       </div>
 
