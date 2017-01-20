@@ -5,12 +5,15 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 abstract class AutoTestBase extends TestCase
 {
 
-  protected function compileParamCombinations($paramClasses)
+  protected function compileParamCombinations($paramClasses, $includeNull=false)
   {
     $paramValues = [];
 
     foreach($paramClasses as $name=>$class){
       $paramValues[$name] = $class->getMethod("query")->invoke(null)->get();
+
+      if ($includeNull)
+        $paramValues[$name][] = null;
     }
 
     $keys = array_keys($paramValues);

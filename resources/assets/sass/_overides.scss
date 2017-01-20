@@ -96,15 +96,11 @@ a:active {
             font-size:18px;
             padding:10px 10px 10px 5px;
             display:block;
-            width:300px;
+            width:100%;
             border:none;
             border-radius: 0;
             box-shadow: none;
             border-bottom:1px solid #757575;
-
-            &#entrydescription {
-                width: 100%;
-            }
         }
 
         & div > .form-control[disabled],
