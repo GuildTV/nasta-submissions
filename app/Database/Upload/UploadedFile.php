@@ -40,7 +40,7 @@ class UploadedFile extends Model
     }
 
     public function isLate($category=null){
-        if ($category == null)
+        if ($category == null && $this->category_id != null)
             $category = $this->category;
 
         if ($category == null)

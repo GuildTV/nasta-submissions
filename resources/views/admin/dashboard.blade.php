@@ -11,7 +11,7 @@
         <div class="panel-body">
           <div class="center">
             <a class="btn btn-default" href="{{ route("admin.submissions") }}">Submissions</a>
-            <a class="btn btn-default" href="">Unmatched files</a>
+            <a class="btn btn-default" href="{{ route('admin.submissions.files') }}">Unmatched files</a>
             <a class="btn btn-default" href="">Users</a>
           </div>
         </div>

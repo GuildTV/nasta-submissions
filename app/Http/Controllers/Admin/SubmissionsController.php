@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Database\User;
 use App\Database\Category\Category;
 use App\Database\Entry\Entry;
+use App\Database\Upload\UploadedFile;
 
 use App;
 
@@ -46,5 +47,13 @@ class SubmissionsController extends Controller
 
     return view('admin.submissions.view', compact('station', 'category', 'entry'));
   }
+
+  public function files()
+  {
+    $files = UploadedFile::whereNull('category_id')->with('station')->get();
+
+    return view('admin.submissions.files', compact('files'));
+  }
+
 
 }
