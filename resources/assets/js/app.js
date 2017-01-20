@@ -10,3 +10,5 @@ require('./bootstrap');
 require('./station/entry');
 require('./station/files');
 require('./station/settings');
+
+require('./admin/submission-files');

@@ -63,6 +63,8 @@ $router->group([
   Route::get('/submissions/view/{station}/{category}', 'Admin\SubmissionsController@view')->name("admin.submissions.view");
   Route::get('/submissions/files', 'Admin\SubmissionsController@files')->name("admin.submissions.files");
   Route::get('/submissions/file/{file}', 'Admin\SubmissionsController@file')->name("admin.submissions.file");
+  Route::post('/submissions/file/{file}/link/{category}', 'Admin\SubmissionsController@linkfile')->name("admin.submissions.file.link");
+  Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
 
   Route::get('/google-auth', 'Admin\GoogleAuthController@index')->name("admin.googleauth");
   Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");

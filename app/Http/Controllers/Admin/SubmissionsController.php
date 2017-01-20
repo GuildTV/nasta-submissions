@@ -9,6 +9,7 @@ use App\Database\User;
 use App\Database\Category\Category;
 use App\Database\Entry\Entry;
 use App\Database\Upload\UploadedFile;
+use App\Database\Upload\UploadedFileLog;
 
 use App;
 
@@ -62,5 +63,25 @@ class SubmissionsController extends Controller
     return view('admin.submissions.file', compact('file', 'categories'));
   }
 
+  public function linkfile(UploadedFile $file, Category $category)
+  {
+    // update file
+    $file->category_id = $category->id;
+    $file->save();
+
+    UploadedFileLog::create([
+      'station_id' => $file->station_id,
+      'category_id' => $file->category_id,
+      'level' => 'info',
+      'message' => 'Admin linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',
+    ]);
+
+    return $file;
+  }
+
+  public function download(UploadedFile $file)
+  {
+    return App::abort(404);
+  }
 
 }
