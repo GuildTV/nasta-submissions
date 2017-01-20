@@ -76,7 +76,7 @@
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td class="{{ $file->isLate($category) ? "late-upload" : "submitted-upload" }}">{{ $file->isLate($category) ? "Yes" : "No" }}</td>
                 <td>
-                  <a class="btn btn-primary" target="_new" href="">View</button>
+                  <a class="btn btn-primary" href="{{ route('admin.submissions.file', $file) }}">View</button>
                 </td>
               </tr>
 @endforeach

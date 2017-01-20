@@ -55,5 +55,12 @@ class SubmissionsController extends Controller
     return view('admin.submissions.files', compact('files'));
   }
 
+  public function file(UploadedFile $file)
+  {
+    $categories = Category::orderBy('name', 'asc')->get();
+
+    return view('admin.submissions.file', compact('file', 'categories'));
+  }
+
 
 }

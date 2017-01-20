@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\AjaxRequest;
 
+use App\Helpers\StringHelper;
 use App\Helpers\GoogleHelper;
 use App\Database\Upload\GoogleAccount;
 
@@ -52,8 +53,8 @@ class GoogleAuthController extends Controller {
         $used = $dbEntry->total_space > 0 ? ($dbEntry->used_space / $dbEntry->total_space ) * 100 : 0;
 
         $data['enabled'] = $dbEntry->enabled ? "Yes" : "No";
-        $data['usedSpace'] = $this->formatBytes($dbEntry->used_space, 2);
-        $data['totalSpace'] = $this->formatBytes($dbEntry->total_space, 2);
+        $data['usedSpace'] = StringHelper::formatBytes($dbEntry->used_space, 2);
+        $data['totalSpace'] = StringHelper::formatBytes($dbEntry->total_space, 2);
         $data['usedSpaceEstimate'] = "0%"; // TODO
         $data['percentageUsed'] = round($used, 2) . "%";
         $data['percentageUsedEstimate'] = "0"; // TODO
@@ -140,14 +141,6 @@ class GoogleAuthController extends Controller {
       ->withErrors([
         'err'=>["Success"]
       ]);
-  }
-
-  private function formatBytes($size, $precision = 2)
-  {
-    $base = log($size, 1024);
-    $suffixes = array('', 'K', 'M', 'G', 'T');   
-
-    return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
   }
 
 }

@@ -9,6 +9,7 @@
         <div class="panel-heading">Unmatched files</div>
 
         <div class="panel-body">
+          <a class="btn btn-default" href="">Export CSV</a>
           <table class="table" id="files-table">
             <thead>
               <th>Station</th>
@@ -25,7 +26,7 @@
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td>-</td>
                 <td>
-                  <a class="btn btn-primary" >View</button>
+                  <a class="btn btn-primary" href="{{ route('admin.submissions.file', $file) }}">View</button>
                 </td>
               </tr>
 @endforeach
