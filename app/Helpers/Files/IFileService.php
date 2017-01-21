@@ -19,4 +19,5 @@ interface IFileService {
 
   public function download($src, $dest);
 
+  public function getPublicUrl($path);
 }

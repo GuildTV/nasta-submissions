@@ -116,4 +116,17 @@ class TestFileServiceHelper implements IFileService{
     return false;
   }
 
+  public function getPublicUrl($path){
+    $this->addOperation([ "url", $path ]);
+
+    foreach ($this->files as $k=>$f){
+      if ($f['name'] != $path)
+        continue;
+
+      return "http://fakebox.com/" . str_random(10);
+    }
+
+    return null;
+  }
+
 }

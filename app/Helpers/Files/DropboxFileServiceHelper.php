@@ -67,7 +67,7 @@ class DropboxFileServiceHelper implements IFileService{
 
   public function listFolder($path){
     try {
-      $listFolderContents = $this->client->listFolder($path);
+      $listFolderContents = $this->client->listFolder($path, [ "include_media_info" => true ]);
 
       $res = [];
       foreach ($listFolderContents->getItems() as $file){
@@ -133,6 +133,28 @@ class DropboxFileServiceHelper implements IFileService{
         curl_close($ch);
       throw $e;
     }
+  }
+
+  public function getPublicUrl($path){
+    $response = $this->client->postToAPI("/sharing/create_shared_link_with_settings", ["path" => $path, "settings" => ['requested_visibility' => 'public']]);
+    if ($response == null)
+      return null;
+
+    $data = $response->getDecodedBody();
+    if (!isset($data['url']))
+      return null;
+
+    if (!isset($data['link_permissions']))
+      return null;
+
+    $perms = $data['link_permissions'];
+    if (!isset($perms['resolved_visibility']) || !isset($perms['resolved_visibility']['.tag']))
+      return null;
+
+    if ($perms['resolved_visibility']['.tag'] != "public")
+      return null;
+
+    return $data['url'];
   }
 
 }
