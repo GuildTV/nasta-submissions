@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Jobs\DropboxDownloadFile;
+use App\Jobs\DropboxScrapeMetadata;
 
 use App\Mail\Station\EntryFileNoMatch;
 use App\Mail\Station\EntryFileCloseDeadline;
@@ -98,6 +99,8 @@ class ScrapeUploads extends Command
                 continue;
             }
 
+            $url =  $client->getPublicUrl($filename);
+
             $count = $this->countReasonsLate($folder->station, $category);
 
             $res = UploadedFile::create([
@@ -107,6 +110,7 @@ class ScrapeUploads extends Command
                 'name' => $rawName,
                 'size' => $file['size'],
                 'hash' => $file['hash'],
+                'public_url' => $url,
                 'category_id' => $categoryId,
                 'uploaded_at' => $file['modified'],
             ]);
@@ -120,7 +124,17 @@ class ScrapeUploads extends Command
                 'message' => 'File \'' . $file['name'] . '\' has been added',
             ]);
 
+            if ($url == null) {
+                UploadedFileLog::create([
+                    'station_id' => $folder->station->id,
+                    'category_id' => $categoryId,
+                    'level' => 'error',
+                    'message' => 'Missing public url for file \'' . $file['name'] . '\'',
+                ]);
+            }
+
             try {
+                // dispatch(new DropboxScrapeMetadata($res));
                 dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
             } catch (Exception $e) {
                 Log::warning("Dropbox download for file failed. Ignoring.");

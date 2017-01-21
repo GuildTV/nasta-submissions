@@ -50,9 +50,11 @@ class ScrapeUploadsTest extends TestCase
         "hash" => "hfisisfsd",
       ]
     ];
+    $targetName = $targetDir . "blah_".$files[0]['hash'].".mp4";
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . "blah_".$files[0]['hash'].".mp4" ]
+      [ "move", $files[0]['name'], $targetName ],
+      [ "url", $targetName ]
     ];
 
     $scraper = new ScrapeUploads();
@@ -64,7 +66,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($expectedOps, $helper->getOperations());
     $this->assertEmailSent();
 
-    $file = UploadedFile::where("path", $expectedOps[1][2])->first();
+    $file = UploadedFile::where("path", $targetName)->first();
     $this->assertNotNull($file);
     $this->assertNull($file->category_id);
     // $this->assertEquals("blah", $file->name);
@@ -72,6 +74,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
     $this->assertEquals($files[0]['size'], $file->size);
     $this->assertEquals($files[0]['hash'], $file->hash);
+    $this->assertNotNull($file->public_url);
   }
 
   public function testScrapeImportMatchCategory(){
@@ -87,9 +90,11 @@ class ScrapeUploadsTest extends TestCase
         "hash" => "hfisisfsd",
       ]
     ];
+    $targetName = $targetDir . self::$testCategoryCompact."_station_entryname_".$files[0]['hash'].".mp4";
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . self::$testCategoryCompact."_station_entryname_".$files[0]['hash'].".mp4" ]
+      [ "move", $files[0]['name'], $targetName ],
+      [ "url", $targetName ]
     ];
 
     $scraper = new ScrapeUploads();
@@ -101,7 +106,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($expectedOps, $helper->getOperations());
     $this->assertEmailSent();
 
-    $file = UploadedFile::where("path", $expectedOps[1][2])->first();
+    $file = UploadedFile::where("path", $targetName)->first();
     $this->assertNotNull($file);
     $this->assertEquals(self::$testCategoryId, $file->category_id);
     // $this->assertEquals("blah", $file->name);
@@ -109,6 +114,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
     $this->assertEquals($files[0]['size'], $file->size);
     $this->assertEquals($files[0]['hash'], $file->hash);
+    $this->assertNotNull($file->public_url);
   }
 
   public function testScrapeImportMatchNamePrefix(){
@@ -124,9 +130,11 @@ class ScrapeUploadsTest extends TestCase
         "hash" => "hfisisfsd",
       ]
     ];
+    $targetName = $targetDir . "blah_entryname_".$files[0]['hash'].".mp4";
     $expectedOps = [
       [ "list", $folder->folder_name ],
-      [ "move", $files[0]['name'], $targetDir . "blah_entryname_".$files[0]['hash'].".mp4" ]
+      [ "move", $files[0]['name'], $targetName ],
+      [ "url", $targetName ]
     ];
 
     $scraper = new ScrapeUploads();
@@ -138,7 +146,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($expectedOps, $helper->getOperations());
     $this->assertEmailSent();
 
-    $file = UploadedFile::where("path", $expectedOps[1][2])->first();
+    $file = UploadedFile::where("path", $targetName)->first();
     $this->assertNotNull($file);
     $this->assertNull($file->category_id);
     // $this->assertEquals("blah", $file->name);
@@ -146,6 +154,7 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['modified'], $file->uploaded_at);
     $this->assertEquals($files[0]['size'], $file->size);
     $this->assertEquals($files[0]['hash'], $file->hash);
+    $this->assertNotNull($file->public_url);
   }
 
   // hits EntryFileMadeLate
