@@ -134,7 +134,7 @@ class ScrapeUploads extends Command
             }
 
             try {
-                // dispatch(new DropboxScrapeMetadata($res));
+                dispatch((new DropboxScrapeMetadata($res))->delay(Carbon::now()->addMinutes(5)));
                 dispatch((new DropboxDownloadFile($res))->onQueue('downloads'));
             } catch (Exception $e) {
                 Log::warning("Dropbox download for file failed. Ignoring.");

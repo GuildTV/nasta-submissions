@@ -67,7 +67,7 @@ class DropboxFileServiceHelper implements IFileService{
 
   public function listFolder($path){
     try {
-      $listFolderContents = $this->client->listFolder($path, [ "include_media_info" => true ]);
+      $listFolderContents = $this->client->listFolder($path);
 
       $res = [];
       foreach ($listFolderContents->getItems() as $file){
@@ -136,25 +136,37 @@ class DropboxFileServiceHelper implements IFileService{
   }
 
   public function getPublicUrl($path){
-    $response = $this->client->postToAPI("/sharing/create_shared_link_with_settings", ["path" => $path, "settings" => ['requested_visibility' => 'public']]);
-    if ($response == null)
-      return null;
+    try {
+      $response = $this->client->postToAPI("/sharing/create_shared_link_with_settings", ["path" => $path, "settings" => ['requested_visibility' => 'public']]);
+      if ($response == null)
+        return null;
 
-    $data = $response->getDecodedBody();
-    if (!isset($data['url']))
-      return null;
+      $data = $response->getDecodedBody();
+      if (!isset($data['url']))
+        return null;
 
-    if (!isset($data['link_permissions']))
-      return null;
+      if (!isset($data['link_permissions']))
+        return null;
 
-    $perms = $data['link_permissions'];
-    if (!isset($perms['resolved_visibility']) || !isset($perms['resolved_visibility']['.tag']))
-      return null;
+      $perms = $data['link_permissions'];
+      if (!isset($perms['resolved_visibility']) || !isset($perms['resolved_visibility']['.tag']))
+        return null;
 
-    if ($perms['resolved_visibility']['.tag'] != "public")
-      return null;
+      if ($perms['resolved_visibility']['.tag'] != "public")
+        return null;
 
-    return $data['url'];
+      return $data['url'];
+    } catch (Exception $e) {
+      return null;
+    }
+  }
+
+  public function getMetadata($path){
+    try {
+      return $this->client->getMetadata($path, [ "include_media_info" => true ]);
+    } catch (Exception $e) {
+      return null;
+    }
   }
 
 }
