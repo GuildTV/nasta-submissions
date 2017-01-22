@@ -114,6 +114,34 @@ window.StationEntry = {
         window.open(url, "upload_window");
       }
     });
+  },
+
+  DeleteFile: function(e) {
+    const id = e.getAttribute("data-id");
+
+    if (id == undefined)
+      return;
+
+    bootbox.confirm({
+      title: "Delete File",
+      message: "File will be deleted and removed the entry",
+      callback: r => {
+        if (!r) return;
+
+        $.ajax({
+          url: '/station/files/' + id + '/delete',
+          method: 'POST',
+          success: function(res) {
+            // submitted entry, so reload to get everything be readonly
+            window.location.reload();
+          },
+          error: function(res) {
+            console.log(res);
+            bootbox.alert("An error occured whilst attempting to delete this file. <br /> Please reload the page and try again");
+          }
+        });
+      }
+    });
   }
 
 };
