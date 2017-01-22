@@ -22,9 +22,28 @@ class DropboxFileServiceHelper implements IFileService{
     //   return null; // TODO - properly
     //   // $account = "devtest";
     $this->access_token = $access_token;
+    $this->init();
+  }
 
-    $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $access_token);
+  private function init(){
+    $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $this->access_token);
     $this->client = new Dropbox($client);
+  }
+
+  public function serialize()
+  {
+    return serialize([
+      $this->access_token,
+    ]);
+  }
+
+  public function unserialize($data)
+  {
+    list(
+      $this->access_token,
+    ) = unserialize($data);
+
+    $this->init();
   }
 
   private function genFile($file){
@@ -132,6 +151,45 @@ class DropboxFileServiceHelper implements IFileService{
       if ($ch != null)
         curl_close($ch);
       throw $e;
+    }
+  }
+
+  public function getPublicUrl($path){
+    try {
+      $response = $this->client->postToAPI("/sharing/create_shared_link_with_settings", ["path" => $path, "settings" => ['requested_visibility' => 'public']]);
+      if ($response == null)
+        return null;
+
+      $data = $response->getDecodedBody();
+      if (!isset($data['url']))
+        return null;
+
+      if (!isset($data['link_permissions']))
+        return null;
+
+      $perms = $data['link_permissions'];
+      if (!isset($perms['resolved_visibility']) || !isset($perms['resolved_visibility']['.tag']))
+        return null;
+
+      if ($perms['resolved_visibility']['.tag'] != "public")
+        return null;
+
+      return $data['url'];
+    } catch (Exception $e) {
+      return null;
+    }
+  }
+
+  public function getMetadata($path){
+    try {
+      $res = $this->client->getMetadata($path, [ "include_media_info" => true ]);
+      $data =  $res->getMediaInfo();
+      if ($data == null)
+        return null;
+
+      return $data->getData();
+    } catch (Exception $e) {
+      return null;
     }
   }
 
