@@ -11,6 +11,7 @@ use App\Mail\Admin\ExceptionEmail;
 use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Database\Upload\UploadedFile;
+use App\Database\Upload\UploadedFileLog;
 use App\Database\Upload\VideoMetadata;
 
 use Config;
@@ -22,15 +23,17 @@ class DropboxScrapeMetadata implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $file;
+    protected $client;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(UploadedFile $file)
+    public function __construct(UploadedFile $file, $client=null)
     {
         $this->file = $file;
+        $this->client = $client;
     }
 
     /**
@@ -40,19 +43,24 @@ class DropboxScrapeMetadata implements ShouldQueue
      */
     public function handle()
     {
-        $client = new DropboxFileServiceHelper($this->file->account->access_token);
+        $client = $this->client != null ? $this->client : new DropboxFileServiceHelper($this->file->account->access_token);
         $metadata = $client->getMetadata($this->file->path);
         if ($metadata == null) {
             Log::error("Failed to get metadata for file #" . $this->file->id);
-            return;
+            return "API_FAIL";
         }
 
         $res = $this->parseInfo($metadata);
         if ($res === false) {
+            return "NOT_VALID";
+        }
+
+        if ($res == null) {
             if ($this->attempts() < 5) {
-                return $this->release(120); // try again in 120s
+                $this->release(120); // try again in 120s
+                return "PARSE_FAIL";
             }
-            return null;
+            return "PARSE_FAIL";
         }
 
         if ($this->file->video_metadata_id != null){
@@ -67,36 +75,33 @@ class DropboxScrapeMetadata implements ShouldQueue
             'station_id' => $this->file->station->id,
             'category_id' => $this->file->category_id,
             'level' => 'info',
-            'message' => 'Scraped metadata for file \'' . $file['name'] . '\' (#' . $this->file->id . ')',
+            'message' => 'Scraped metadata for file \'' . $this->file->name . '\' (#' . $this->file->id . ')',
         ]);
 
-        return true;
+        return $res;
     }
 
     private function parseInfo($metadata){
-        if (!isset($metadata['media_info']))
-            return false;
-
-        if (isset($metadata['media_info']['pending']))
+        if (isset($metadata['pending']))
             return null;
 
-        if (!isset($metadata['media_info']['metadata']))
+        if (!isset($metadata['metadata']))
             return null;
 
-        $data = $metadata['media_info']['metadata'];
-        if (!isset($data['video']))
+        $data = $metadata['metadata'];
+        if ($data['.tag'] != "video")
             return null;
 
-        if (!isset($data['video']['dimensions']))
+        if (!isset($data['dimensions']))
             return null;
 
-        if (!isset($data['video']['dimensions']['width']) || !isset($data['video']['dimensions']['height']) || !isset($data['video']['duration']))
+        if (!isset($data['dimensions']['width']) || !isset($data['dimensions']['height']) || !isset($data['duration']))
             return null;
 
         return [
-            'height' => intval($data['video']['dimensions']['height']),
-            'width' => intval($data['video']['dimensions']['width']),
-            'duration' => intval($data['video']['duration'])
+            'height' => intval($data['dimensions']['height']),
+            'width' => intval($data['dimensions']['width']),
+            'duration' => intval($data['duration'])
         ];
     }
 
