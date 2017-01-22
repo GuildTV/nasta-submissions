@@ -12,7 +12,7 @@
           <div class="center">
             <a class="btn btn-default" href="{{ route("admin.submissions") }}">Submissions</a>
             <a class="btn btn-default" href="{{ route('admin.submissions.files') }}">Unmatched files</a>
-            <a class="btn btn-default" href="">Users</a>
+            <a class="btn btn-default" href="{{ route('admin.users') }}">Users</a>
           </div>
         </div>
       </div>
