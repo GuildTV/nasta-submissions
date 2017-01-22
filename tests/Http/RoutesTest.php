@@ -92,7 +92,7 @@ class RoutesTest extends AutoTestBase
   private function runRoute(IllRoute $route)
   {
     $paramClasses = $this->getRouteParams($route);
-    $combinations = $this->compileParamCombinations($paramClasses);
+    $combinations = $this->compileParamCombinations($paramClasses, true);
 
     $combCount = $combinations->count();
     if($combCount == 0)

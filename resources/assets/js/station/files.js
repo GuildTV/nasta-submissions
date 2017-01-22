@@ -51,7 +51,7 @@ window.StationFiles = {
           },
           error: function(res) {
             console.log(res);
-            bootbox.alert("An error occured whilst attempting to delete this file. <br /> Please reload the page and try again");
+            bootbox.alert("An error occured whilst attempting to link this file. <br /> Please reload the page and try again");
           }
         });
       }

@@ -19,27 +19,27 @@ window.StationSettings.BindValidator();
 
               <div class="form-group">
                 <label for="username" class="col-sm-3 control-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                   <p>{{ $user->name }}</p>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="useremail" class="col-sm-3 control-label">Email</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                   <input type="text" class="form-control" id="useremail" name="useremail" maxlength="255" value="{{ $user->email }}" />
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="userpassword" class="col-sm-3 control-label">New Password</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                   <input type="password" class="form-control" id="userpassword" name="userpassword" maxlength="100" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="userpassword" class="col-sm-3 control-label">Confirm Password</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                   <input type="password" class="form-control" id="userpassword_confirm" name="userpassword_confirm" maxlength="100" />
                 </div>
               </div>

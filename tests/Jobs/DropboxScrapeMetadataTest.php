@@ -23,7 +23,7 @@ class DropboxScrapeMetadataTest extends TestCase
   private static $debugHelper = false;
   private static $testAccountId = "test";
   private static $testSourceTextFile = "/test/document.txt";
-  private static $testSourceVideoFile = "/test/sample.mp4";
+  private static $testSourceImageFile = "/test/test_file.png";
 
   public function testFileMissing(){
     $file = UploadedFile::find(131);
@@ -151,7 +151,7 @@ class DropboxScrapeMetadataTest extends TestCase
     ]);
 
     $client = new DropboxFileServiceHelper($file->account->access_token);
-    $this->assertTrue($client->ensureFileExists(storage_path().self::$testSourceVideoFile, $file->path));
+    $this->assertTrue($client->ensureFileExists(storage_path().self::$testSourceImageFile, $file->path));
 
     $job = new DropboxScrapeMetadata($file, $client);
     $this->assertEquals("PARSE_FAIL", $job->handle());

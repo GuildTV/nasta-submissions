@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Http\Station;
+namespace Tests\Helpers;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use TestCase;
@@ -23,7 +23,7 @@ class DropboxFileServiceHelperTest extends TestCase
     // ensure file exists on dropbox
     $account = DropboxAccount::where("id", self::$testAccountId)->first();
     $dropbox = new DropboxFileServiceHelper($account->access_token);
-    $dropbox->ensureFileExists(storage_path().self::$testSourceFile, $filename);
+    $this->assertTrue($dropbox->ensureFileExists(storage_path().self::$testSourceFile, $filename));
 
     $url = $dropbox->getPublicUrl($filename);
     $this->assertNotNull($url);

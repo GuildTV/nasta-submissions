@@ -10,6 +10,8 @@ use Kunnu\Dropbox\Dropbox;
 
 use App\Database\Upload\DropboxAccount;
 
+use App\Helpers\StringHelper;
+
 use Redirect;
 use Session;
 use Exception;
@@ -29,8 +31,8 @@ class DropboxAuthController extends Controller {
         "name" => $entry->id,
         "valid" => $valid ? "Yes" : "No",
         "enabled" => $entry->enabled ? "Yes" : "No",
-        "usedSpace" => $this->formatBytes($entry->used_space, 2),
-        "totalSpace" => $this->formatBytes($entry->total_space, 2),
+        "usedSpace" => StringHelper::formatBytes($entry->used_space, 2),
+        "totalSpace" => StringHelper::formatBytes($entry->total_space, 2),
         "percentageUsed" => round($used, 2) . "%",
       ];
     }
@@ -101,17 +103,6 @@ class DropboxAuthController extends Controller {
       ->withErrors([
         'err'=>["Success"]
       ]);
-  }
-
-  private function formatBytes($size, $precision = 2)
-  {
-    if ($size == 0)
-      return "0B";
-
-    $base = log($size, 1024);
-    $suffixes = array('', 'K', 'M', 'G', 'T');   
-
-    return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
   }
 
 }

@@ -155,29 +155,39 @@ class DropboxFileServiceHelper implements IFileService{
   }
 
   public function getPublicUrl($path){
+    $data = null;
     try {
       $response = $this->client->postToAPI("/sharing/create_shared_link_with_settings", ["path" => $path, "settings" => ['requested_visibility' => 'public']]);
-      if ($response == null)
-        return null;
-
       $data = $response->getDecodedBody();
-      if (!isset($data['url']))
-        return null;
-
-      if (!isset($data['link_permissions']))
-        return null;
-
-      $perms = $data['link_permissions'];
-      if (!isset($perms['resolved_visibility']) || !isset($perms['resolved_visibility']['.tag']))
-        return null;
-
-      if ($perms['resolved_visibility']['.tag'] != "public")
-        return null;
-
-      return $data['url'];
+      
     } catch (Exception $e) {
-      return null;
+      try {
+        $response = $this->client->postToAPI("/sharing/list_shared_links", ["path" => $path, 'direct_only' => true]);
+        if ($response == null)
+          return null;
+
+        $data = $response->getDecodedBody();
+        $data = $data['links'][0];
+
+      } catch (Exception $e2) {
+        return null;
+      }
     }
+
+    if (!isset($data['url']))
+      return null;
+
+    if (!isset($data['link_permissions']))
+      return null;
+
+    $perms = $data['link_permissions'];
+    if (!isset($perms['resolved_visibility']) || !isset($perms['resolved_visibility']['.tag']))
+      return null;
+
+    if ($perms['resolved_visibility']['.tag'] != "public")
+      return null;
+
+    return $data['url'];
   }
 
   public function getMetadata($path){

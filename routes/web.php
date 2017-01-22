@@ -55,6 +55,18 @@ $router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
+  Route::get('/dashboard', 'Admin\AdminController@dashboard')->name("admin.dashboard");
+
+  Route::get('/submissions', 'Admin\SubmissionsController@dashboard')->name("admin.submissions");
+  Route::get('/submissions/category/{category}', 'Admin\SubmissionsController@category')->name("admin.submissions.category");
+  Route::get('/submissions/station/{station}', 'Admin\SubmissionsController@station')->name("admin.submissions.station");
+  Route::get('/submissions/view/{station}/{category}', 'Admin\SubmissionsController@view')->name("admin.submissions.view");
+  Route::get('/submissions/files', 'Admin\SubmissionsController@files')->name("admin.submissions.files");
+  Route::get('/submissions/file/{file}', 'Admin\SubmissionsController@file')->name("admin.submissions.file");
+  Route::post('/submissions/file/{file}/link/{category}', 'Admin\SubmissionsController@linkfile')->name("admin.submissions.file.link");
+  Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
+  Route::get('/submissions/file/{file}/metadata', 'Admin\SubmissionsController@metadata')->name("admin.submissions.file.metadata");
+
   Route::get('/google-auth', 'Admin\GoogleAuthController@index')->name("admin.googleauth");
   Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");
   Route::get('/google-auth/callback', 'Admin\GoogleAuthController@callback')->name("admin.googleauth.callback");
