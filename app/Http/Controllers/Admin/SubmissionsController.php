@@ -11,7 +11,10 @@ use App\Database\Entry\Entry;
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
 
+use App\Jobs\DropboxScrapeMetadata;
+
 use App;
+use Redirect;
 
 class SubmissionsController extends Controller
 { 
@@ -81,7 +84,17 @@ class SubmissionsController extends Controller
 
   public function download(UploadedFile $file)
   {
-    return App::abort(404);
+    $url = $file->getUrl();
+    if ($url == null)
+      return App::abort(404);
+    
+    return Redirect::to($url);
+  }
+
+  public function metadata(UploadedFile $file)
+  {
+    dispatch(new DropboxScrapeMetadata($file));
+    return Redirect::route("admin.submissions.file", $file);
   }
 
 }

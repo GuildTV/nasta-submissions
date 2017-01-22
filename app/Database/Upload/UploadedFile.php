@@ -57,17 +57,18 @@ class UploadedFile extends Model
     }
 
     public function getUrl($forceReload=false){
-        if (!$forceReload && $this->url != null)
-            return $this->url;
+        if (!$forceReload && $this->public_url != null)
+            return $this->public_url;
 
         $client = new DropboxFileServiceHelper($this->account->access_token);
-        $this->url = $client->getPublicUrl($this->path);
+        $this->public_url = $client->getPublicUrl($this->path);
+        $this->public_url .= (parse_url($this->public_url, PHP_URL_QUERY) ? '&' : '?') . 'raw=1';
 
-        if ($this->url != null){
-            self::where('id', $this->id)->update([ 'url' => $url ]);
+        if ($this->public_url != null){
+            self::where('id', $this->id)->update([ 'public_url' => $this->public_url ]);
         }
 
-        return $this->url;
+        return $this->public_url;
     }
 
 }

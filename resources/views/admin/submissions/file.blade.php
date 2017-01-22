@@ -22,7 +22,7 @@ window.OpenCategories = [
 
         <div class="row">
           <div class="col-md-12">
-            <form id="entryform" class="form-horizontal" onsubmit="return false">
+            <form class="form-horizontal" onsubmit="return false">
 
               <div class="form-group">
                 <label for="entryname" class="col-sm-2 control-label">Name</label>
@@ -88,7 +88,26 @@ window.OpenCategories = [
                 </div>
               </div>
 
-              @if (true) <!-- if video -->
+              <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                  <a class="btn btn-info" href="{{ route('admin.submissions.file.metadata', $file) }}" target="_blank">Update video metadata</a>
+                  Note: can take a few minutes
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+      @if ($file->metadata != null) <!-- if video -->
+      <div class="panel panel-default">
+        <div class="panel-heading">Video</div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <form class="form-horizontal" onsubmit="return false">
+
               <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
                   <video width="100%" controls>
@@ -97,12 +116,26 @@ window.OpenCategories = [
                   </video>
                 </div>
               </div>
-              @endif
+              
+              <div class="form-group">
+                <label for="entryname" class="col-sm-2 control-label">Resolution</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" disabled='disabled' value="{{ $file->metadata->width }}x{{ $file->metadata->height }}" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="entryname" class="col-sm-2 control-label">Duration</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" disabled='disabled' value="{{ \App\Helpers\StringHelper::formatDuration($file->metadata->duration/1000) }}" />
+                </div>
+              </div>
 
             </form>
           </div>
         </div>
       </div>
+      @endif
 
     </div>
   </div>
