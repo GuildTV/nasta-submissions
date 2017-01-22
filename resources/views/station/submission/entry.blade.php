@@ -65,7 +65,13 @@
 
 								<ul>
 									@foreach ($entry->uploadedFiles as $file)
-									<li class="{{ $file->isLate($category) ? "late-upload" : "" }}">{{ $file->name }} {{ $file->isLate($category) ? " - (Late)" : "" }}</li>
+									<li class="{{ $file->isLate($category) ? "late-upload" : "" }}">
+										{{ $file->name }} 
+										{{ $file->isLate($category) ? " - (Late)" : "" }}
+										@if (!$readonly)
+											<button class="btn btn-danger btn-small" data-id="{{ $file->id }}" onclick="window.StationEntry.DeleteFile(this); return false">Delete</button>
+										@endif
+									</li>
 									@endforeach
 								</ul>
 								<hr>
