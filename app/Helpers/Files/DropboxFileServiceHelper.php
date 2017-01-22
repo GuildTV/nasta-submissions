@@ -22,9 +22,28 @@ class DropboxFileServiceHelper implements IFileService{
     //   return null; // TODO - properly
     //   // $account = "devtest";
     $this->access_token = $access_token;
+    $this->init();
+  }
 
-    $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $access_token);
+  private function init(){
+    $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'), $this->access_token);
     $this->client = new Dropbox($client);
+  }
+
+  public function serialize()
+  {
+    return serialize([
+      $this->access_token,
+    ]);
+  }
+
+  public function unserialize($data)
+  {
+    list(
+      $this->access_token,
+    ) = unserialize($data);
+
+    $this->init();
   }
 
   private function genFile($file){
@@ -163,7 +182,12 @@ class DropboxFileServiceHelper implements IFileService{
 
   public function getMetadata($path){
     try {
-      return $this->client->getMetadata($path, [ "include_media_info" => true ]);
+      $res = $this->client->getMetadata($path, [ "include_media_info" => true ]);
+      $data =  $res->getMediaInfo();
+      if ($data == null)
+        return null;
+
+      return $data->getData();
     } catch (Exception $e) {
       return null;
     }

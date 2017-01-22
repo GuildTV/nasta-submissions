@@ -17,6 +17,24 @@ class TestFileServiceHelper implements IFileService{
     $this->debug = $debug;
   }
 
+  public function serialize()
+  {
+    return serialize([
+      $this->debug,
+      $this->files,
+      $this->operations,
+    ]);
+  }
+
+  public function unserialize($data)
+  {
+    list(
+      $this->debug,
+      $this->files,
+      $this->operations,
+    ) = unserialize($data);
+  }
+
   private function addOperation($op){
     $this->operations[] = $op;
 
@@ -124,6 +142,19 @@ class TestFileServiceHelper implements IFileService{
         continue;
 
       return "http://fakebox.com/" . str_random(10);
+    }
+
+    return null;
+  }
+
+  public function getMetadata($path){
+    $this->addOperation([ "metadata", $path ]);
+
+    foreach ($this->files as $k=>$f){
+      if ($f['name'] != $path)
+        continue;
+
+      return $f['metadata'];
     }
 
     return null;

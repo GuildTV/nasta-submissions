@@ -43,7 +43,7 @@ class UploadedFile extends Model
 
     public function metadata()
     {
-        return $this->belongsTo('App\Database\Upload\VideoMetadata');
+        return $this->belongsTo('App\Database\Upload\VideoMetadata', "video_metadata_id");
     }
 
     public function isLate($category=null){
