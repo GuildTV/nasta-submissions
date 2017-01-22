@@ -41,6 +41,11 @@ class UploadedFile extends Model
         return $this->belongsTo('App\Database\User', 'station_id');
     }
 
+    public function metadata()
+    {
+        return $this->belongsTo('App\Database\Upload\VideoMetadata');
+    }
+
     public function isLate($category=null){
         if ($category == null)
             $category = $this->category;
