@@ -62,9 +62,9 @@ class UploadedFile extends Model
 
         $client = new DropboxFileServiceHelper($this->account->access_token);
         $this->public_url = $client->getPublicUrl($this->path);
-        $this->public_url .= (parse_url($this->public_url, PHP_URL_QUERY) ? '&' : '?') . 'raw=1';
 
         if ($this->public_url != null){
+            $this->public_url .= (parse_url($this->public_url, PHP_URL_QUERY) ? '&' : '?') . 'raw=1';
             self::where('id', $this->id)->update([ 'public_url' => $this->public_url ]);
         }
 

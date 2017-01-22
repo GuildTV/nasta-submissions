@@ -158,6 +158,7 @@ class DropboxFileServiceHelper implements IFileService{
     $data = null;
     try {
       $response = $this->client->postToAPI("/sharing/create_shared_link_with_settings", ["path" => $path, "settings" => ['requested_visibility' => 'public']]);
+      $data = $response->getDecodedBody();
       
     } catch (Exception $e) {
       try {
@@ -169,7 +170,6 @@ class DropboxFileServiceHelper implements IFileService{
         $data = $data['links'][0];
 
       } catch (Exception $e2) {
-        dd($e2->getMessage());
         return null;
       }
     }

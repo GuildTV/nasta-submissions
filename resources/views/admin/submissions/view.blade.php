@@ -82,6 +82,12 @@
 @endforeach
             </tbody>
           </table>
+
+          <div class="filelog">
+            @foreach ($entry->uploadedFileLog as $log)
+            <p class="{{ $log->level }}">{{ $log->level }}: {{ $log->message }}</p>
+            @endforeach
+          </div>
         </div>
       </div>
 
