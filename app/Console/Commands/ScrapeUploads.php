@@ -164,10 +164,10 @@ class ScrapeUploads extends Command
     }
 
     private function parseCategoryName($name){
-        if (!preg_match("/^(.*)_(.*)/U", $name, $matches))
+        if (!preg_match("/^(.*)_(.*)_/U", $name, $matches))
             return null;
 
-        $cats = Category::where('compact_name', $matches[1])->get();
+        $cats = Category::where('compact_name', $matches[2])->get();
         foreach ($cats as $cat){
             if ($cat->canEditSubmissions())
                 return $cat;
