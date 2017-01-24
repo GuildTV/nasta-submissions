@@ -70,6 +70,7 @@ $router->group([
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
   Route::post('/users/{user}/save', 'Admin\UsersController@save');
+  Route::post('/users/{user}/save/dropbox', 'Admin\UsersController@saveDropbox');
 
   Route::get('/google-auth', 'Admin\GoogleAuthController@index')->name("admin.googleauth");
   Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");
