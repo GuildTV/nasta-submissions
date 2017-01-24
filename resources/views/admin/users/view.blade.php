@@ -22,6 +22,20 @@
               </div>
 
               <div class="form-group">
+                <label for="usercompactname" class="col-sm-3 control-label">Compact Name</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="usercompactname" name="usercompactname" maxlength="255" value="{{ $user->compact_name }}" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="userusername" class="col-sm-3 control-label">Username</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="userusername" name="userusername" maxlength="255" value="{{ $user->username }}" />
+                </div>
+              </div>
+
+              <div class="form-group">
                 <label for="useremail" class="col-sm-3 control-label">Email</label>
                 <div class="col-sm-6">
                   <input type="text" class="form-control" id="useremail" name="useremail" maxlength="255" value="{{ $user->email }}" />
