@@ -14,6 +14,8 @@ class UserSaveRequest extends AjaxRequest {
   {
     return [
       'name' => 'required|min:5|max:255',
+      'compact_name' => 'required|min:5|max:255',
+      'username' => 'required|min:5|max:255',
       'email' => 'required|min:5|max:255',
       'password' => 'confirmed|min:5',
     ];

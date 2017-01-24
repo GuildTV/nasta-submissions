@@ -31,17 +31,15 @@ class UsersController extends Controller
 
   public function save(UserSaveRequest $request, User $user)
   {
-    try {
-      $user->name = $request->name;
-      $user->email = $request->email;
+    $user->name = $request->name;
+    $user->username = $request->username;
+    $user->compact_name = $request->compact_name;
+    $user->email = $request->email;
 
-      if ($request->has('password'))
-        $user->password = bcrypt($request->password);
-      
-      $user->save();
-    } catch (Exception $e){
-      return App::abort(422, "Email address already in use");
-    }
+    if ($request->has('password'))
+      $user->password = bcrypt($request->password);
+    
+    $user->save();
 
     return $user;
   }

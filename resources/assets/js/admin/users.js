@@ -7,6 +7,8 @@ window.AdminUsers = {
 
     const data = {
       name: $('#username').val(),
+      compact_name: $('#usercompactname').val(),
+      username: $('#userusername').val(),
       email: $('#useremail').val(),
       password: $('#userpassword').val(),
       password_confirmation: $('#userpassword_confirm:checked').val(),
