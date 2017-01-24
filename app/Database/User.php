@@ -33,6 +33,9 @@ class User extends Authenticatable
 		'password', 'remember_token',
 	];
 
+	public function uploadedFiles(){
+		return $this->hasMany('App\Database\Upload\UploadedFile', 'station_id');
+	}
 
 	public function stationFolder(){
 		return $this->hasOne('App\Database\Upload\StationFolder');
