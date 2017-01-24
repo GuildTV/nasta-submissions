@@ -7,6 +7,7 @@ use App\Http\Requests\AjaxRequest;
 
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
+use Kunnu\Dropbox\Store\PersistentDataStoreInterface;
 
 use App\Database\Upload\DropboxAccount;
 
@@ -15,6 +16,35 @@ use App\Helpers\StringHelper;
 use Redirect;
 use Session;
 use Exception;
+use Log;
+
+class DropboxSessionStore implements PersistentDataStoreInterface{
+  protected $prefix;
+
+  public function __construct($prefix = "DBAPI_")
+  {
+    $this->prefix = $prefix;
+  }
+
+  public function get($key)
+  {
+    $res = Session::get($this->prefix . $key, null);
+    Log::info("Get session " . $key . " - " . $res);
+    return $res;
+  }
+
+  public function set($key, $value)
+  {
+    Log::info("Write session " . $key . " - " . $value);
+    Session::put($this->prefix . $key, $value);
+  }
+
+  public function clear($key)
+  {
+    Log::info("Clear session " . $key);
+    Session::forget($this->prefix . $key);
+  }
+}
 
 class DropboxAuthController extends Controller {
 
@@ -65,7 +95,7 @@ class DropboxAuthController extends Controller {
         ]);
 
     $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'));
-    $dropbox = new Dropbox($client);
+    $dropbox = new Dropbox($client, [ 'persistent_data_store' => new DropboxSessionStore() ]);
 
     $authHelper = $dropbox->getAuthHelper();
     $authUrl = $authHelper->getAuthUrl(env('APP_URL') . "/admin/dropbox-auth/callback");
@@ -82,7 +112,7 @@ class DropboxAuthController extends Controller {
         ]);
 
     $client = new DropboxApp(env('DROPBOX_CLIENT_ID'), env('DROPBOX_CLIENT_SECRET'));
-    $dropbox = new Dropbox($client);
+    $dropbox = new Dropbox($client, [ 'persistent_data_store' => new DropboxSessionStore() ]);
     $authHelper = $dropbox->getAuthHelper();
 
     if (!$request->has('code') || !$request->has('state'))
