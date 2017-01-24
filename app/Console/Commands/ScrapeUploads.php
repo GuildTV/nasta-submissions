@@ -68,10 +68,7 @@ class ScrapeUploads extends Command
                 $this->scrapeFolder($client, $folder);
             } catch (Exception $e){
                 Log::error('Failed to scrape: '. $e->getMessage());
-                return $e;
             }
-
-            return null;
         }
     }
 
