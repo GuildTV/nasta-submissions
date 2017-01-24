@@ -12,3 +12,4 @@ require('./station/files');
 require('./station/settings');
 
 require('./admin/submission-files');
+require('./admin/users');

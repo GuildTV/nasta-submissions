@@ -67,6 +67,11 @@ $router->group([
   Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
   Route::get('/submissions/file/{file}/metadata', 'Admin\SubmissionsController@metadata')->name("admin.submissions.file.metadata");
 
+  Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
+  Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
+  Route::post('/users/{user}/save', 'Admin\UsersController@save');
+  Route::post('/users/{user}/save/dropbox', 'Admin\UsersController@saveDropbox');
+
   Route::get('/google-auth', 'Admin\GoogleAuthController@index')->name("admin.googleauth");
   Route::get('/google-auth/go', 'Admin\GoogleAuthController@go')->name("admin.googleauth.go");
   Route::get('/google-auth/callback', 'Admin\GoogleAuthController@callback')->name("admin.googleauth.callback");

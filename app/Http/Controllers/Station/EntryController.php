@@ -60,7 +60,7 @@ class EntryController extends Controller
   public function init_upload(){
     $user = Auth::user();
 
-    $folder = $user->station_folder;
+    $folder = $user->stationFolder;
     if ($folder == null)
       throw new UploadException("Missing target for user");
 

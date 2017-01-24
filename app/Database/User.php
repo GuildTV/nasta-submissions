@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Mail\Auth\ResetPassword;
 
+use App\Database\Upload\StationFolder;
+
 use Mail;
 
 class User extends Authenticatable
@@ -32,8 +34,18 @@ class User extends Authenticatable
 	];
 
 
-	public function station_folder(){
+	public function stationFolder(){
 		return $this->hasOne('App\Database\Upload\StationFolder');
+	}
+
+	public function stationFolderOrNew(){
+		$folder = $this->stationFolder;
+		if ($folder != null)
+			return $folder;
+
+		return new StationFolder([
+			'user_id' => $this->id,
+		]);
 	}
 
 	public function sendPasswordResetNotification($token){
