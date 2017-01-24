@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('scrape:free-space')
                  ->everyFiveMinutes();
         $schedule->command('scrape:uploads')
-                 ->everyFiveMinutes();
+                 ->everyMinute();
         $schedule->command('email:daily-deadlines')
                  ->dailyAt('09:00');
         $schedule->command('email:daily-summary')
