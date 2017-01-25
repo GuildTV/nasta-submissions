@@ -67,7 +67,7 @@ window.OpenCategories = [
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td class="{{ $file->isLate() ? "late-upload" : "submitted-upload" }}">{{ $file->isLate() ? "Yes" : "No" }}</td>
                 <td>
-                  @if ($file->category == null || $file->category->canEditSubmissions())
+                  @if ($file->category == null || $file->category->myEntry == null || ($file->category->canEditSubmissions() && !$file->category->myEntry->submitted))
                     <a class="btn btn-danger" data-id="{{ $file->id }}" onclick="window.StationFiles.Delete(this)">Delete</button>
                   @endif
                 </td>
