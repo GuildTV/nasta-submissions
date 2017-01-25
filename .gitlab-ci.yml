@@ -48,73 +48,49 @@ build:composer:
     - vendor/*
 
 build:cron:
-  image: docker:1.12
-  variables:
-    privileged: 'true'
-    DOCKER_HOST: julusian-docker:2375
-  services:
-    - julusian/docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" -f docker/cron/Dockerfile .
     - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
   type: build-image
   tags:
-    - docker
-    - dind-overlay
+    - shell
+    - docker-build
   dependencies:
     - build:assets
     - build:composer
 
 build:http:
-  image: docker:1.12
-  variables:
-    privileged: 'true'
-    DOCKER_HOST: julusian-docker:2375
-  services:
-    - julusian/docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" -f docker/http/Dockerfile .
     - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
   type: build-image
   tags:
-    - docker
-    - dind-overlay
+    - shell
+    - docker-build
   dependencies:
     - build:assets
     - build:composer
 
 build:queue:
-  image: docker:1.12
-  variables:
-    privileged: 'true'
-    DOCKER_HOST: julusian-docker:2375
-  services:
-    - julusian/docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" -f docker/queue/Dockerfile .
     - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
   type: build-image
   tags:
-    - docker
-    - dind-overlay
+    - shell
+    - docker-build
   dependencies:
     - build:assets
     - build:composer
 
 build:db:
-  image: docker:1.12
-  variables:
-    privileged: 'true'
-    DOCKER_HOST: julusian-docker:2375
-  services:
-    - julusian/docker:1.12-dind
   script:
     - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
     - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
   type: build-image
   tags:
-    - docker
-    - dind-overlay
+    - shell
+    - docker-build
   dependencies: []
 
 test:
