@@ -53,8 +53,10 @@ class StationController extends Controller
 
 	public function files()
 	{
-		$categories = Category::all();
-		$files = Auth::user()->uploadedFiles()->orderBy("category_id")->with('category')->get();
+		$categories = Category::with('myEntry')->get();
+		$categories = array_filter($categories->all(), function($cat){ return $cat->myEntry == null; });
+
+		$files = Auth::user()->uploadedFiles()->orderBy("category_id")->with('category')->with('category.myEntry')->get();
 
 		return view('station.files', compact('files', 'categories'));
 	}

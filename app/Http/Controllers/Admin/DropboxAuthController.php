@@ -123,11 +123,17 @@ class DropboxAuthController extends Controller {
 
     $accessToken = $authHelper->getAccessToken($request->code, $request->state, env('APP_URL') . "/admin/dropbox-auth/callback");
 
-    DropboxAccount::updateOrCreate([
-      'id' => Session::get('admin.dropboxauth.account'),
-      'enabled' => true,
-      'access_token' => $accessToken->getToken(),
-    ]);
+    $account = DropboxAccount::where('id', Session::get('admin.dropboxauth.account'))->first();
+    if ($account == null) {
+      $account = new DropboxAccount([
+        'id' => Session::get('admin.dropboxauth.account'),
+      ]);
+    }
+
+    $account->dropbox_id = $accessToken->getUid();
+    $account->enabled = true;
+    $account->access_token = $accessToken->getToken();
+    $account->save();
 
     return Redirect::to('/admin/dropbox-auth')
       ->withErrors([

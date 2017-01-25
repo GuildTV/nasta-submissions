@@ -10,8 +10,6 @@ use App\Database\Category\Category;
 
 use App\Mail\Station\EntryFileNoMatch;
 use App\Mail\Station\EntryFileCloseDeadline;
-use App\Mail\Station\EntryFileMadeLate;
-use App\Mail\Station\EntryFileAlreadySubmitted;
 use App\Mail\Admin\ExceptionEmail;
 
 use App\Jobs\DropboxDownloadFile;
@@ -31,8 +29,10 @@ class ScrapeUploadsTest extends TestCase
   private static $dummyHelperClass = "App\Helpers\Files\TestFileServiceHelper";
   private static $debugHelper = false;
 
-  private static $testCategoryId = "animation";
-  private static $testCategoryCompact = "Male";
+  private static $testCategoryId = "no-constraints";
+  private static $testCategoryCompact = "no-constraints";
+
+  private static $testCategorySubmittedId = "animation";
 
   public function testScrapeFailLoadFolder(){
     $scraper = new ScrapeUploads();
@@ -126,7 +126,6 @@ class ScrapeUploadsTest extends TestCase
     $res = $scraper->scrapeFolder($helper, $folder);
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
-    Mail::assertSent(EntryFileAlreadySubmitted::class);
     Mail::assertNotSent(ExceptionEmail::class);
     Queue::assertPushed(DropboxScrapeMetadata::class);
     Queue::assertPushedOn("downloads", DropboxDownloadFile::class);
@@ -140,6 +139,79 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['size'], $file->size);
     $this->assertEquals($files[0]['hash'], $file->hash);
     $this->assertNotNull($file->public_url);
+  }
+
+  public function testScrapeImportCategoryFolder(){
+    Mail::fake();
+    Queue::fake();
+
+    $folder = StationFolder::find(1);
+    $folder->category_id = self::$testCategoryId;
+    $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
+
+    $files = [
+      [ 
+        "name" => $folder->folder_name . "/station_entryname.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
+    ];
+    $targetName = $targetDir . "station_entryname_".$files[0]['hash'].".mp4";
+    $expectedOps = [
+      [ "list", $folder->folder_name ],
+      [ "move", $files[0]['name'], $targetName ],
+      [ "url", $targetName ]
+    ];
+
+    $scraper = new ScrapeUploads();
+    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
+
+    // check scraper worked as expected
+    $res = $scraper->scrapeFolder($helper, $folder);
+    $this->assertEquals(null, $res);
+    $this->assertEquals($expectedOps, $helper->getOperations());
+    Mail::assertNotSent(ExceptionEmail::class);
+  }
+
+  public function testScrapeImportCategoryFolderSubmitted(){
+    Mail::fake();
+    Queue::fake();
+
+    $folder = StationFolder::find(1);
+    $folder->category_id = self::$testCategorySubmittedId;
+    $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $folder->station->name . "/";
+
+    $files = [
+      [ 
+        "name" => $folder->folder_name . "/station_entryname.mp4", 
+        "modified" => Carbon::now(), 
+        "size" => 2355, 
+        "rev" => "sfaffberr",
+        "hash" => "hfisisfsd",
+      ]
+    ];
+    $targetName = $targetDir . "station_entryname_".$files[0]['hash'].".mp4";
+    $expectedOps = [
+      [ "list", $folder->folder_name ],
+      [ "move", $files[0]['name'], $targetName ],
+      [ "url", $targetName ]
+    ];
+
+    $scraper = new ScrapeUploads();
+    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
+
+    // check scraper worked as expected
+    $res = $scraper->scrapeFolder($helper, $folder);
+    $this->assertEquals(null, $res);
+    $this->assertEquals($expectedOps, $helper->getOperations());
+    Mail::assertSent(EntryFileNoMatch::class);
+    Mail::assertNotSent(ExceptionEmail::class);
+    
+    $file = UploadedFile::where("path", $targetName)->first();
+    $this->assertNotNull($file);
+    $this->assertNull($file->category_id);
   }
 
   public function testScrapeImportMatchNamePrefix(){
@@ -186,81 +258,6 @@ class ScrapeUploadsTest extends TestCase
     $this->assertEquals($files[0]['size'], $file->size);
     $this->assertEquals($files[0]['hash'], $file->hash);
     $this->assertNotNull($file->public_url);
-  }
-
-  // hits EntryFileMadeLate
-  public function testScrapeImportEntryMadeLate(){
-    Mail::fake();
-    Queue::fake();
-
-    $cat = Category::create([
-      "id" => str_random(10),
-      "name" => str_random(10),
-      "compact_name" => str_random(10),
-      "closing_at" => Carbon::now()->subMinutes(2),
-    ]);
-
-    $folder = StationFolder::find(1);
-
-    $files = [
-      [ 
-        "name" => $folder->folder_name . "/Soem person - blah_" . $cat->compact_name . "_entrymadelate.mp4", 
-        "modified" => Carbon::now(), 
-        "size" => 2355, 
-        "rev" => "sfaffberr",
-        "hash" => "hfisisfsd",
-      ]
-    ];
-
-    $scraper = new ScrapeUploads();
-    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
-
-    // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
-    $this->assertEquals(null, $res);
-    Mail::assertSent(EntryFileMadeLate::class);
-    Mail::assertNotSent(ExceptionEmail::class);
-    Queue::assertPushed(DropboxScrapeMetadata::class);
-    Queue::assertPushedOn("downloads", DropboxDownloadFile::class);
-  }
-
-  // hits EntryFileAlreadySubmitted
-  public function testScrapeImportEntryAlreadySubmitted(){
-    Mail::fake();
-    Queue::fake();
-
-    $cat = Category::create([
-      "id" => str_random(10),
-      "name" => str_random(10),
-      "compact_name" => str_random(10),
-      "closing_at" => Carbon::now()->subMinutes(2),
-    ]);
-
-    $folder = StationFolder::find(1);
-    $entry = $cat->getEntryForStation($folder->user_id);
-    $entry->submitted = true;
-    $entry->save();
-
-    $files = [
-      [ 
-        "name" => $folder->folder_name . "/Soem person - blah_" . $cat->compact_name . "_entrymadelate.mp4", 
-        "modified" => Carbon::now(), 
-        "size" => 2355, 
-        "rev" => "sfaffberr",
-        "hash" => "hfisisfsd",
-      ]
-    ];
-
-    $scraper = new ScrapeUploads();
-    $helper = new self::$dummyHelperClass($files, self::$debugHelper);
-
-    // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
-    $this->assertEquals(null, $res);
-    Mail::assertSent(EntryFileAlreadySubmitted::class);
-    Mail::assertNotSent(ExceptionEmail::class);
-    Queue::assertPushed(DropboxScrapeMetadata::class);
-    Queue::assertPushedOn("downloads", DropboxDownloadFile::class);
   }
 
   // hits EntryFileCloseDeadline

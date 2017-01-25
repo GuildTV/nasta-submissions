@@ -57,12 +57,14 @@ class EntryController extends Controller
     return $entry; 
   }
 
-  public function init_upload(){
+  public function init_upload(Category $category){
     $user = Auth::user();
 
-    $folder = $user->stationFolder;
+    $folder = $user->stationFolders()->where('category_id', $category->id)->first();
     if ($folder == null)
       throw new UploadException("Missing target for user");
+
+    // TODO - fallback to shared folder?
 
     return Redirect::to($folder->request_url);
   }

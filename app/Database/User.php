@@ -41,14 +41,8 @@ class User extends Authenticatable
 		return $this->hasOne('App\Database\Upload\StationFolder');
 	}
 
-	public function stationFolderOrNew(){
-		$folder = $this->stationFolder;
-		if ($folder != null)
-			return $folder;
-
-		return new StationFolder([
-			'user_id' => $this->id,
-		]);
+	public function stationFolders(){
+		return $this->hasMany('App\Database\Upload\StationFolder');
 	}
 
 	public function sendPasswordResetNotification($token){

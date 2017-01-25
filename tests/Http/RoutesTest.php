@@ -22,12 +22,13 @@ class RoutesTest extends AutoTestBase
   // Route names to skip
   const SKIP_NAMES = [
     'auth.reset',
-    'debugbar.'
+    'debugbar.',
+    'station.entry.upload'  
   ];
 
   // route, params, user
   const EXPECTED_EXCEPTIONS = [
-    [ "station.entry.upload", [], 4],
+    [ "station.entry.upload", [ "already-closed" ], null],
     [ "station.entry", [ 'no-constraints' ], null],
   ];
 

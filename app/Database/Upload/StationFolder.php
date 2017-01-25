@@ -14,7 +14,8 @@ class StationFolder extends Model
    */
   protected $fillable = [
     "user_id", 
-    "account_id", "request_url", "folder_name",
+    "account_id", "category_id",
+    "request_url", "folder_name",
   ];
 
   /**
@@ -31,6 +32,11 @@ class StationFolder extends Model
 
   public function account(){
     return $this->belongsTo('App\Database\Upload\DropboxAccount');
+  }
+
+
+  public function category(){
+    return $this->belongsTo('App\Database\Category\Category');
   }
 
 }

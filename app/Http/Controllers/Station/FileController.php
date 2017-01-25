@@ -30,7 +30,7 @@ class FileController extends Controller
       return App::abort(404);
 
     // Check if category can be edited
-    if ($file->category != null && !$file->category->canEditSubmissions())
+    if (($file->category != null && !$file->category->canEditSubmissions()) || $file->category->getEntryForStation($file->station_id)->submitted)
       return App::abort(400);
 
     if ($file->account == null)
@@ -72,7 +72,7 @@ class FileController extends Controller
     if ($file->category_id != null)
       return App::abort(400);
 
-    if (!$category->canEditSubmissions())
+    if (!$category->canEditSubmissions() || $category->getEntryForStation($file->station_id)->submitted)
       return App::abort(400);
 
     // update file

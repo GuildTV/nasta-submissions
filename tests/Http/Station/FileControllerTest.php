@@ -18,7 +18,8 @@ class FileControllerTest extends TestCase
 {
   use DatabaseTransactions;
 
-  private static $testCategory = "animation";
+  private static $testCategory = "no-constraints";
+  private static $testSubmittedCategory = "animation";
   private static $testClosedCategory = "something";
 
   private static $deleteUrl = '/station/files/%d/delete';
@@ -111,6 +112,33 @@ class FileControllerTest extends TestCase
     $file = UploadedFile::create([
       'station_id' => $this->station->id,
       'category_id' => self::$testClosedCategory,
+      'account_id' => self::$testAccountId,
+      'path' => $filename,
+      'name' => 'Test file for delete',
+      'uploaded_at' => Carbon::now(),
+    ]);
+
+    $account = DropboxAccount::where("id", self::$testAccountId)->first();
+
+    // ensure file exists on dropbox
+    $dropbox = new DropboxFileServiceHelper($account->access_token);
+    $dropbox->ensureFileExists(storage_path().self::$testSourceFile, $filename);
+
+    $this->actingAs($this->station)->postAjax(sprintf(self::$deleteUrl, $file->id), [])
+      ->assertResponseStatus(400);
+
+    $file = UploadedFile::where("id", $file->id)->first();
+    $this->assertNotNull($file);
+
+    $this->assertTrue($dropbox->fileExists($filename));
+  }
+
+  public function testDeleteSubmitted(){
+    $filename = "/" . str_random(15) . ".tmp";
+
+    $file = UploadedFile::create([
+      'station_id' => $this->station->id,
+      'category_id' => self::$testSubmittedCategory,
       'account_id' => self::$testAccountId,
       'path' => $filename,
       'name' => 'Test file for delete',
