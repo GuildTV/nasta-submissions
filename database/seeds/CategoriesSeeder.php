@@ -14,11 +14,11 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-      $mondayClosing    = Carbon::create(2017, 2, 20, 19, 0, 0);
-      $tuesdayClosing   = Carbon::create(2017, 2, 21, 19, 0, 0);
-      $wednesdayClosing = Carbon::create(2017, 2, 22, 19, 0, 0);
-      $thursdayClosing  = Carbon::create(2017, 2, 23, 19, 0, 0);
-      $fridayClosing    = Carbon::create(2017, 2, 24, 19, 0, 0);
+      $mondayClosing    = Carbon::create(2017, 2, 20, 17, 0, 0);
+      $tuesdayClosing   = Carbon::create(2017, 2, 21, 17, 0, 0);
+      $wednesdayClosing = Carbon::create(2017, 2, 22, 17, 0, 0);
+      $thursdayClosing  = Carbon::create(2017, 2, 23, 17, 0, 0);
+      $fridayClosing    = Carbon::create(2017, 2, 24, 17, 0, 0);
 
       Category::create([
         'id' => 'animation',
@@ -32,7 +32,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'best-broadcaster',
         'name' => 'Best Broadcaster',
         'compact_name' => 'BestBroadcaster',
-        'description' => 'A showreel demonstrating the range, quality and skills of the stationand its programming, to be accompanied by a written report, with details of the operation of the station and contributions made which may not necessarily appear on screen. <br /> Written accompaniments will be accepted in .pdf or plain text format and must notexceed 500 words.',
+        'description' => 'A showreel demonstrating the range, quality and skills of the stationand its programming, to be accompanied by a written report, with details of the operation of the station and contributions made which may not necessarily appear on screen.',
         'closing_at' => $mondayClosing
       ]);
 
