@@ -41,6 +41,10 @@ class User extends Authenticatable
 		return $this->hasOne('App\Database\Upload\StationFolder');
 	}
 
+	public function stationFolders(){
+		return $this->hasMany('App\Database\Upload\StationFolder');
+	}
+
 	public function stationFolderOrNew(){
 		$folder = $this->stationFolder;
 		if ($folder != null)

@@ -39,6 +39,8 @@ class CreateVideoMetadataTable extends Migration
     public function down()
     {
         Schema::table('uploaded_files', function (Blueprint $table) {
+            $table->dropForeign('uploaded_files_video_metadata_id_foreign');
+            
             $table->dropColumn('video_metadata_id');
         });
 
