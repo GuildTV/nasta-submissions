@@ -13,8 +13,6 @@ use App\Jobs\DropboxScrapeMetadata;
 
 use App\Mail\Station\EntryFileNoMatch;
 use App\Mail\Station\EntryFileCloseDeadline;
-use App\Mail\Station\EntryFileMadeLate;
-use App\Mail\Station\EntryFileAlreadySubmitted;
 
 use App\Database\Upload\StationFolder;
 use App\Database\Upload\UploadedFile;
@@ -59,9 +57,9 @@ class ScrapeUploads extends Command
      */
     public function handle()
     {
-        $folders = StationFolder::with('station')->with('account')->get();
+        $folders = StationFolder::with('station')->with('account')->with('category')->get();
         foreach($folders as $folder){
-            Log::info('Scraping uploads for account: '.$folder->station->name);
+            Log::info('Scraping uploads for account: '.$folder->station->name . "(" . $folder->category_id . ")");
 
             try {
                 $client = new DropboxFileServiceHelper($folder->account->access_token);
@@ -86,7 +84,16 @@ class ScrapeUploads extends Command
         foreach ($files as $file){
             $rawName = $this->stripSubmitterName($file['name']);
             $parts = pathinfo($rawName);
-            $category = $this->parseCategoryName($rawName);
+
+            $category = $folder->category;
+            if ($category == null) {
+                $category = $this->parseCategoryName($rawName);
+            }
+
+            // Don't add to category which cant be edited
+            if (!$category->canEditSubmissions() || $category->getEntryForStation($folder->station->id)->submitted)
+                $category = null;
+
             $categoryId = $category != null ? $category->id : null;
 
             $filename = $targetDir . $parts['filename'] . "_" . $file['hash'] . "." . $parts['extension'];
@@ -98,7 +105,7 @@ class ScrapeUploads extends Command
 
             $url =  $client->getPublicUrl($filename);
 
-            $count = $this->countReasonsLate($folder->station, $category);
+            // $count = $this->countReasonsLate($folder->station, $category);
 
             $res = UploadedFile::create([
                 'station_id' => $folder->station->id,
@@ -112,7 +119,7 @@ class ScrapeUploads extends Command
                 'uploaded_at' => $file['modified'],
             ]);
 
-            $isNowLate = $count == 0 && $this->countReasonsLate($folder->station, $category) > 0;
+            // $isNowLate = $count == 0 && $this->countReasonsLate($folder->station, $category) > 0;
 
             UploadedFileLog::create([
                 'station_id' => $folder->station->id,
@@ -145,18 +152,8 @@ class ScrapeUploads extends Command
                 // Notify file was accepted
                 Mail::to($folder->station)->queue(new EntryFileCloseDeadline($res));
 
-            } else if ($isNowLate) {
-                // File made entry late
-                Mail::to($folder->station)->queue(new EntryFileMadeLate($category, $res));
-
             } else {
-                $entry = $category->getEntryForStation($folder->station->id);
-                $entry->category = $category;
-                if ($entry != null && $entry->submitted) {
-                    // file was added after submitted
-                    Mail::to($folder->station)->queue(new EntryFileAlreadySubmitted($entry, $res));
-
-                } // else, we dont need to notify them
+                // Unexpected state.
             }
 
             Log::info("Imported: " . $file['name']);

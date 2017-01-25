@@ -56,7 +56,7 @@
 								@if ($readonly)
 									<p class="entry-closed">Entry is closed</p>
 								@else
-									<button class="btn btn-primary" data-url="{{ route("station.entry.upload") }}" data-filename="{{ $filename }}"
+									<button class="btn btn-primary" data-url="{{ route("station.entry.upload", $category) }}" data-filename="{{ $filename }}"
 										onclick="StationEntry.ShowUpload(this); return false">Upload Files</button>
 									
 									<br />

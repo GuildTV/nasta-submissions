@@ -44,16 +44,4 @@ class UsersController extends Controller
     return $user;
   }
 
-  public function saveDropbox(UserDropboxSaveRequest $request, User $user)
-  {
-    $folder = $user->stationFolderOrNew();
-    $folder->account_id = $request->account;
-    $folder->request_url = $request->url;
-    $folder->folder_name = $request->folder;
-
-    $folder->save();
-
-    return $folder;
-  }
-
 }

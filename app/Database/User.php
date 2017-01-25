@@ -45,16 +45,6 @@ class User extends Authenticatable
 		return $this->hasMany('App\Database\Upload\StationFolder');
 	}
 
-	public function stationFolderOrNew(){
-		$folder = $this->stationFolder;
-		if ($folder != null)
-			return $folder;
-
-		return new StationFolder([
-			'user_id' => $this->id,
-		]);
-	}
-
 	public function sendPasswordResetNotification($token){
 		Mail::to($this)->queue(new ResetPassword($this, $token));
 	}
