@@ -91,7 +91,7 @@ class ScrapeUploads extends Command
             }
 
             // Don't add to category which cant be edited
-            if (!$category->canEditSubmissions() || $category->getEntryForStation($folder->station->id)->submitted)
+            if ($category != null && (!$category->canEditSubmissions() || $category->getEntryForStation($folder->station->id)->submitted))
                 $category = null;
 
             $categoryId = $category != null ? $category->id : null;
