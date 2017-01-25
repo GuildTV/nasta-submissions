@@ -94,9 +94,11 @@ class CreateFileRequests extends Command
                 }
 
                 try {
+                    $account = $accountMap[$station->dropbox_account_id];
+
                     $title = $station->name . " - " . $category->name;
                     $folder = "/Drops/" . $station->compact_name . "_" . $category->compact_name;
-                    $res = $this->createFolder(636854300, $title, $folder, $cookieCache[$station->dropbox_account_id]);
+                    $res = $this->createFolder($account->dropbox_id, $title, $folder, $cookieCache[$station->dropbox_account_id]);
 
                     $json = json_decode($res, true);
                     $url = "https://www.dropbox.com/request/" . $json['file_collector']['token'];
