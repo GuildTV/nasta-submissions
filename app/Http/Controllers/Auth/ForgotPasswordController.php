@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use App\Database\User;
 
 class ForgotPasswordController extends Controller
 {
@@ -50,8 +51,35 @@ class ForgotPasswordController extends Controller
         );
 
         return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($response)
+                    ? $this->sendResetLinkResponseOverride($request, $response)
                     : $this->sendResetLinkFailedResponse($request, $response);
+    }
+
+    /**
+     * Get the response for a successful password reset link.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetLinkResponseOverride(Request $request, $response)
+    {
+        $user = User::where('username', $request->username)->first();
+        $email = "???";
+        if ($user != null)
+            $email = $this->hideEmail($user->email);
+
+        return back()->with('status', trans($response, [ 'email' => $email ]));
+    }
+
+    private function hideEmail($input,$show=3) {
+       $arr = explode('@', $input);
+       $arr[0] = substr($arr[0],0,$show).str_repeat('*',strlen($arr[0])-$show);
+
+       $arr2 = explode('.', $arr[1]);
+       $arr2[0] = substr($arr2[0],0,$show).str_repeat('*',strlen($arr2[0])-$show);
+
+       $arr[1] = implode('.', $arr2);
+       return implode("@", $arr);
     }
 
     /**

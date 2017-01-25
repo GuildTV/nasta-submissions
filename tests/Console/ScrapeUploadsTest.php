@@ -105,14 +105,14 @@ class ScrapeUploadsTest extends TestCase
 
     $files = [
       [ 
-        "name" => $folder->folder_name . "/".self::$testCategoryCompact."_station_entryname.mp4", 
+        "name" => $folder->folder_name . "/station_".self::$testCategoryCompact."_entryname.mp4", 
         "modified" => Carbon::now(), 
         "size" => 2355, 
         "rev" => "sfaffberr",
         "hash" => "hfisisfsd",
       ]
     ];
-    $targetName = $targetDir . self::$testCategoryCompact."_station_entryname_".$files[0]['hash'].".mp4";
+    $targetName = $targetDir . "station_".self::$testCategoryCompact."_entryname_".$files[0]['hash'].".mp4";
     $expectedOps = [
       [ "list", $folder->folder_name ],
       [ "move", $files[0]['name'], $targetName ],
@@ -204,7 +204,7 @@ class ScrapeUploadsTest extends TestCase
 
     $files = [
       [ 
-        "name" => $folder->folder_name . "/Soem person - " . $cat->compact_name . "_entrymadelate.mp4", 
+        "name" => $folder->folder_name . "/Soem person - blah_" . $cat->compact_name . "_entrymadelate.mp4", 
         "modified" => Carbon::now(), 
         "size" => 2355, 
         "rev" => "sfaffberr",
@@ -243,7 +243,7 @@ class ScrapeUploadsTest extends TestCase
 
     $files = [
       [ 
-        "name" => $folder->folder_name . "/Soem person - " . $cat->compact_name . "_entrymadelate.mp4", 
+        "name" => $folder->folder_name . "/Soem person - blah_" . $cat->compact_name . "_entrymadelate.mp4", 
         "modified" => Carbon::now(), 
         "size" => 2355, 
         "rev" => "sfaffberr",
@@ -279,7 +279,7 @@ class ScrapeUploadsTest extends TestCase
 
     $files = [
       [ 
-        "name" => $folder->folder_name . "/Soem person - " . $cat->compact_name . "_entrymadelate.mp4", 
+        "name" => $folder->folder_name . "/Soem person - blah_" . $cat->compact_name . "_entrymadelate.mp4", 
         "modified" => Carbon::now(), 
         "size" => 2355, 
         "rev" => "sfaffberr",
