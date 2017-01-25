@@ -41,7 +41,7 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Submit Entry",
-      message: "By submitting your entry you acknowledge that your entry is complete. You can unsubmit your entry if you wish to make more changes",
+      message: "By submitting your entry you acknowledge that your entry is complete, and that all your files are shown above. You can unsubmit your entry if you wish to make more changes",
       callback: r => r ? StationEntry.DoSubmit(category, data) : null
     });
   },
@@ -98,7 +98,8 @@ window.StationEntry = {
     bootbox.confirm({
       title: "Upload Files",
       message: "A new window will now open, please follow the instructions to upload your submission. When the upload is complete, please close the window to return to this page. <br/>"
-              +"Filenames should be of the format: " + filename,
+              +"Filenames should be of the format: " + filename + "<br />"
+              +"You should not submit your entry until the entry page is showing all the files you have uploaded.",
       buttons: {
         confirm: {
           label: 'To the uploader!',

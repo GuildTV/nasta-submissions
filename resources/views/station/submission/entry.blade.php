@@ -13,10 +13,7 @@
 							<div class="alert col-sm-10 col-sm-offset-1 {{ $entry->isLate($category) ? "alert-warning" : "alert-success" }}" id="update_status">
 								<p>You submitted your entry on the {{ $entry->updated_at->format("jS F \\a\\t H:i") }}</p>
 								@if ($entry->isLate($category))
-									<p class="late-upload">Your entry has been marked as  late!!</p>
-									@if (!$closed)
-									<p>It is still possible to remove offending files to clear the late status</p>
-									@endif
+									<p class="late-upload">Your entry has been marked as late!!</p>
 								@endif
 								<p><a href="{{ route('station.categories') }}">Back</a> to categories list</p>
 							</div>
