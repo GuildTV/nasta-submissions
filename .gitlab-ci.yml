@@ -132,7 +132,7 @@ test:
 
     - php artisan key:generate
     - php artisan migrate --database=test_mysql
-    - DB_CONNECTION=test_mysql APP_DEBUG=false APP_ENV=test ./vendor/bin/phpunit
+    - DB_CONNECTION=test_mysql APP_ENV=test ./vendor/bin/phpunit
   type: test
   tags:
     - docker
