@@ -49,7 +49,8 @@ class CategoryFileConstraintsSeeder extends Seeder
       $this->add('live', 1);
 
       // Mars el Brogy
-      // TODO
+      $this->add('mars-el-brogy', 1);
+      $this->add('mars-el-brogy', 7);
       $this->add('mars-el-brogy', 9);
 
       // Music Programming
@@ -69,7 +70,6 @@ class CategoryFileConstraintsSeeder extends Seeder
 
       // Post Production
       $this->add('post-production', 1);
-      // TODO
 
       // Sport
       $this->add('sport', 1);

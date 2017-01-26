@@ -1,14 +1,11 @@
 <div class="col-md-12">
 	<div class="panel panel-default">
-		<div class="panel-heading">Details</div>
+		<div class="panel-heading">{{ $category->name }}</div>
 
 		<div class="row">
 			<div class="col-md-6 col-md-offset-1">
 				<dl class="dl-horizontal">
 					<h3>Details</h3>
-
-					<dt>Name</dt>
-					<dd>{{ $category->name }}</dd>
 
 					<dt>Description</dt>
 					<dd>{{ $category->description }}</dd>
