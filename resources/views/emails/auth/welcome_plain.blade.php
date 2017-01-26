@@ -1,10 +1,15 @@
 Hi {{ $user->name }},
 
-Welcome to the NaSTA Awards {{ \Config::get('nasta.year') }}.
+Welcome to NaSTA Awards {{ \Config::get('nasta.year') }} Submissions!
 
-Your username is '{{ $user->username }}' and you can activate you account at {{ route('auth.reset', $token) }}
+We've already generated a username for your station to login with:
+  {{ $user->username }}
 
-The link above expires in 1 week, if required you can get a new link at {{ route('auth.forgot')  }}
+Before you can start submitting your entries, you'll need to set a password and activate your account at {{ route('auth.reset', $token) }}
+
+If you have any questions about activation or the submissions process in general, please email us at submissions@nasta.tv
+
+Good luck!
 
 Regards,
 The Submissions Team

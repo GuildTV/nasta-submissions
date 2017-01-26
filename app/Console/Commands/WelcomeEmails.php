@@ -68,7 +68,7 @@ class WelcomeEmails extends Command
             DB::table('password_resets')->insert([
                 'email' => $user->email, 
                 'token' => $token,
-                'created_at' => Carbon::now()->addWeek(),
+                'created_at' => Carbon::now()->addYear(),
             ]);
 
             Mail::to($user)->queue(new Welcome($user, $token));

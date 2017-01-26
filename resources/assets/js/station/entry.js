@@ -69,7 +69,7 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Edit Entry",
-      message: "This will change your submission from submitted to a draft. If you do not resubmit your entry before the deadline it will be counted as late",
+      message: "This will change your entry from submitted to a draft. If you do not resubmit your entry before the deadline it will be counted as late",
       callback: r => {
         if (!r) return;
 
@@ -97,9 +97,9 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Upload Files",
-      message: "A new window will now open, please follow the instructions to upload your submission. When the upload is complete, please close the window to return to this page. <br/>"
-              +"Filenames should be of the format: " + filename + "<br />"
-              +"You should not submit your entry until the entry page is showing all the files you have uploaded.",
+      message: "We need to take you to an external site to upload your files. Please follow their instructions, and when you're done uploading, close the window to return to this page.<br/>"
+              +"Make sure filenames are of the format: " + filename + "<br/>"
+              +"Do not submit your entry until all of the files you have uploaded are listed in the 'Files' section of this page.<br/>",
       buttons: {
         confirm: {
           label: 'To the uploader!',
@@ -109,10 +109,16 @@ window.StationEntry = {
             label: 'Cancel',
         }
       },
+      size: "large",
       callback: r => {
         if (!r) return;
 
         window.open(url, "upload_window");
+
+        bootbox.alert({
+          title: "Before Submitting",
+          message: "Before you submit your entry, please check that all the files you have uploaded are listed in the 'Files' section of this page.",
+        });
       }
     });
   },
@@ -124,8 +130,8 @@ window.StationEntry = {
       return;
 
     bootbox.confirm({
-      title: "Delete File",
-      message: "File will be deleted and removed the entry",
+      title: "Are you sure you want to delete this file?",
+      message: "This file will be deleted and removed from your entry",
       callback: r => {
         if (!r) return;
 
