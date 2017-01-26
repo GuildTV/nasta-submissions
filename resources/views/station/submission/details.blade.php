@@ -1,6 +1,8 @@
 <div class="col-md-12">
 	<div class="panel panel-default">
-		<div class="panel-heading">{{ $category->name }}</div>
+		<div class="panel-heading">
+			<span class="page-title">{{ $category->name }}</span>
+		</div>
 
 		<div class="row">
 			<div class="col-md-6 col-md-offset-1">
@@ -19,6 +21,9 @@
 						<dt>Closing Date</dt> 
 						<dd>{{ $category->closing_at->format('l jS F \\a\\t H:i') }}</dd>
 					@endif
+
+					<dt>Filename format</dt>
+					<dd>{{ $filename }}</dd>
 				</dl>
 			</div>
 			<div class="col-md-5">

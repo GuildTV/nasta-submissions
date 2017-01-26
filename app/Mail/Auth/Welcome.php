@@ -36,7 +36,7 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome to the NaSTA Submissions system ' . Config::get('nasta.year'))
+        return $this->subject('Welcome to NaSTA Awards ' . Config::get('nasta.year') . ' Submissions')
             ->view('emails.auth.welcome')
             ->text('emails.auth.welcome_plain')
             ->with([

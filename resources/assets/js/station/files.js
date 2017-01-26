@@ -7,8 +7,8 @@ window.StationFiles = {
       return;
 
     bootbox.confirm({
-      title: "Delete File",
-      message: "File will be deleted and removed from any entry even submitted",
+      title: "Are you sure you want to delete this file?",
+      message: "This file will be deleted and removed from your entry",
       callback: r => {
         if (!r) return;
 
