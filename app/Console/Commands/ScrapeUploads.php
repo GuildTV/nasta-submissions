@@ -62,7 +62,7 @@ class ScrapeUploads extends Command
 
         foreach($folders as $folder){
             // skip if can't be edited, or already submitted
-            if ($folder->category != null && !$folder->category->canEditSubmissions() || $folder->$category->getEntryForStation($folder->station->id)->submitted)
+            if ($folder->category != null && !$folder->category->canEditSubmissions() || $folder->category->getEntryForStation($folder->station->id)->submitted)
                 continue;
 
             Log::info('Scraping uploads for account: '.$folder->station->name . "(" . $folder->category_id . ")");
