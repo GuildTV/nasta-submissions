@@ -129,6 +129,7 @@ class ScrapeUploads extends Command
 
             UploadedFileLog::create([
                 'station_id' => $folder->station->id,
+                'uploaded_file_id' => $res->id,
                 'category_id' => $categoryId,
                 'level' => 'info',
                 'message' => 'File \'' . $file['name'] . '\' has been added',
@@ -137,6 +138,7 @@ class ScrapeUploads extends Command
             if ($url == null) {
                 UploadedFileLog::create([
                     'station_id' => $folder->station->id,
+                    'uploaded_file_id' => $res->id,
                     'category_id' => $categoryId,
                     'level' => 'error',
                     'message' => 'Missing public url for file \'' . $file['name'] . '\'',

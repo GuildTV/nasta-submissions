@@ -13,10 +13,14 @@ class UploadedFileLog extends Model
      * @var array
      */
     protected $fillable = [
-        'station_id', 'category_id',
+        'station_id', 'category_id', 'uploaded_file_id',
         'message', 'level',
     ];
 
+    // public function file()
+    // {
+    //     return $this->belongsTo('App\Database\Upload\UploadedFile', 'uploaded_file_id');
+    // }
 
     public function category()
     {
