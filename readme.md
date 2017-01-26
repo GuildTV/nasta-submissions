@@ -8,3 +8,9 @@ To do so, the following process is needed:
  * Run ```php artisan create-file-requests```
  * When prompted, supply the authentication tokens. These can be retrieved from one of the many requests shown in the chrome dev tools when using the dropbox web client.
  * If an error is encountered, you may be prompted for tokens again, and you may need to rerun the command to ensure that no folder was skipped.
+
+
+## Send welcome emails
+To allow users to login for the first time, it is possible to send welcome emails to users.   
+This can be done with the following command ```php artisan email:welcome station```. station can be replaced with judge or admin.   
+Upon running the command, you can choose whether to send the email to all users of the type, or only to those who do not yet have a password.
