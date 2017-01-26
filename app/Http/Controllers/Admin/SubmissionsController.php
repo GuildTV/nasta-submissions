@@ -74,6 +74,7 @@ class SubmissionsController extends Controller
 
     UploadedFileLog::create([
       'station_id' => $file->station_id,
+      'uploaded_file_id' => $file->id,
       'category_id' => $file->category_id,
       'level' => 'info',
       'message' => 'Admin linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',

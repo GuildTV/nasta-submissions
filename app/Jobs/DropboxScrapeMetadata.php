@@ -73,6 +73,7 @@ class DropboxScrapeMetadata implements ShouldQueue
 
         UploadedFileLog::create([
             'station_id' => $this->file->station->id,
+            'uploaded_file_id' => $this->file->id,
             'category_id' => $this->file->category_id,
             'level' => 'info',
             'message' => 'Scraped metadata for file \'' . $this->file->name . '\' (#' . $this->file->id . ')',
@@ -115,6 +116,7 @@ class DropboxScrapeMetadata implements ShouldQueue
     {
         UploadedFileLog::create([
             'station_id' => $this->file->station->id,
+            'uploaded_file_id' => $this->file->id,
             'category_id' => $this->file->category_id,
             'level' => 'error',
             'message' => 'Failed to get metadata for file \'' . $file['name'] . '\' (#' . $this->file->id . ')',

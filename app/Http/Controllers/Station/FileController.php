@@ -42,6 +42,7 @@ class FileController extends Controller
       // track deletion
       UploadedFileLog::create([
         'station_id' => $file->station_id,
+        'uploaded_file_id' => $file->id,
         'category_id' => $file->category_id,
         'level' => 'info',
         'message' => 'Delete \'' . $file->name . '\'',
@@ -49,6 +50,7 @@ class FileController extends Controller
     } else {
       UploadedFileLog::create([
         'station_id' => $file->station_id,
+        'uploaded_file_id' => $file->id,
         'category_id' => $file->category_id,
         'level' => 'warning',
         'message' => 'File \'' . $file->name . '\' has been deleted, but may remain on Dropbox',
@@ -81,6 +83,7 @@ class FileController extends Controller
 
     UploadedFileLog::create([
       'station_id' => $file->station_id,
+      'uploaded_file_id' => $file->id,
       'category_id' => $file->category_id,
       'level' => 'info',
       'message' => 'Manually linked file \'' . $file->name . '\' to category \'' . $category->name . '\'',
