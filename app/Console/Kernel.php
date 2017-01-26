@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\EmailDailyDeadlines::class,
         Commands\EmailDailySummary::class,
         Commands\CreateFileRequests::class,
+        Commands\WelcomeEmails::class,
     ];
 
     /**
