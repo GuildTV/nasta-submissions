@@ -7,8 +7,6 @@
 
   <p>Your username is '{{ $user->username }}' and you can activate you account <a href="{{ route('auth.reset', $token) }}">here</a>.</p>
 
-  <p>The link above expires in 1 week, if required you can get a new link <a href="{{ route('auth.forgot') }}">here</a>.</p>
-
   <h2>
     Regards,
     <br/ ><br/ >
