@@ -24,7 +24,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'animation',
         'name' => 'Animation',
         'compact_name' => 'Animation',
-        'description' => 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by the broadcaster.',
+        'description' => 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by the station.',
         'closing_at' => $mondayClosing
       ]);
 
@@ -32,7 +32,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'best-broadcaster',
         'name' => 'Best Broadcaster',
         'compact_name' => 'BestBroadcaster',
-        'description' => 'A showreel demonstrating the range, quality and skills of the stationand its programming, to be accompanied by a written report, with details of the operation of the station and contributions made which may not necessarily appear on screen.',
+        'description' => 'A showreel demonstrating the range, quality and skills of the station and its programming, to be accompanied by a written report, with details of the operation of the station and contributions made which may not necessarily appear on screen.',
         'closing_at' => $mondayClosing
       ]);
 
@@ -40,7 +40,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'cinematography',
         'name' => 'Cinematography',
         'compact_name' => 'Cinematography',
-        'description' => 'The category for Best Cinematography is an opportunity for filmmakers to showcase their best work. The winning entry will display a knowledge of appropriate lighting, camera moves and other associated techniques of the craft, and how well these things are implemented in film or television.',
+        'description' => 'An opportunity for filmmakers to showcase their best work, demonstrating a knowledge of appropriate lighting, camera moves and other associated techniques of the craft, and how well these things are implemented in film or television.',
         'closing_at' => $mondayClosing
       ]);
 
@@ -56,7 +56,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'documentary',
         'name' => 'Documentary',
         'compact_name' => 'Documentary',
-        'description' => 'A self-contained programme (or a shortened edit from an episode or series) with the aim to inform viewers abouta specific subject.',
+        'description' => 'A self-contained programme (or a shortened edit from an episode or series) with the aim to inform viewers about a specific subject.',
         'closing_at' => $tuesdayClosing
       ]);
 
@@ -110,9 +110,9 @@ class CategoriesSeeder extends Seeder
       
       Category::create([
         'id' => 'mars-el-brogy',
-        'name' => 'Mars el Brogy',
-        'compact_name' => 'Mars',
-        'description' => 'DETAILS TO COME',
+        'name' => 'The Mars Elkins-El Brogy Award for Multi-platform content',
+        'compact_name' => 'MarsElBrogy',
+        'description' => 'A showreel demonstrating effective, innovative and strong use of multimedia content to be accompanied by a written report, with details of the operation of the station and contributions made which may not necessarily appear on screen.  ',
         'closing_at' => $wednesdayClosing
       ]);
       
@@ -160,7 +160,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'post-production',
         'name' => 'Post Production',
         'compact_name' => 'PostProduction',
-        'description' => 'DETAILS TO COME',
+        'description' => 'A showreel or video demonstrating excellent post production and editing skills.',
         'closing_at' => $thursdayClosing
       ]);
       
@@ -176,7 +176,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'marketing',
         'name' => 'Station Marketing',
         'compact_name' => 'Marketing',
-        'description' => 'A video submission demonstrating the achievements of your station’s marketing across your campus and online, incorporating special events, advertising and on- air branding. The submission must be accompanied by a written document detailing marketing strategies, tools, and techniques used by your station.',
+        'description' => 'A video submission demonstrating the achievements of your station’s marketing across your campus and online, incorporating special events, advertising and on-air branding. The submission must be accompanied by a written document detailing marketing strategies, tools, and techniques used by your station.',
         'closing_at' => $fridayClosing
       ]);
       
@@ -192,7 +192,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'tim-marshall',
         'name' => 'Tim Marshall award for Special Recognition',
         'compact_name' => 'TimMarshall',
-        'description' => 'This category goes to a station worthy of special recognition for outstanding achievement, especially with respect to the station’s commitment to overcoming challenging circumstances and achievement through innovation in the past year.',
+        'description' => 'This category looks for a station worthy of special recognition for outstanding achievement, especially with respect to the station’s commitment to overcoming challenging circumstances and achievement through innovation in the past year.',
         'closing_at' => $fridayClosing
       ]);
       
@@ -208,7 +208,7 @@ class CategoriesSeeder extends Seeder
         'id' => 'writing',
         'name' => 'Writing',
         'compact_name' => 'Writing',
-        'description' => 'A script in any genre or format, for any kind of show produced by the station. This can include, but is not limited to, fictional teleplays, factual links and features, documentary scripts, live scripts, news piece, etc..',
+        'description' => 'AA script in any genre or format, for any kind of show produced by the station. This can include, but is not limited to, fictional teleplays, factual links and features, documentary scripts, live scripts, news piece, etc.',
         'closing_at' => $fridayClosing
       ]);
       
