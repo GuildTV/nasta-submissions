@@ -77,6 +77,7 @@ class Category extends Model
 
         return new Entry([
             'station_id' => $user->id,
+            'category_id' => $this->id,
         ]);
     }
 
@@ -84,6 +85,7 @@ class Category extends Model
         return $this->entries()
             ->firstOrNew([
                 'station_id' => $sid,
+                'category_id' => $this->id,
             ]);
     }
 

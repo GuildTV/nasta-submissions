@@ -21,7 +21,7 @@ class Entry extends Model
      * @var array
      */
     protected $fillable = [
-        'station_id',
+        'station_id', 'category_id',
         'name', 'description',
     ];
 
