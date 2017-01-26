@@ -12,6 +12,8 @@ use App\Mail\Station\EntrySubmitted;
 
 use App\Database\Category\Category;
 
+use Carbon\Carbon;
+
 use App;
 use Auth;
 use Redirect;
@@ -63,6 +65,9 @@ class EntryController extends Controller
     $folder = $user->stationFolders()->where('category_id', $category->id)->first();
     if ($folder == null)
       throw new UploadException("Missing target for user");
+
+    $folder->last_accessed_at = Carbon::now();
+    $folder->save();
 
     // TODO - fallback to shared folder?
 

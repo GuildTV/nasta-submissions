@@ -57,8 +57,14 @@ class ScrapeUploads extends Command
      */
     public function handle()
     {
-        $folders = StationFolder::with('station')->with('account')->with('category')->get();
+        $folders = StationFolder::with('station')->with('account')->with('category')
+            ->whereNotNull('last_accessed_at')->get();
+
         foreach($folders as $folder){
+            // skip if can't be edited
+            if (!$folder->category->canEditSubmissions())
+                continue;
+
             Log::info('Scraping uploads for account: '.$folder->station->name . "(" . $folder->category_id . ")");
 
             try {
