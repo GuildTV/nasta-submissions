@@ -64,7 +64,11 @@ class StationController extends Controller
 
 	public function submission_files(Category $category)
 	{
-		$files = $category->myEntry->uploadedFiles;
+		$entry = $category->myEntry;
+		if ($entry == null)
+			return Response::json([]);
+
+		$files = $entry->uploadedFiles;
 		$filesJson = array_map(function($f){
 			return [
 				"id" => $f['id'],
@@ -73,7 +77,7 @@ class StationController extends Controller
 			];
 		}, $files->all());
 
-		return Response::json($filesJson, 200, [], JSON_PRETTY_PRINT);
+		return Response::json($filesJson);
 	}
 
 
