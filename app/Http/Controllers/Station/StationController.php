@@ -13,6 +13,7 @@ use App\Database\Upload\UploadedFile;
 
 use App;
 use Auth;
+use Response;
 
 class StationController extends Controller
 {	
@@ -59,6 +60,24 @@ class StationController extends Controller
 		$files = Auth::user()->uploadedFiles()->orderBy("category_id")->with('category')->with('category.myEntry')->get();
 
 		return view('station.files', compact('files', 'categories'));
+	}
+
+	public function submission_files(Category $category)
+	{
+		$entry = $category->myEntry;
+		if ($entry == null)
+			return Response::json([]);
+
+		$files = $entry->uploadedFiles;
+		$filesJson = array_map(function($f){
+			return [
+				"id" => $f['id'],
+				"name" => $f['name'],
+				"uploaded_at" => $f['uploaded_at']->toDayDateTimeString(),
+			];
+		}, $files->all());
+
+		return Response::json($filesJson);
 	}
 
 

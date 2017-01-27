@@ -3,6 +3,7 @@
 @section('js')
 
 window.StationEntry.BindValidator();
+window.readonly = {{ $readonly ? "true" : "false" }};
 
 @endsection
 
