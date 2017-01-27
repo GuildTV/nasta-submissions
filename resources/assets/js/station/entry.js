@@ -16,6 +16,31 @@ window.StationEntry = {
         }
       }
      });
+
+    if (!window.readonly)
+      window.StationEntry._RunClock();
+  },
+
+  _RunClock: function() {
+    const interval = 30;
+
+    const div = $('<div>').addClass('countdown-circle center run-clock')
+      .append($('<div>').addClass('count').text(interval))
+      .append($('<div>').addClass('l-half'))
+      .append($('<div>').addClass('r-half'));
+    $('#countdown-holder').html(div);
+
+    let n = interval-1;
+    setInterval(function() {
+      if (n >= 0) {
+        $('.count').html(n--);
+      } else { 
+        $('.count').html(interval); n=interval-1;
+        $('.countdown-circle ').removeClass('run-clock');
+        window.StationEntry.ScrapeFiles();
+        setTimeout(() => $('.countdown-circle ').addClass('run-clock'), 10);
+      }
+    }, 1000);
   },
 
   Submit: function(){
@@ -121,7 +146,7 @@ window.StationEntry = {
     const id = e.getAttribute("data-id");
 
     if (id == undefined)
-      return;
+      return false;
 
     bootbox.confirm({
       title: "Delete File",
@@ -143,6 +168,47 @@ window.StationEntry = {
         });
       }
     });
+
+    return false;
+  },
+
+  ScrapeFiles: function(){
+    const category = $('#entrycategory').val();
+    if (category == undefined || category.length == 0)
+      return;
+
+    $.ajax({
+      url: '/station/categories/' + category + '/files',
+      method: 'GET',
+      success: function(res) {
+        const dest = $('#file-table-body');
+        dest.empty();
+
+        for (var i=0; i < res.length; i++) {
+          const file = res[i];
+
+          const row = $('<tr>');
+          row.append($('<td>').text(file.name));
+          row.append($('<td>').text(file.uploaded_at));
+
+          if (!window.readonly)
+            row.append(
+              $('<button>')
+                .addClass('btn btn-danger btn-small')
+                .attr('data-id', file.id)
+                .attr('onclick', 'window.StationEntry.DeleteFile(this);return false')
+                .text('Delete')
+            );
+
+          dest.append(row);
+        }
+
+      },
+      error: function(res) {
+        console.log("Failed to scrape files", res);
+      }
+    })
+
   }
 
 };

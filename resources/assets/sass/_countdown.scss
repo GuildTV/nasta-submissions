@@ -1,0 +1,88 @@
+
+$countdownD: 35;
+$countdownW: 5;
+$countdownT: 30;
+
+.countdown-circle {
+    // background: green;
+    width: $countdownD+px;
+    height: $countdownD+px;
+    position: relative;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 $countdownW+px rgba(0,0,0,0.2);
+
+    margin: 0 auto;
+
+    &.run-clock {
+
+        .l-half:before {
+            -webkit-transform-origin: center right;
+            -webkit-animation-name: l-rotate;
+        }
+            
+        .r-half:before {
+            -webkit-transform-origin: center left;
+            -webkit-animation-name: r-rotate;
+        }
+    }
+
+    .l-half, .r-half {
+        float: left;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        
+        &:before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: $countdownW+px solid #888;
+            -webkit-animation-duration: $countdownT+s;
+            -webkit-animation-iteration-count: 1;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-fill-mode: forwards;
+        }
+            
+    }
+
+    .l-half:before {
+        border-right: none;
+        border-top-left-radius: 999px;
+        border-bottom-left-radius: 999px;
+    }
+      
+    .r-half:before {
+        border-left: none;
+        border-top-right-radius: 999px;
+        border-bottom-right-radius: 999px;
+    }
+
+    /* -- TIMER -- */
+
+    .count {
+        position: absolute;
+        width: 100%;
+        line-height: $countdownD+px;
+        text-align: center;
+        font-weight: 800;
+        font-size: (($countdownD - ($countdownW * 2)) / 2)+px;
+        font-family: Helvetica;
+        color: #333;
+        z-index: 2;
+    }
+
+    @-webkit-keyframes l-rotate {
+        0% { -webkit-transform: rotate(0deg); }
+        50% { -webkit-transform: rotate(-180deg); }
+        100% { -webkit-transform: rotate(-180deg); }
+    }
+    
+    @-webkit-keyframes r-rotate {
+        0% { -webkit-transform: rotate(0deg); }
+        50% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(-180deg); }
+    }
+}
+

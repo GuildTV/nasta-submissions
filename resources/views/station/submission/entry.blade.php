@@ -60,17 +60,27 @@
 									<br />
 								@endif
 
-								<ul>
-									@foreach ($entry->uploadedFiles as $file)
-									<li class="{{ $file->isLate($category) ? "late-upload" : "" }}">
-										{{ $file->name }} 
-										{{ $file->isLate($category) ? " - (Late)" : "" }}
-										@if (!$readonly)
-											<button class="btn btn-danger btn-small" data-id="{{ $file->id }}" onclick="window.StationEntry.DeleteFile(this); return false">Delete</button>
-										@endif
-									</li>
-									@endforeach
-								</ul>
+								<table class="table" id="files-table">
+									<thead>
+										<th>Filename</th>
+										<th>Uploaded At</th>
+										<th id="countdown-holder" class="center">&nbsp;</th>
+									</thead>
+									<tbody id="file-table-body">
+										@foreach ($entry->uploadedFiles as $file)
+										<tr>
+											<td>sss{{ $file->name }}</td>
+											<td>{{ $file->uploaded_at != null ? $file->uploaded_at->toDayDateTimeString() : " - " }}</td>
+											<td>
+											@if (!$readonly)
+												<button class="btn btn-danger btn-small" data-id="{{ $file->id }}" onclick="window.StationEntry.DeleteFile(this); return false">Delete</button>
+											@endif
+											</td>
+										</tr>
+										@endforeach
+									</tbody>
+								 </table>
+
 								<hr>
 								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to view all of your uploaded files</p>
 							</div>
@@ -92,7 +102,7 @@
 								<a href="{{ route("station.categories") }}" class="btn btn-danger">Back</a>
 
 								@if ($closed)
-								  <!-- No editing once closed -->
+									<!-- No editing once closed -->
 								@elseif ($readonly)
 									<button type="submit" class="btn btn-success" id="entryedit">Edit Entry</button>
 								@else
