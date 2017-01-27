@@ -40,6 +40,9 @@ class ExceptionEmail extends Mailable
     {
         $this->body = $this->whoops()->handleException($exception);
         $this->subjectStr = $subjectStr == null ? "NaSTA submissions exception!" : $subjectStr;
+
+        if ($this->body == null || strlen($this->body) == 0)
+            $this->body = $exception->getTraceAsString();
     }
 
     /**
