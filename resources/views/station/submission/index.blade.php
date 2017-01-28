@@ -2,8 +2,11 @@
 
 @section('js')
 
-window.StationEntry.BindValidator();
 window.readonly = {{ $readonly ? "true" : "false" }};
+window.StationEntry.BindValidator();
+
+if (!window.readonly)
+  window.StationEntry._RunClock();
 
 @endsection
 

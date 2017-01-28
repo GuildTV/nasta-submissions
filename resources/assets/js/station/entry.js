@@ -16,9 +16,6 @@ window.StationEntry = {
         }
       }
      });
-
-    if (!window.readonly)
-      window.StationEntry._RunClock();
   },
 
   _RunClock: function() {
