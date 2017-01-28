@@ -7,8 +7,6 @@ types:
 
 variables:
   APP_ENV: test
-  DOCKER_DRIVER: overlay2
-
 
 build:assets:
   image: node:6
@@ -119,6 +117,32 @@ test:
     - storage/logs/
   dependencies: []
 
+promote:gcr:
+  script:
+    - docker login -e 1234@5678.com -u _json_key -p "$(echo GCLOUD_AUTH | base64 -d)" https://eu.gcr.io
+
+    - docker pull "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
+    - docker pull "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
+    - docker pull "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
+
+    - docker tag "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-http:$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-cron:$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-queue:$CI_BUILD_REF_NAME"
+
+    - docker push "eu.gcr.io/nasta-2017/sub-http:$CI_BUILD_REF_NAME"
+    - docker push "eu.gcr.io/nasta-2017/sub-cron:$CI_BUILD_REF_NAME"
+    - docker push "eu.gcr.io/nasta-2017/sub-queue:$CI_BUILD_REF_NAME"
+  after_script:
+    - docker logout https://eu.gcr.io
+  type: promote
+  only:
+    - master
+    - develop
+  tags:
+    - shell
+    - docker-build
+  dependencies: []
+
 # promote:
 #   image: docker:1.12
 #   variables:
@@ -148,11 +172,32 @@ test:
 #     - dind-overlay
 #   dependencies: []
 
-deploy:
+deploy:guild:
   image: registry.julus.uk/kubectl
   script:
     - sed -i 's/:latest/:'$CI_BUILD_REF'/g' kubernetes/deployment.yaml
     - kubectl --context=guild --namespace=nasta apply -f kubernetes/deployment.yaml
+  type: deploy
+  only:
+    - develop
+    - master
+  tags:
+    - docker
+  dependencies: []
+
+deploy:gc:
+  variables:
+    CLOUDSDK_COMPUTE_ZONE: europe-west1-b
+  image: google/cloud-sdk
+  script:
+    - echo $GCLOUD_AUTH | base64 -d > key.json
+
+    - export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/key.json
+    - gcloud auth activate-service-account --key-file=key.json
+    - gcloud container clusters get-credentials --project=nasta-2017 cluster-1
+
+    - sed -i 's/:latest/:'$CI_BUILD_REF'/g' kubernetes/deployment-gc.yaml
+    - kubectl apply -f kubernetes/deployment-gc.yaml
   type: deploy
   only:
     - develop
