@@ -54,7 +54,7 @@ class SubmissionsController extends Controller
 
   public function files()
   {
-    $files = UploadedFile::whereNull('category_id')->with('station')->get();
+    $files = UploadedFile::with('category')->with('station')->get();
 
     return view('admin.submissions.files', compact('files'));
   }

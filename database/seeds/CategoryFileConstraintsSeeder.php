@@ -60,10 +60,10 @@ class CategoryFileConstraintsSeeder extends Seeder
       $this->add('news-current-affairs', 1);
 
       // On-Screen Female
-      $this->add('on-screen-female', 2);
+      $this->add('on-screen-female', 1);
 
       // On-Screen Male
-      $this->add('on-screen-male', 2);
+      $this->add('on-screen-male', 1);
 
       // Open
       $this->add('open', 1);

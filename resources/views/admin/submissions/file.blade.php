@@ -35,6 +35,7 @@ window.OpenCategories = [
                 <div class="col-sm-10">
                   @if ($file->category != null)
                     <input type="text" class="form-control" disabled='disabled' value="{{ $file->category->name }}" />
+                    <a class="btn btn-primary" href="{{ route('admin.submissions.view', [ $file->station, $file->category ]) }}">View</a>
                   @endif
                   <button class="btn btn-primary" onclick="window.AdminSubmissionFiles.Link(this)" data-id="{{ $file->id }}" data-name="{{ $file->name }}">Link</button>
                 </div>
