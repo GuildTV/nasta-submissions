@@ -147,7 +147,6 @@ window.StationEntry = {
 
   DeleteFile: function(e) {
     const id = e.getAttribute("data-id");
-
     if (id == undefined)
       return false;
 
@@ -175,6 +174,37 @@ window.StationEntry = {
     return false;
   },
 
+  ViewFile: function(e){
+    const id = e.getAttribute("data-id");
+    const name = e.getAttribute("data-name");
+    const type = e.getAttribute("data-type");
+    const url = e.getAttribute("data-url");
+    if (id == undefined || name == undefined || type == undefined || url == undefined)
+      return false;
+
+    const modal = $('#view-modal');
+    modal.find('.modal-title').text('View ' + name);
+
+    modal.find('.cannot-preview').css('display', type == "video" ? "none" : "block");
+    modal.find('#preview-player').html("");
+    modal.find('.download-file').attr('href', url);
+
+    if (window.previewPlayer != undefined){
+      window.previewPlayer.destroy();
+      window.previewPlayer = undefined;
+    }
+
+    if (type == "video")
+      window.previewPlayer = new Clappr.Player({
+        width: '100%',
+        mimeType: "video/mp4",
+        source: url,
+        parentId: "#preview-player"
+      });
+
+    modal.modal();
+  },
+
   ScrapeFiles: function(){
     const category = $('#entrycategory').val();
     if (category == undefined || category.length == 0)
@@ -193,15 +223,30 @@ window.StationEntry = {
           const row = $('<tr>');
           row.append($('<td>').text(file.name));
           row.append($('<td>').text(file.uploaded_at));
+          
+          const buttons = $('<td>');
+          row.append(buttons);
+          buttons.append(
+            $('<button>')
+              .addClass('btn btn-info btn-small')
+              .attr('data-id', file.id)
+              .attr('data-name', file.name)
+              .attr('data-type', file.type)
+              .attr('data-url', file.url)
+              .attr('onclick', 'window.StationEntry.ViewFile(this);return false')
+              .text('View')
+          );
 
-          if (!window.readonly)
-            row.append(
+          if (!window.readonly){
+            buttons.append(" ");
+            buttons.append(
               $('<button>')
                 .addClass('btn btn-danger btn-small')
                 .attr('data-id', file.id)
                 .attr('onclick', 'window.StationEntry.DeleteFile(this);return false')
                 .text('Delete')
             );
+          }
 
           dest.append(row);
         }
@@ -210,8 +255,7 @@ window.StationEntry = {
       error: function(res) {
         console.log("Failed to scrape files", res);
       }
-    })
-
+    });
   }
 
 };
