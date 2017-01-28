@@ -94,7 +94,7 @@
 							<div class="col-sm-offset-2 col-sm-9">
 								<div class="checkbox">
 									<label>
-										<input id="entryrules" name="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the <a target="_new" href="{{ route("rules") }}">rules governing the NaSTA Awards {{ Config::get('nasta.year') }}</a>
+										<input id="entryrules" name="entryrules" type="checkbox" {{ $readonly ? "disabled='disabled'" : "" }} {{ $entry->rules ? "checked=\"checked\"" : "" }}> I agree to the <a target="_new" href="{{ route("help.rules") }}">rules governing the NaSTA Awards {{ Config::get('nasta.year') }}</a>
 									</label>
 								</div>
 							</div>
