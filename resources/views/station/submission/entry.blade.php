@@ -74,7 +74,7 @@
 											<td>
 												<button class="btn btn-info btn-small" data-id="{{ $file->id }}" data-name="{{ $file->name }}" 
 													data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('station.files.download', $file) }}"
-													onclick="window.StationEntry.ViewFile(this); return false">View</button>
+													onclick="window.StationCommon.ViewFile(this); return false">View</button>
 											@if (!$readonly)
 												<button class="btn btn-danger btn-small" data-id="{{ $file->id }}" onclick="window.StationEntry.DeleteFile(this); return false">Delete</button>
 											@endif

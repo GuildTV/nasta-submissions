@@ -10,6 +10,7 @@ require('./bootstrap');
 require('./station/entry');
 require('./station/files');
 require('./station/settings');
+require('./station/common');
 
 require('./admin/submission-files');
 require('./admin/users');

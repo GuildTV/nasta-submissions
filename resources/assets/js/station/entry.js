@@ -174,37 +174,6 @@ window.StationEntry = {
     return false;
   },
 
-  ViewFile: function(e){
-    const id = e.getAttribute("data-id");
-    const name = e.getAttribute("data-name");
-    const type = e.getAttribute("data-type");
-    const url = e.getAttribute("data-url");
-    if (id == undefined || name == undefined || type == undefined || url == undefined)
-      return false;
-
-    const modal = $('#view-modal');
-    modal.find('.modal-title').text('View ' + name);
-
-    modal.find('.cannot-preview').css('display', type == "video" ? "none" : "block");
-    modal.find('#preview-player').html("");
-    modal.find('.download-file').attr('href', url);
-
-    if (window.previewPlayer != undefined){
-      window.previewPlayer.destroy();
-      window.previewPlayer = undefined;
-    }
-
-    if (type == "video")
-      window.previewPlayer = new Clappr.Player({
-        width: '100%',
-        mimeType: "video/mp4",
-        source: url,
-        parentId: "#preview-player"
-      });
-
-    modal.modal();
-  },
-
   ScrapeFiles: function(){
     const category = $('#entrycategory').val();
     if (category == undefined || category.length == 0)
@@ -233,7 +202,7 @@ window.StationEntry = {
               .attr('data-name', file.name)
               .attr('data-type', file.type)
               .attr('data-url', file.url)
-              .attr('onclick', 'window.StationEntry.ViewFile(this);return false')
+              .attr('onclick', 'window.StationCommon.ViewFile(this);return false')
               .text('View')
           );
 
