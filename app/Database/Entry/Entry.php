@@ -44,6 +44,7 @@ class Entry extends Model
 
     public function uploadedFiles(){
         return $this->hasMany('App\Database\Upload\UploadedFile', 'category_id', 'category_id')
+            ->with('metadata')
             ->where('station_id', $this->station_id);
     }
 
