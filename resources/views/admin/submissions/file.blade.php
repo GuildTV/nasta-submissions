@@ -111,10 +111,16 @@ window.OpenCategories = [
 
               <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
-                  <video width="100%" controls>
-                    <source src="{{ route('admin.submissions.file.download', $file) }}" type="video/mp4">
-                  Your browser does not support the video tag. Please download the video instead.
-                  </video>
+                  <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
+                  <div id="player"></div>
+                  <script>
+                    var player = new Clappr.Player({
+                      width: 590,
+                      mimeType: "video/mp4",
+                      source: "{{ route('admin.submissions.file.download', $file) }}", 
+                      parentId: "#player"
+                    });
+                  </script>
                 </div>
               </div>
               
