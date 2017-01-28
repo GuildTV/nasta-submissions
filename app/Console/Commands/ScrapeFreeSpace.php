@@ -12,7 +12,9 @@ use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 
 use App\Mail\Admin\ExceptionEmail;
+use App\Mail\Admin\AccountSpaceThresholdCrossed;
 
+use Mail;
 use Log;
 use Exception;
 
@@ -42,6 +44,11 @@ class ScrapeFreeSpace extends Command
         parent::__construct();
     }
 
+    private $thresholds = [
+        80, 60, 50, 40, 30, 20, 10,
+        9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
+    ];
+
     /**
      * Execute the console command.
      *
@@ -49,34 +56,6 @@ class ScrapeFreeSpace extends Command
      */
     public function handle()
     {
-        $accounts = GoogleAccount::all();
-        foreach ($accounts as $account){
-            Log::info('Scraping free space for drive: '.$account->id);
-
-            try {
-                $client = GoogleHelper::getDriveClient($account->id);
-                if ($client == null){
-                    Log::error('Failed to get client');
-                    continue;
-                }
-
-                $about = $client->about->get([
-                    'fields' => 'storageQuota'
-                ]);
-
-                if ($about->storageQuota == null)
-                    throw new Exception("Failed to access storageQuota");
-
-                $account->total_space = $about->storageQuota->limit;
-                $account->used_space = $about->storageQuota->usage;
-                $account->save();
-
-            } catch (Exception $e){
-                Log::error('Failed to scrape: '. $e->getMessage());
-                ExceptionEmail::notifyAdmin($e, "Google free space scrape failure: #" . $account->id);
-            }
-        }
-
         $accounts = DropboxAccount::all();
         foreach ($accounts as $account){
             Log::info('Scraping free space for dropbox: '.$account->id);
@@ -88,14 +67,34 @@ class ScrapeFreeSpace extends Command
             try {
               $accountSpace = $dropbox->getSpaceUsage();
 
+              $percentBefore = ($account->total_space - $account->used_space) / $account->total_space * 100;
+
               $account->used_space = $accountSpace['used'];
               $account->total_space = $accountSpace['allocation']['allocated'];
               $account->save();
+
+              $percentAfter = ($account->total_space - $account->used_space) / $account->total_space * 100;
+
+              if ($this->crossedThreshold($percentBefore, $percentAfter))
+                Mail::to(env("MAIL_ADMIN", ""))->queue(new AccountSpaceThresholdCrossed($account, $percentAfter));
+
+
+              Log::info('Account changed to '. $percentAfter . '% free');
+
             } catch (Exception $e){
                 Log::error('Failed to scrape: '. $e->getMessage());
                 ExceptionEmail::notifyAdmin($e, "Dropbox free space scrape failure: #" . $account->id);
             }
 
         }
+    }
+
+    private function crossedThreshold($before, $after){
+        foreach ($this->thresholds as $threshold){
+            if ($before > $threshold && $after <= $threshold)
+                return true;
+        }
+
+        return false;
     }
 }
