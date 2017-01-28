@@ -102,6 +102,7 @@
         </footer>
     </div>
 
+    @yield('modals')
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>

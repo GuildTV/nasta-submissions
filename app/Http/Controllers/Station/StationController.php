@@ -68,16 +68,17 @@ class StationController extends Controller
 		if ($entry == null)
 			return Response::json([]);
 
-		$files = $entry->uploadedFiles;
-		$filesJson = array_map(function($f){
+		$files = $entry->uploadedFiles->map(function ($f){
 			return [
-				"id" => $f['id'],
-				"name" => $f['name'],
-				"uploaded_at" => $f['uploaded_at']->toDayDateTimeString(),
+				"id" => $f->id,
+				"name" => $f->name,
+				"uploaded_at" => $f->uploaded_at->toDayDateTimeString(),
+				"type" => $f->metadata == null ? "other" : "video",
+				"url" => route('station.files.download', $f),
 			];
-		}, $files->all());
+		});
 
-		return Response::json($filesJson);
+		return Response::json($files);
 	}
 
 

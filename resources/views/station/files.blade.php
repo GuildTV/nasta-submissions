@@ -67,8 +67,12 @@ window.OpenCategories = [
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td class="{{ $file->isLate() ? "late-upload" : "submitted-upload" }}">{{ $file->isLate() ? "Yes" : "No" }}</td>
                 <td>
+                  <button class="btn btn-info" data-id="{{ $file->id }}" data-name="{{ $file->name }}" 
+                    data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('station.files.download', $file) }}"
+                    onclick="window.StationCommon.ViewFile(this); return false">View</button>
+
                   @if ($file->category == null || $file->category->myEntry == null || ($file->category->canEditSubmissions() && !$file->category->myEntry->submitted))
-                    <a class="btn btn-danger" data-id="{{ $file->id }}" onclick="window.StationFiles.Delete(this)">Delete</button>
+                    <button class="btn btn-danger" data-id="{{ $file->id }}" onclick="window.StationFiles.Delete(this)">Delete</button>
                   @endif
                 </td>
               </tr>
@@ -80,4 +84,10 @@ window.OpenCategories = [
     </div>
   </div>
 </div>
+@endsection
+
+@section('modals')
+
+  @include('station.submission.view-modal')
+
 @endsection

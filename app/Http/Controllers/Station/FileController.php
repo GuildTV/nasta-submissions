@@ -94,4 +94,17 @@ class FileController extends Controller
     return $file;
   }
 
+  public function download(UploadedFile $file)
+  {
+    // Check file belongs to user
+    if ($file->station_id != Auth::user()->id)
+      return App::abort(404);
+    
+    $url = $file->getUrl();
+    if ($url == null)
+      return App::abort(404);
+    
+    return Redirect::to($url);
+  }
+
 }

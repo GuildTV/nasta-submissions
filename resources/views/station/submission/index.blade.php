@@ -21,3 +21,9 @@ if (!window.readonly)
 	</div>
 </div>
 @endsection
+
+@section('modals')
+
+  @include('station.submission.view-modal')
+
+@endsection

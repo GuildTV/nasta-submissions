@@ -147,7 +147,6 @@ window.StationEntry = {
 
   DeleteFile: function(e) {
     const id = e.getAttribute("data-id");
-
     if (id == undefined)
       return false;
 
@@ -193,15 +192,30 @@ window.StationEntry = {
           const row = $('<tr>');
           row.append($('<td>').text(file.name));
           row.append($('<td>').text(file.uploaded_at));
+          
+          const buttons = $('<td>');
+          row.append(buttons);
+          buttons.append(
+            $('<button>')
+              .addClass('btn btn-info btn-small')
+              .attr('data-id', file.id)
+              .attr('data-name', file.name)
+              .attr('data-type', file.type)
+              .attr('data-url', file.url)
+              .attr('onclick', 'window.StationCommon.ViewFile(this);return false')
+              .text('View')
+          );
 
-          if (!window.readonly)
-            row.append(
+          if (!window.readonly){
+            buttons.append(" ");
+            buttons.append(
               $('<button>')
                 .addClass('btn btn-danger btn-small')
                 .attr('data-id', file.id)
                 .attr('onclick', 'window.StationEntry.DeleteFile(this);return false')
                 .text('Delete')
             );
+          }
 
           dest.append(row);
         }
@@ -210,8 +224,7 @@ window.StationEntry = {
       error: function(res) {
         console.log("Failed to scrape files", res);
       }
-    })
-
+    });
   }
 
 };

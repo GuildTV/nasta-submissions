@@ -44,6 +44,7 @@ $router->group([
   Route::get('/files', 'Station\StationController@files')->name("station.files");
   Route::post('/files/{file}/delete', 'Station\FileController@delete')->name("station.files.delete");
   Route::post('/files/{file}/link/{category}', 'Station\FileController@link')->name("station.files.link");
+  Route::get('/files/{file}/download', 'Station\FileController@download')->name("station.files.download");
 
   Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
   Route::post('/categories/{category}/edit', 'Station\EntryController@edit')->name("station.entry.edit");

@@ -69,9 +69,12 @@
 									<tbody id="file-table-body">
 										@foreach ($entry->uploadedFiles as $file)
 										<tr>
-											<td>sss{{ $file->name }}</td>
+											<td>{{ $file->name }}</td>
 											<td>{{ $file->uploaded_at != null ? $file->uploaded_at->toDayDateTimeString() : " - " }}</td>
 											<td>
+												<button class="btn btn-info btn-small" data-id="{{ $file->id }}" data-name="{{ $file->name }}" 
+													data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('station.files.download', $file) }}"
+													onclick="window.StationCommon.ViewFile(this); return false">View</button>
 											@if (!$readonly)
 												<button class="btn btn-danger btn-small" data-id="{{ $file->id }}" onclick="window.StationEntry.DeleteFile(this); return false">Delete</button>
 											@endif
