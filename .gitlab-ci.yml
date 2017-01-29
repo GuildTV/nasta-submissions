@@ -98,9 +98,9 @@ test:
     - mailhog/mailhog
   script:
     - cd /src
-    - cp storage/env.example storage/env
-    - sed -i "s/DB_HOST=db/DB_HOST=registry.julus.uk-nasta-test-db/g" storage/env
-    - sed -i "s/mailhog/mailhog-mailhog/g" storage/env
+    - cp storage/env/env.example storage/env/env
+    - sed -i "s/DB_HOST=db/DB_HOST=registry.julus.uk-nasta-test-db/g" storage/env/env
+    - sed -i "s/mailhog/mailhog-mailhog/g" storage/env/env
 
     - composer install --no-scripts --prefer-dist --no-interaction --dev
 

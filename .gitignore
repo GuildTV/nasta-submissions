@@ -7,7 +7,7 @@ Homestead.json
 Homestead.yaml
 .env
 
-storage/env
+storage/env/env
 composer.phar
 npm-debug.log
 .vagrant
