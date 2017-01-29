@@ -19,22 +19,22 @@ items:
           name: sub-http
       spec:
         containers:
-        - image: eu.gcr.io/nasta-2017/sub-http:master
+        - image: eu.gcr.io/nasta-2017/sub-http:latest
           name: sub-http
-          # livenessProbe:
-          #   httpGet:
-          #     path: /login
-          #     port: 80
-          #   timeoutSeconds: 5
-          #   periodSeconds: 10
-          #   initialDelaySeconds: 30
-          # readinessProbe:
-          #   httpGet:
-          #     path: /login
-          #     port: 80
-          #   timeoutSeconds: 5
-          #   periodSeconds: 10
-          #   initialDelaySeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: 80
+            timeoutSeconds: 5
+            periodSeconds: 10
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: 80
+            timeoutSeconds: 5
+            periodSeconds: 10
+            initialDelaySeconds: 30
           env:
             - name: VM_ENV
               value: production
@@ -68,7 +68,7 @@ items:
           name: sub-cron
       spec:
         containers:
-        - image: eu.gcr.io/nasta-2017/sub-cron:master
+        - image: eu.gcr.io/nasta-2017/sub-cron:latest
           name: sub-cron
           env:
             - name: VM_ENV
@@ -100,7 +100,7 @@ items:
           name: sub-queue
       spec:
         containers:
-        - image: eu.gcr.io/nasta-2017/sub-queue:master
+        - image: eu.gcr.io/nasta-2017/sub-queue:latest
           name: sub-queue
           command: ["/start.sh"]
           args: ["--timeout=10", "--tries=3", "--delay=10"]
