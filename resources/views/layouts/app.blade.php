@@ -51,7 +51,9 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        @if (Auth::guest())
+                        @if (App::isDownForMaintenance() || (isset($name) && isset($code) && $name == "Internal Server Error" && $code == 500))
+                            <!-- Nuke navbar in maintenance or exception mode -->
+                        @elseif (Auth::guest())
                             <!--
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
