@@ -14,8 +14,7 @@ use App\Mail\Admin\ExceptionEmail;
 
 use App\Jobs\DropboxDownloadFile;
 use App\Jobs\DropboxScrapeMetadata;
-
-use App\Console\Commands\ScrapeUploads;
+use App\Jobs\DropboxScrapeFolder;
 
 use Carbon\Carbon;
 use Config;
@@ -35,7 +34,6 @@ class ScrapeUploadsTest extends TestCase
   private static $testCategorySubmittedId = "animation";
 
   public function testScrapeFailLoadFolder(){
-    $scraper = new ScrapeUploads();
     $folder = StationFolder::find(1);
     $helper = new self::$dummyHelperClass([], self::$debugHelper); // Initialise to fail with no files
 
@@ -43,7 +41,7 @@ class ScrapeUploadsTest extends TestCase
       [ "list", $folder->folder_name ]
     ];
 
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals("FAILED_LIST", $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
   }
@@ -72,11 +70,10 @@ class ScrapeUploadsTest extends TestCase
       // [ "metadata" ]
     ];
 
-    $scraper = new ScrapeUploads();
     $helper = new self::$dummyHelperClass($files, self::$debugHelper);
 
     // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
     Mail::assertSent(EntryFileNoMatch::class);
@@ -119,11 +116,10 @@ class ScrapeUploadsTest extends TestCase
       [ "url", $targetName ]
     ];
 
-    $scraper = new ScrapeUploads();
     $helper = new self::$dummyHelperClass($files, self::$debugHelper);
 
     // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
     Mail::assertNotSent(ExceptionEmail::class);
@@ -165,11 +161,10 @@ class ScrapeUploadsTest extends TestCase
       [ "url", $targetName ]
     ];
 
-    $scraper = new ScrapeUploads();
     $helper = new self::$dummyHelperClass($files, self::$debugHelper);
 
     // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
     Mail::assertNotSent(ExceptionEmail::class);
@@ -199,11 +194,10 @@ class ScrapeUploadsTest extends TestCase
       [ "url", $targetName ]
     ];
 
-    $scraper = new ScrapeUploads();
     $helper = new self::$dummyHelperClass($files, self::$debugHelper);
 
     // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
     Mail::assertSent(EntryFileNoMatch::class);
@@ -237,11 +231,10 @@ class ScrapeUploadsTest extends TestCase
       [ "url", $targetName ]
     ];
 
-    $scraper = new ScrapeUploads();
     $helper = new self::$dummyHelperClass($files, self::$debugHelper);
 
     // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals(null, $res);
     $this->assertEquals($expectedOps, $helper->getOperations());
     Mail::assertSent(EntryFileNoMatch::class);
@@ -284,11 +277,10 @@ class ScrapeUploadsTest extends TestCase
       ]
     ];
 
-    $scraper = new ScrapeUploads();
     $helper = new self::$dummyHelperClass($files, self::$debugHelper);
 
     // check scraper worked as expected
-    $res = $scraper->scrapeFolder($helper, $folder);
+    $res = (new DropboxScrapeFolder($folder, $helper))->handle();
     $this->assertEquals(null, $res);
     Mail::assertSent(EntryFileCloseDeadline::class);
     Mail::assertNotSent(ExceptionEmail::class);
