@@ -73,10 +73,10 @@ class ForgotPasswordController extends Controller
 
     private function hideEmail($input,$show=3) {
        $arr = explode('@', $input);
-       $arr[0] = substr($arr[0],0,$show).str_repeat('*',strlen($arr[0])-$show);
+       $arr[0] = substr($arr[0],0,$show).str_repeat('*',max(strlen($arr[0])-$show, 0));
 
        $arr2 = explode('.', $arr[1]);
-       $arr2[0] = substr($arr2[0],0,$show).str_repeat('*',strlen($arr2[0])-$show);
+       $arr2[0] = substr($arr2[0],0,$show).str_repeat('*',max(strlen($arr2[0])-$show, 0));
 
        $arr[1] = implode('.', $arr2);
        return implode("@", $arr);
