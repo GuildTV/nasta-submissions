@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: sub-queue-downloads-gc
+  name: sub-queue-downloads-gc
+  namespace: nasta
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: sub-queue-downloads-gc
+    spec:
+      containers:
+      - image: registry.julus.uk/nasta-sub/queue:latest
+        name: sub-queue-downloads-gc
+        command: ["/start.sh"]
+        args: ["--queue=downloads", "--timeout=300", "--tries=3", "--delay=120", "--memory=256"]
+        env:
+          - name: VM_ENV
+            value: production
+          - name: APP_ENV
+            value: production
+        volumeMounts:
+          - mountPath: /VAULT
+            name: vault-data
+          - mountPath: /src/storage
+            name: storage
+      - image: registry.julus.uk/kubectl
+        name: kube-link
+        command: [ "/bin/sh", "/blah/run.sh" ]
+        volumeMounts:
+          - mountPath: /blah
+            name: kubescript
+      volumes:
+      - name: kubescript
+        configMap:
+          name: mysql-link
+      - name: vault-data
+        hostPath:
+          path: "/VAULT-NASTA"
+      - name: storage
+        nfs:
+          server: files.guild.julus.uk
+          path: "/exports/kubernetes/nasta/storage-gc"
