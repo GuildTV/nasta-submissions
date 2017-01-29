@@ -125,13 +125,13 @@ promote:gcr:
     - docker pull "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
     - docker pull "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
 
-    - docker tag "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-http:$CI_BUILD_REF_NAME"
-    - docker tag "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-cron:$CI_BUILD_REF_NAME"
-    - docker tag "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-queue:$CI_BUILD_REF_NAME"
+    - docker tag "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-http:$CI_BUILD_REF"
+    - docker tag "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-cron:$CI_BUILD_REF"
+    - docker tag "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" "eu.gcr.io/nasta-2017/sub-queue:$CI_BUILD_REF"
 
-    - docker push "eu.gcr.io/nasta-2017/sub-http:$CI_BUILD_REF_NAME"
-    - docker push "eu.gcr.io/nasta-2017/sub-cron:$CI_BUILD_REF_NAME"
-    - docker push "eu.gcr.io/nasta-2017/sub-queue:$CI_BUILD_REF_NAME"
+    - docker push "eu.gcr.io/nasta-2017/sub-http:$CI_BUILD_REF"
+    - docker push "eu.gcr.io/nasta-2017/sub-cron:$CI_BUILD_REF"
+    - docker push "eu.gcr.io/nasta-2017/sub-queue:$CI_BUILD_REF"
   after_script:
     - docker logout https://eu.gcr.io
   type: promote

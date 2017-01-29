@@ -16,7 +16,7 @@ $app = new Illuminate\Foundation\Application(
 );
 
 // Load environment from the storage directory
-$app->loadEnvironmentFrom('storage/env');
+$app->loadEnvironmentFrom('storage/env/env');
 
 /*
 |--------------------------------------------------------------------------

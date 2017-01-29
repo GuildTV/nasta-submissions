@@ -19,20 +19,22 @@ items:
           name: sub-http
       spec:
         containers:
-        - image: eu.gcr.io/nasta-2017/sub-http:latest
+        - image: eu.gcr.io/nasta-2017/sub-http:master
           name: sub-http
-          livenessProbe:
-            httpGet:
-              path: /login
-              timeoutSeconds: 5
-              periodSeconds: 10
-              initialDelaySeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /login
-              timeoutSeconds: 5
-              periodSeconds: 10
-              initialDelaySeconds: 30
+          # livenessProbe:
+          #   httpGet:
+          #     path: /login
+          #     port: 80
+          #   timeoutSeconds: 5
+          #   periodSeconds: 10
+          #   initialDelaySeconds: 30
+          # readinessProbe:
+          #   httpGet:
+          #     path: /login
+          #     port: 80
+          #   timeoutSeconds: 5
+          #   periodSeconds: 10
+          #   initialDelaySeconds: 30
           env:
             - name: VM_ENV
               value: production
@@ -42,7 +44,7 @@ items:
             - containerPort: 80
               protocol: TCP
           volumeMounts:
-            - mountPath: /src/storage
+            - mountPath: /src/storage/env
               name: storage
         volumes:
         - name: storage
@@ -66,7 +68,7 @@ items:
           name: sub-cron
       spec:
         containers:
-        - image: eu.gcr.io/nasta-2017/sub-cron:latest
+        - image: eu.gcr.io/nasta-2017/sub-cron:master
           name: sub-cron
           env:
             - name: VM_ENV
@@ -74,7 +76,7 @@ items:
             - name: APP_ENV
               value: production
           volumeMounts:
-            - mountPath: /src/storage
+            - mountPath: /src/storage/env
               name: storage
         volumes:
         - name: storage
@@ -98,7 +100,7 @@ items:
           name: sub-queue
       spec:
         containers:
-        - image: eu.gcr.io/nasta-2017/sub-queue:latest
+        - image: eu.gcr.io/nasta-2017/sub-queue:master
           name: sub-queue
           command: ["/start.sh"]
           args: ["--timeout=10", "--tries=3", "--delay=10"]
@@ -108,7 +110,7 @@ items:
             - name: APP_ENV
               value: production
           volumeMounts:
-            - mountPath: /src/storage
+            - mountPath: /src/storage/env
               name: storage
         volumes:
         - name: storage
