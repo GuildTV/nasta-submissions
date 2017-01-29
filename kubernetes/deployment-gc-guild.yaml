@@ -39,17 +39,23 @@ spec:
           - mountPath: /blah
             name: kubescript
         livenessProbe:
-          tcpSocket:
-            port: 3306
+          exec:
+            command: 
+              - sh 
+              - -c 
+              - "nc -zv 127.0.0.1 3306 &> /dev/null; echo $?"
           timeoutSeconds: 5
           periodSeconds: 10
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
         readinessProbe:
-          tcpSocket:
-            port: 3306
+          exec:
+            command: 
+              - sh 
+              - -c 
+              - "nc -zv 127.0.0.1 3306 &> /dev/null; echo $?"
           timeoutSeconds: 5
           periodSeconds: 10
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
       volumes:
       - name: kubescript
         configMap:
