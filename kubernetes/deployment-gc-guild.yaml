@@ -38,6 +38,18 @@ spec:
         volumeMounts:
           - mountPath: /blah
             name: kubescript
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          timeoutSeconds: 5
+          periodSeconds: 10
+          initialDelaySeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          timeoutSeconds: 5
+          periodSeconds: 10
+          initialDelaySeconds: 30
       volumes:
       - name: kubescript
         configMap:
