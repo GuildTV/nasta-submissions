@@ -14,10 +14,6 @@ class StationsSeeder extends Seeder
      */
     public function run()
     {
-      $dropboxId1 = "nastasub1-at-julusian-co-uk";
-      $dropboxId2 = "nastasub2-at-julusian-co-uk";
-      $dropboxId3 = "nastasub3-at-julusian-co-uk";
-
       User::create([
         'name' => 'AIR TV',
         'compact_name' => "AIRTV",
@@ -25,7 +21,7 @@ class StationsSeeder extends Seeder
         'email' => 'StationManager@AirTvonline.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -35,7 +31,7 @@ class StationsSeeder extends Seeder
         'email' => 'shayn.dickens@study.beds.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -45,7 +41,7 @@ class StationsSeeder extends Seeder
         'email' => 'CTV-manager@bath.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -55,7 +51,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanager@cardiffunion.tv ',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       // 5
@@ -66,7 +62,7 @@ class StationsSeeder extends Seeder
         'email' => 'president@cu-tv.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -76,7 +72,7 @@ class StationsSeeder extends Seeder
         'email' => 'demontv@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -86,7 +82,7 @@ class StationsSeeder extends Seeder
         'email' => 'dragontvmanager@dragonmedia.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -96,7 +92,7 @@ class StationsSeeder extends Seeder
         'email' => 'tayproductions@dusamedia.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -106,7 +102,7 @@ class StationsSeeder extends Seeder
         'email' => 'eu.television@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       // 10
@@ -117,7 +113,7 @@ class StationsSeeder extends Seeder
         'email' => 'tv.manager@forgetoday.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -127,7 +123,7 @@ class StationsSeeder extends Seeder
         'email' => 'fusetvmanchester@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -137,7 +133,7 @@ class StationsSeeder extends Seeder
         'email' => 'Src505@abdn.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -147,7 +143,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanager@guildtv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -157,7 +153,7 @@ class StationsSeeder extends Seeder
         'email' => 'gust@gust.tv',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       // 15
@@ -168,7 +164,7 @@ class StationsSeeder extends Seeder
         'email' => 'tvhead@hullfire.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId1
+        // 'dropbox_account_id' => $dropboxId1
       ]);
 
       User::create([
@@ -178,7 +174,7 @@ class StationsSeeder extends Seeder
         'email' => 'ictv@imperial.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -188,7 +184,7 @@ class StationsSeeder extends Seeder
         'email' => 'eleanor.kingstv@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -198,7 +194,7 @@ class StationsSeeder extends Seeder
         'email' => 'Committee@ktvlive.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -208,7 +204,7 @@ class StationsSeeder extends Seeder
         'email' => 'b.kay@la1tv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       // 20
@@ -219,7 +215,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanager@lstv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -229,7 +225,7 @@ class StationsSeeder extends Seeder
         'email' => 'lsutvmanager@lsu.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -239,7 +235,7 @@ class StationsSeeder extends Seeder
         'email' => 'lust@le.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -249,7 +245,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanager@nstv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -259,7 +255,7 @@ class StationsSeeder extends Seeder
         'email' => 'nsutvteam@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       // 25
@@ -270,7 +266,7 @@ class StationsSeeder extends Seeder
         'email' => 'ascott6@uclan.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -280,7 +276,7 @@ class StationsSeeder extends Seeder
         'email' => 'qmtvstation@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -290,7 +286,7 @@ class StationsSeeder extends Seeder
         'email' => 'ekumm@essex.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -300,7 +296,7 @@ class StationsSeeder extends Seeder
         'email' => 'rgutv@rguunion.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -310,7 +306,7 @@ class StationsSeeder extends Seeder
         'email' => 'manager@rhubarbtv.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       // 30
@@ -321,7 +317,7 @@ class StationsSeeder extends Seeder
         'email' => 'manager@ruon.tv',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -331,7 +327,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanager@scratchtv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -341,7 +337,7 @@ class StationsSeeder extends Seeder
         'email' => 'manager.smoketv@su.westminster.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId2
+        // 'dropbox_account_id' => $dropboxId2
       ]);
 
       User::create([
@@ -351,7 +347,7 @@ class StationsSeeder extends Seeder
         'email' => 'ac0405@coventry.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -361,7 +357,7 @@ class StationsSeeder extends Seeder
         'email' => 'sean.jolly11@bathspa.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       // 35
@@ -372,7 +368,7 @@ class StationsSeeder extends Seeder
         'email' => 'operations@stagtv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -382,7 +378,7 @@ class StationsSeeder extends Seeder
         'email' => 'filmandtvsoc@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -392,7 +388,7 @@ class StationsSeeder extends Seeder
         'email' => 'sutv@swansea-societies.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -402,7 +398,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanager@susu.tv',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -412,7 +408,7 @@ class StationsSeeder extends Seeder
         'email' => 'tctv.stationmanager@newcastle.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       // 40
@@ -423,7 +419,7 @@ class StationsSeeder extends Seeder
         'email' => 'james.a.knuckey@live.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -433,7 +429,7 @@ class StationsSeeder extends Seeder
         'email' => 'contact.ubtv@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -443,7 +439,7 @@ class StationsSeeder extends Seeder
         'email' => 'ueatv.stationmanager@uea.ac.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -453,7 +449,7 @@ class StationsSeeder extends Seeder
         'email' => 'info@unitvlive.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -463,7 +459,7 @@ class StationsSeeder extends Seeder
         'email' => 'team@upsu.tv',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       // 45
@@ -474,7 +470,7 @@ class StationsSeeder extends Seeder
         'email' => 'lukesheehan@hotmail.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -484,7 +480,7 @@ class StationsSeeder extends Seeder
         'email' => 'warwicktv@gmail.com',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -494,7 +490,7 @@ class StationsSeeder extends Seeder
         'email' => 'stationmanagers@xtvonline.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
       User::create([
@@ -504,7 +500,7 @@ class StationsSeeder extends Seeder
         'email' => 'station.director@ystv.co.uk',
         'type' => 'station',
         'password' => "",
-        'dropbox_account_id' => $dropboxId3
+        // 'dropbox_account_id' => $dropboxId3
       ]);
 
     }
