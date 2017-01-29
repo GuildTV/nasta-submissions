@@ -119,7 +119,7 @@ test:
 
 promote:gcr:
   script:
-    - docker login -e 1234@5678.com -u _json_key -p "$(echo GCLOUD_AUTH | base64 -d)" https://eu.gcr.io
+    - docker login -e 1234@5678.com -u _json_key -p "$(echo $GCLOUD_AUTH | base64 -d)" https://eu.gcr.io
 
     - docker pull "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
     - docker pull "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
