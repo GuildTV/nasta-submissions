@@ -7,7 +7,6 @@ spec:
     - name: http
       port: 80 # the port that this service should serve on
       targetPort: 80
-      nodePort: 0
       protocol: TCP
 
   # just like the selector in the replication controller,
@@ -15,4 +14,4 @@ spec:
   # traffic to.
   selector:
     name: sub-http
-  type: LoadBalancer
+  type: ClusterIP

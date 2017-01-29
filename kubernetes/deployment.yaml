@@ -32,14 +32,9 @@ items:
             - containerPort: 80
               protocol: TCP
           volumeMounts:
-            - mountPath: /VAULT
-              name: vault-data
             - mountPath: /src/storage
               name: storage
         volumes:
-        - name: vault-data
-          hostPath:
-            path: "/VAULT-NASTA"
         - name: storage
           nfs:
             server: files.guild.julus.uk
@@ -72,14 +67,9 @@ items:
             - name: APP_ENV
               value: production
           volumeMounts:
-            - mountPath: /VAULT
-              name: vault-data
             - mountPath: /src/storage
               name: storage
         volumes:
-        - name: vault-data
-          hostPath:
-            path: "/VAULT-NASTA"
         - name: storage
           nfs:
             server: files.guild.julus.uk
@@ -114,14 +104,9 @@ items:
             - name: APP_ENV
               value: production
           volumeMounts:
-            - mountPath: /VAULT
-              name: vault-data
             - mountPath: /src/storage
               name: storage
         volumes:
-        - name: vault-data
-          hostPath:
-            path: "/VAULT-NASTA"
         - name: storage
           nfs:
             server: files.guild.julus.uk
