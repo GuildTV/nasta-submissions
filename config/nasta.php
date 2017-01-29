@@ -4,7 +4,14 @@ return [
 	'year' => 2017,
 
   // File stating the usage guide for within each folder
-  'drive_rules_file' => "0B4xCe4AF2PEUc3RhcnRlcl9maWxlX2Rhc2hlclYw",
+  'assets' => [
+    'lineup' => [ // links generated with https://sites.google.com/site/gdocs2direct/
+      'example' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvTnJtYXdZOHhVS0E",
+      'bg' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvc1JsUkFQZUg2LVE",
+      'overlay' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvTzZQY2IzVmlvQkE",
+    ],
+    'guide' => "", // submissions guide
+  ],
 
   'video_specs' => [ // Must be lowest to highest bitrate
     'N-SD' => [

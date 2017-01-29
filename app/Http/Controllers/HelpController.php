@@ -8,6 +8,11 @@ use Illuminate\Auth\AuthenticationException;
 class HelpController extends Controller
 {
 
+  public function help()
+  {
+    return view('help.index');
+  }
+
   public function rules()
   {
     return view('help.rules');

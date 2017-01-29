@@ -27,6 +27,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/dashboard', 'HomeController@dashboard')->middleware('auth:web');
 
+Route::get('/help', 'HelpController@help')->name("help");
 Route::get('/help/rules', 'HelpController@rules')->name("help.rules");
 Route::get('/help/video-format', 'HelpController@video_format')->name("help.video-format");
 Route::get('/help/contact', 'HelpController@contact')->name("help.contact");
