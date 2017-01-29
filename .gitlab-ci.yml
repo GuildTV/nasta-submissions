@@ -175,14 +175,23 @@ promote:gcr:
 deploy:guild:
   image: registry.julus.uk/kubectl
   script:
-    - sed -i 's/:latest/:'$CI_BUILD_REF'/g' kubernetes/deployment-gc-guild.yaml
-    - kubectl --context=guild --namespace=nasta apply -f kubernetes/deployment-gc-guild.yaml
-
     - sed -i 's/:latest/:'$CI_BUILD_REF'/g' kubernetes/deployment.yaml
     - kubectl --context=guild --namespace=nasta apply -f kubernetes/deployment.yaml
   type: deploy
   only:
     - develop
+    - master
+  tags:
+    - docker
+  dependencies: []
+
+deploy:guild-gc:
+  image: registry.julus.uk/kubectl
+  script:
+    - sed -i 's/:latest/:'$CI_BUILD_REF'/g' kubernetes/deployment-gc-guild.yaml
+    - kubectl --context=guild --namespace=nasta apply -f kubernetes/deployment-gc-guild.yaml
+  type: deploy
+  only:
     - master
   tags:
     - docker
@@ -203,7 +212,6 @@ deploy:gc:
     - kubectl apply -f kubernetes/deployment-gc.yaml
   type: deploy
   only:
-    - develop
     - master
   tags:
     - docker
