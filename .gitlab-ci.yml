@@ -34,8 +34,6 @@ build:composer:
     - php artisan clear-compiled
     - php artisan optimize
     - php artisan route:cache
-
-    - git rev-parse --short HEAD > app\version.tmp
   type: build
   tags:
     - docker
@@ -49,6 +47,8 @@ build:composer:
 
 build:cron:
   script:
+    - git rev-parse --short HEAD > app\version.tmp
+    
     - docker build --pull -t "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" -f docker/cron/Dockerfile .
     - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
   type: build-image
@@ -61,6 +61,8 @@ build:cron:
 
 build:http:
   script:
+    - git rev-parse --short HEAD > app\version.tmp
+
     - docker build --pull -t "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" -f docker/http/Dockerfile .
     - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
   type: build-image
@@ -73,6 +75,8 @@ build:http:
 
 build:queue:
   script:
+    - git rev-parse --short HEAD > app\version.tmp
+    
     - docker build --pull -t "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" -f docker/queue/Dockerfile .
     - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
   type: build-image
