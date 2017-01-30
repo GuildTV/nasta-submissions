@@ -10,7 +10,7 @@ return [
       'bg' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvc1JsUkFQZUg2LVE",
       'overlay' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvTzZQY2IzVmlvQkE",
     ],
-    'guide' => "", // submissions guide
+    'guide' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvaGFwWWtyZXhvWUk", // submissions guide
   ],
 
   'video_specs' => [ // Must be lowest to highest bitrate
