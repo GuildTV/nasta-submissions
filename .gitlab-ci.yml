@@ -46,6 +46,16 @@ build:composer:
     paths:
     - vendor/*
 
+build:db:
+  script:
+    - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
+    - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
+  type: build-base
+  tags:
+    - shell
+    - docker-build
+  dependencies: []
+  
 build:base:
   script:
     - git rev-parse --short HEAD > app/version.tmp
@@ -90,16 +100,6 @@ build:queue:
     
     - docker build -t "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" docker/queue
     - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
-  type: build-image
-  tags:
-    - shell
-    - docker-build
-  dependencies: []
-
-build:db:
-  script:
-    - docker build --pull -t "registry.julus.uk/nasta/test-db:$CI_BUILD_REF" docker/mysql
-    - docker push "registry.julus.uk/nasta/test-db:$CI_BUILD_REF"
   type: build-image
   tags:
     - shell
