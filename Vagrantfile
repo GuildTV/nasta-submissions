@@ -51,14 +51,84 @@ Vagrant.configure(2) do |config|
         end
     end
 
+
+    config.vm.define "nasta-submissions-base" do |app|
+        app.vm.provider "docker" do |d|
+            d.dockerfile = "docker/Dockerfile"
+            d.remains_running = false
+            d.build_dir = "."
+            d.name = "nasta-submissions-base"
+            d.build_args = ["--tag=nasta-sub:base"]
+        end
+    end
+
     config.vm.define "nasta-submissions-http" do |app|
         app.vm.provider "docker" do |d|
             d.ports = $settings['ports']['http']
 
-            d.dockerfile = "docker/http/Dockerfile"
-            d.build_dir = "."
+            d.build_dir = "docker/http"
             d.name = "nasta-submissions-http"
-            d.build_args = ["--tag=nasta/submissions"]   
+            d.build_args = ["--tag=nasta-sub:http"]   
+
+            d.link("nasta-submissions-db:db")
+            d.link("nasta-submissions-mailhog:mailhog")
+
+            d.volumes = ["#{vagrant_root}:/src"]
+            config.vm.synced_folder '.', '/vagrant', :disabled => true
+
+            d.env = {
+                "VM_ENV" => "dev",
+                "UID" => $settings['userid']
+            }
+        end
+    end
+
+    config.vm.define "nasta-submissions-queue" do |app|
+        app.vm.provider "docker" do |d|
+            d.build_dir = "docker/queue"
+            d.name = "nasta-submissions-queue"
+            d.build_args = ["--tag=nasta-sub:queue"]  
+            d.cmd = ["/start.sh", "--timeout=10", "--tries=3", "--delay=10"]
+
+            d.link("nasta-submissions-db:db")
+            d.link("nasta-submissions-mailhog:mailhog")
+
+            d.volumes = ["#{vagrant_root}:/src"]
+            config.vm.synced_folder '.', '/vagrant', :disabled => true
+
+
+            d.env = {
+                "VM_ENV" => "dev",
+                "UID" => $settings['userid']
+            }
+        end
+    end
+
+    config.vm.define "nasta-submissions-queue-downloads" do |app|
+        app.vm.provider "docker" do |d|
+            d.build_dir = "docker/queue"
+            d.name = "nasta-submissions-queue-downloads"
+            d.build_args = ["--tag=nasta-sub:queue"]   
+            d.cmd = ["/start.sh", "--queue=downloads", "--timeout=300", "--memory=256", "--delay=120"]
+
+            d.link("nasta-submissions-db:db")
+            d.link("nasta-submissions-mailhog:mailhog")
+
+            d.volumes = ["#{vagrant_root}:/src"]
+            config.vm.synced_folder '.', '/vagrant', :disabled => true
+
+            d.env = {
+                "VM_ENV" => "dev",
+                "UID" => $settings['userid']
+            }
+        end
+    end
+
+    config.vm.define "nasta-submissions-cron" do |app|
+        app.vm.provider "docker" do |d|
+            d.build_dir = "docker/cron"
+            d.name = "nasta-submissions-cron"
+            d.build_args = ["--tag=nasta-sub:cron"]   
 
             d.link("nasta-submissions-db:db")
             d.link("nasta-submissions-mailhog:mailhog")
