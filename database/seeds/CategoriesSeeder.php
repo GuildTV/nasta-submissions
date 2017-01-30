@@ -33,7 +33,7 @@ class CategoriesSeeder extends Seeder
         'name' => 'Best Broadcaster',
         'compact_name' => 'BestBroadcaster',
         'description' => 'A showreel demonstrating the range, quality and skills of the station and its programming, to be accompanied by a written report, with details of the operation of the station and contributions made which may not necessarily appear on screen.',
-        'closing_at' => $mondayClosing
+        'closing_at' => $fridayClosing
       ]);
 
       Category::create([
@@ -81,7 +81,7 @@ class CategoriesSeeder extends Seeder
         'name' => 'Freshers\' Coverage',
         'compact_name' => 'Freshers',
         'description' => 'This category recognises the quality and diversity of a station’s covering of their campus’ Freshers’ week(s) activities.',
-        'closing_at' => $tuesdayClosing
+        'closing_at' => $mondayClosing
       ]);
 
       Category::create([
@@ -201,7 +201,7 @@ class CategoriesSeeder extends Seeder
         'name' => 'Title Sequence',
         'compact_name' => 'Title',
         'description' => 'The introductory sequence to one of your station’s programmes. The very beginning of an exemplar programme may be included. This entry must be a complete video not a cut down video or an edited highlights reel.',
-        'closing_at' => $fridayClosing
+        'closing_at' => $tuesdayClosing
       ]);
       
       Category::create([
