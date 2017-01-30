@@ -12,6 +12,7 @@ use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
+use App\Database\Upload\UploadedFileRuleBreak;
 use App\Database\Upload\VideoMetadata;
 
 use Mhor\MediaInfo\MediaInfo;
@@ -25,15 +26,17 @@ class OfflineRuleCheck implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $file;
+    protected $overwrite;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(UploadedFile $file)
+    public function __construct(UploadedFile $file, $overwrite=false)
     {
         $this->file = $file;
+        $this->overwrite = $overwrite;
     }
 
     /**
@@ -49,7 +52,11 @@ class OfflineRuleCheck implements ShouldQueue
             return false;
         }
 
-        // TODO - check if data has already been generated
+        // check if data has already been generated
+        if (!$this->overwrite && $this->file->rule_break != null){
+            Log::info("Already has rule check result for #" . $this->file->id);
+            return false;
+        }
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->file->path_local;
         if (!file_exists($fullPath))
@@ -57,11 +64,169 @@ class OfflineRuleCheck implements ShouldQueue
 
         $mediaInfo = new MediaInfo();
         $mediaInfoContainer = $mediaInfo->getInfo($fullPath);
-        $general = $mediaInfoContainer->getGeneral();
-
-        if ($general == null) {
-            // TODO - file is not a video
+        
+        $metadata = $this->parseMetadata($mediaInfoContainer);
+        if ($metadata == null) {
+            // TODO - not a video
             return true;
+        }
+
+        $specs = $this->chooseSpecs($metadata);
+        if ($specs == null) {
+            $resolution = $metadata['video']['width'] . "x" . $metadata['video']['height'];
+            $this->log("error", "Failed to find specs with resolution " . $resolution);
+            return true;
+        }
+        
+        $res = $this->checkVideoConfirms($specs, $metadata);
+        $failures = $res['errors'];
+        $warnings = $res['warnings'];
+
+        $result = "ok";
+
+        if (count($warnings) > 0){
+            $this->log("warn", "File missing required check data: " . implode(", ", $warnings));
+            $result = "warning";
+        }
+
+        if (count($failures) > 0){
+            $this->log("error", "File failed conform checks with issues: " . implode(", ", $failures));
+            $result = "break";
+        } else {
+            $this->log("info", "File passed conform checks");
+        }
+
+        if ($this->file->rule_break != null)
+            $this->file->rule_break->delete();
+
+        UploadedFileRuleBreak::create([
+            'uploaded_file_id' => $this->file->id,
+            'result' => $result, 
+            'metadata' => json_encode($metadata),
+            'warnings' => json_encode($warnings), 
+            'errors' => json_encode($failures),
+        ]);
+    }
+
+    private function checkVideoConfirms($specs, $metadata){
+        $errors = [];
+        $warnings = [];
+
+        // TODO - check duration
+
+        if (!isset($metadata['wrapper']))
+            $warnings[] = 'wrapper';
+        else if ($specs['wrapper'] != $metadata['wrapper'])
+            $errors[] = 'wrapper';
+
+        // VIDEO 
+        if (!isset($metadata['video']['format']))
+            $warnings[] = 'video.format';
+        else if (!in_array(strtoupper($metadata['video']['format']), $specs['video']['format']))
+            $errors[] = 'video.format';
+
+        if (!isset($metadata['video']['bit_rate_mode']))
+            $warnings[] = 'video.bit_rate_mode';
+        else if (strtoupper($metadata['video']['bit_rate_mode']) != strtoupper($specs['video']['bit_rate_mode']))
+            $errors[] = 'video.bit_rate_mode';
+
+        if (!isset($metadata['video']['format_profile']))
+            $warnings[] = 'video.format_profile';
+        else if (strtoupper($metadata['video']['format_profile']) != strtoupper($specs['video']['format_profile']))
+            $errors[] = 'video.format_profile';
+
+        if (!isset($metadata['video']['pixel_aspect_ratio']))
+            $warnings[] = 'video.pixel_aspect_ratio';
+        else if ($metadata['video']['pixel_aspect_ratio'] != $specs['video']['pixel_aspect_ratio'])
+            $errors[] = 'video.pixel_aspect_ratio';
+
+        if (!isset($metadata['video']['frame_rate']))
+            $warnings[] = 'video.frame_rate';
+        else if ($metadata['video']['frame_rate'] != $specs['video']['frame_rate'])
+            $errors[] = 'video.frame_rate';
+
+        if (!isset($metadata['video']['scan_type']))
+            $warnings[] = 'video.scan_type';
+        else if (strtoupper($metadata['video']['scan_type']) != strtoupper($specs['video']['scan_type']))
+            $errors[] = 'video.scan_type';
+
+        if (!isset($metadata['video']['standard']))
+            $warnings[] = 'video.standard';
+        else if (strtoupper($metadata['video']['standard']) != strtoupper($specs['video']['standard']))
+            $errors[] = 'video.standard';
+
+        if (!isset($metadata['video']['width']))
+            $warnings[] = 'video.width';
+        else if ($metadata['video']['width'] != $specs['video']['width'])
+            $errors[] = 'video.width';
+
+        if (!isset($metadata['video']['height']))
+            $warnings[] = 'video.height';
+        else if ($metadata['video']['height'] != $specs['video']['height'])
+            $errors[] = 'video.height';
+
+        if (!isset($metadata['video']['bit_rate']))
+            $warnings[] = 'video.bit_rate';
+        else if ($metadata['video']['bit_rate'] > $specs['video']['bit_rate'] * $specs['video']['bit_rate_tolerance'])
+            $errors[] = 'video.bit_rate';
+
+        if (!isset($metadata['video']['maximum_bit_rate']))
+            $warnings[] = 'video.maximum_bit_rate';
+        else if ($metadata['video']['maximum_bit_rate'] > $specs['video']['maximum_bit_rate'] * $specs['video']['maximum_bit_rate_tolerance'])
+            $errors[] = 'video.maximum_bit_rate';
+
+        // AUDIO
+        if (!isset($metadata['audio']['format']))
+            $warnings[] = 'audio.format';
+        else if (!in_array(strtoupper($metadata['audio']['format']), $specs['audio']['format']))
+            $errors[] = 'audio.format';
+
+        if (!isset($metadata['audio']['channels']))
+            $warnings[] = 'audio.channels';
+        else if ($metadata['audio']['channels'] != $specs['audio']['channels'])
+            $errors[] = 'audio.channels';
+
+        if (!isset($metadata['audio']['sampling_rate']))
+            $warnings[] = 'audio.sampling_rate';
+        else if (!in_array($metadata['audio']['sampling_rate'], $specs['audio']['sampling_rate']))
+            $errors[] = 'audio.sampling_rate';
+
+        if (!isset($metadata['audio']['bit_rate']))
+            $warnings[] = 'audio.bit_rate';
+        else if ($metadata['audio']['bit_rate'] > $specs['audio']['bit_rate'] * $specs['audio']['bit_rate_tolerance'])
+            $errors[] = 'audio.bit_rate';
+
+        if (!isset($metadata['audio']['maximum_bit_rate']))
+            $warnings[] = 'audio.maximum_bit_rate';
+        else if ($metadata['audio']['maximum_bit_rate'] > $specs['audio']['maximum_bit_rate'] * $specs['audio']['maximum_bit_rate_tolerance'])
+            $errors[] = 'audio.maximum_bit_rate';
+
+        return [
+            "errors" => $errors, 
+            "warnings" => $warnings,
+        ];
+    }
+
+    private function chooseSpecs($metadata) {
+        $options = Config::get('nasta.video_specs');
+        foreach ($options as $key => $opt) {
+            if ($opt['video']['height'] != $metadata['video']['height'])
+                continue;
+
+            if ($opt['video']['width'] != $metadata['video']['width'])
+                continue;
+
+            $this->log("info", "Matched spec " . $key);
+            return array_merge_recursive(Config::get('nasta.video_specs_common'), $opt);
+        }
+
+        return null;
+    }
+
+    private function parseMetadata($mediaInfoContainer){
+        $general = $mediaInfoContainer->getGeneral();
+        if ($general == null) {
+            return null;
         }
         
         if ($general->get('count_of_video_streams') != 1)
@@ -154,20 +319,24 @@ class OfflineRuleCheck implements ShouldQueue
             $standard = $video->get('standard');
             if ($standard != null)
                 $metadata['video']['standard'] = $standard;
-
-
-
         }
 
-
-
-        // $metadata['audio']['duration'] = $audio->get('source_duration')[0]/1000;
-        dd($metadata);
-
-
+        return $metadata;
     }
 
     private function log($level, $message){
+        switch ($level){
+            case "error":
+                Log::error($message);
+                break;
+            case "warn":
+                Log::warning($message);
+                break;
+            default:
+                Log::info($message);
+                break;
+        }
+
         UploadedFileLog::create([
             'station_id' => $this->file->station->id,
             'uploaded_file_id' => $this->file->id,

@@ -46,6 +46,11 @@ class UploadedFile extends Model
         return $this->belongsTo('App\Database\Upload\VideoMetadata', "video_metadata_id");
     }
 
+    public function rule_break()
+    {
+        return $this->hasOne('App\Database\Upload\UploadedFileRuleBreak');
+    }
+
     public function isLate($category=null){
         if ($category == null && $this->category_id != null)
             $category = $this->category;
