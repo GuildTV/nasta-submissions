@@ -1,18 +1,7 @@
-FROM guildtv/website-base
+FROM nasta-sub:base
 MAINTAINER Julian Waller <julian@tech.guildtv.co.uk>
 
-# add source
-WORKDIR /src
-ADD ./ /src/
-
-RUN chown -R www-data:www-data storage
-
-# composer
-RUN php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php \
-  && php composer-setup.php --install-dir=/usr/bin --filename="composer" \
-  && php -r "unlink('composer-setup.php');"
-
-ADD docker/queue/start.sh /start.sh
+ADD start.sh /start.sh
 
 RUN chmod +x /start.sh
 CMD ["/start.sh"]
