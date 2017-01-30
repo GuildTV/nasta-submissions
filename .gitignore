@@ -15,3 +15,5 @@ npm-debug.log
 www.pid
 .DS_Store
 vagrant-settings.yml
+
+app/version.tmp

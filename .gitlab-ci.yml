@@ -34,6 +34,8 @@ build:composer:
     - php artisan clear-compiled
     - php artisan optimize
     - php artisan route:cache
+
+    - git rev-parse --short HEAD > app\version.tmp
   type: build
   tags:
     - docker
@@ -180,7 +182,7 @@ deploy:guild:
   type: deploy
   only:
     - develop
-    - master
+    # - master
   tags:
     - docker
   dependencies: []

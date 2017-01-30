@@ -28,6 +28,16 @@
         </div>
       </div>
 
+      <div class="panel panel-default">
+        <div class="panel-heading">Info</div>
+
+        <div class="panel-body">
+          <div class="center">
+            <p>Revision: {{ $version }}</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

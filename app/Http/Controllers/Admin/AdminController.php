@@ -14,7 +14,11 @@ class AdminController extends Controller
    */
   public function dashboard()
   {
-    return view('admin.dashboard');
+    $version = @file_get_contents(app_path('version.tmp'));
+    if ($version == null)
+      $version = "dev";
+
+    return view('admin.dashboard', compact('version'));
   }
 
 }
