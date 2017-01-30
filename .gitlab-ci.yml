@@ -1,5 +1,6 @@
 types:
   - build
+  - build-base
   - build-image
   - test
   - promote
@@ -45,47 +46,55 @@ build:composer:
     paths:
     - vendor/*
 
-build:cron:
+build:base:
   script:
     - git rev-parse --short HEAD > app/version.tmp
 
-    - docker build --pull -t "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" -f docker/cron/Dockerfile .
+    - docker build --pull -t "registry.julus.uk/nasta-sub/base:$CI_BUILD_REF" -f docker/Dockerfile .
+    - docker push "registry.julus.uk/nasta-sub/base:$CI_BUILD_REF"
+  type: build-base
+  tags:
+    - shell
+    - docker-build
+  dependencies:
+    - build:assets
+    - build:composer
+
+build:cron:
+  script:
+    - sed -i "s#nasta-sub:base#registry.julus.uk/nasta-sub/base:$CI_BUILD_REF#g" docker/cron/Dockerfile
+
+    - docker build -t "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF" docker/cron
     - docker push "registry.julus.uk/nasta-sub/cron:$CI_BUILD_REF"
   type: build-image
   tags:
     - shell
     - docker-build
-  dependencies:
-    - build:assets
-    - build:composer
+  dependencies: []
 
 build:http:
   script:
-    - git rev-parse --short HEAD > app/version.tmp
+    - sed -i "s#nasta-sub:base#registry.julus.uk/nasta-sub/base:$CI_BUILD_REF#g" docker/http/Dockerfile
 
-    - docker build --pull -t "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" -f docker/http/Dockerfile .
+    - docker build -t "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF" docker/http
     - docker push "registry.julus.uk/nasta-sub/http:$CI_BUILD_REF"
   type: build-image
   tags:
     - shell
     - docker-build
-  dependencies:
-    - build:assets
-    - build:composer
+  dependencies: []
 
 build:queue:
   script:
-    - git rev-parse --short HEAD > app/version.tmp
+    - sed -i "s#nasta-sub:base#registry.julus.uk/nasta-sub/base:$CI_BUILD_REF#g" docker/queue/Dockerfile
     
-    - docker build --pull -t "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" -f docker/queue/Dockerfile .
+    - docker build -t "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF" docker/queue
     - docker push "registry.julus.uk/nasta-sub/queue:$CI_BUILD_REF"
   type: build-image
   tags:
     - shell
     - docker-build
-  dependencies:
-    - build:assets
-    - build:composer
+  dependencies: []
 
 build:db:
   script:
