@@ -28,7 +28,7 @@ spec:
           - name: APP_ENV
             value: production
         volumeMounts:
-          - mountPath: /VAULT
+          - mountPath: /VAULT-NASTA
             name: vault-data
           - mountPath: /src/storage
             name: storage
