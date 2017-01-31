@@ -60,6 +60,11 @@
 									<br />
 								@endif
 
+								<div id="too_many_files_holder" class="row {{ $entry->uploadedFiles->count() <= $category->constraints->count() ? "hidden" : "" }}">
+									<div class="alert alert-danger col-sm-12">
+										<p>You have too many files for this entry. Only {{ $category->constraints->count() }} files are expected.</p>
+									</div>
+								</div>
 								<table class="table" id="files-table">
 									<thead>
 										<th>Filename</th>

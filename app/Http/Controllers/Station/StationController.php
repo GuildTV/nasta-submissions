@@ -55,7 +55,7 @@ class StationController extends Controller
 	public function files()
 	{
 		$categories = Category::with('myEntry')->get();
-		$categories = array_filter($categories->all(), function($cat){ return $cat->myEntry == null; });
+		$categories = array_filter($categories->all(), function($cat){ return $cat->myEntry == null || !$cat->myEntry->submitted; });
 
 		$files = Auth::user()->uploadedFiles()->orderBy("category_id")
 			->with('category')->with('category.myEntry')->with('metadata')
@@ -80,7 +80,10 @@ class StationController extends Controller
 			];
 		});
 
-		return Response::json($files);
+		return Response::json([
+			"expected_count" => $category->constraints()->count(),
+			"files" => $files,
+		]);
 	}
 
 

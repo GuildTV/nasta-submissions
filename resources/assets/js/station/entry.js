@@ -183,11 +183,18 @@ window.StationEntry = {
       url: '/station/categories/' + category + '/files',
       method: 'GET',
       success: function(res) {
+        const files = res.files;
+
+        const fileCountHolder = $('#too_many_files_holder');
+        fileCountHolder.removeClass('hidden');
+        if (files.length <= res.expected_count)
+          fileCountHolder.addClass('hidden');
+
         const dest = $('#file-table-body');
         dest.empty();
 
-        for (var i=0; i < res.length; i++) {
-          const file = res[i];
+        for (var i=0; i < files.length; i++) {
+          const file = files[i];
 
           const row = $('<tr>');
           row.append($('<td>').text(file.name));
