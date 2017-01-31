@@ -70,15 +70,35 @@ class OfflineRuleCheck implements ShouldQueue
         
         $metadata = $this->parseMetadata($mediaInfoContainer);
         if ($metadata == null) {
-            // TODO - not a video
-            return true;
+            $mime = mime_content_type($fullPath);
+
+            $this->save([
+                'uploaded_file_id' => $this->file->id,
+                'result' => 'ok',
+                'mimetype' => $mime,
+                'length' => $this->getFileLength($mime, $fullPath),
+                'metadata' => json_encode([]),
+                'warnings' => json_encode([]), 
+                'errors' => json_encode([]),
+            ]);
+            return false;
         }
 
         $specs = $this->chooseSpecs($metadata);
         if ($specs == null) {
             $resolution = $metadata['video']['width'] . "x" . $metadata['video']['height'];
             $this->log("error", "Failed to find specs with resolution " . $resolution);
-            return true;
+
+            $this->save([
+                'uploaded_file_id' => $this->file->id,
+                'result' => 'break',
+                'mimetype' => $metadata['wrapper'],
+                'length' => $metadata['duration'],
+                'metadata' => json_encode($metadata),
+                'warnings' => json_encode([]), 
+                'errors' => json_encode([ 'resolution' ]),
+            ]);
+            return false;
         }
         
         $res = $this->checkVideoConfirms($specs, $metadata);
@@ -99,16 +119,37 @@ class OfflineRuleCheck implements ShouldQueue
             $this->log("info", "File passed conform checks");
         }
 
-        if ($this->file->rule_break != null)
-            $this->file->rule_break->delete();
-
-        UploadedFileRuleBreak::create([
+        $this->save([
             'uploaded_file_id' => $this->file->id,
-            'result' => $result, 
+            'result' => $result,
+            'mimetype' => $metadata['wrapper'],
+            'length' => $metadata['duration'],
             'metadata' => json_encode($metadata),
             'warnings' => json_encode($warnings), 
             'errors' => json_encode($failures),
         ]);
+    }
+
+    private function getFileLength($mime, $fullPath){
+        switch($mime){
+            case "application/pdf":
+                return $this->getPdfLength($fullPath);
+        }
+
+        return -1;
+    }
+
+    private function getPdfLength($fullPath){
+        $text = \Spatie\PdfToText\Pdf::getText($fullPath);
+
+        return str_word_count($text)
+    }
+
+    private function save($data){
+        if ($this->file->rule_break != null)
+            $this->file->rule_break->delete();
+
+        return UploadedFileRuleBreak::create($data);
     }
 
     private function checkVideoConfirms($specs, $metadata){

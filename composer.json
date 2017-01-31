@@ -16,7 +16,9 @@
         "kunalvarma05/dropbox-php-sdk": "^0.1.4",
         "fideloper/proxy": "^3.2",
         "fedeisas/laravel-mail-css-inliner": "^2.0",
-        "themsaid/laravel-mail-preview": "^1.2"
+        "themsaid/laravel-mail-preview": "^1.2",
+        "spatie/pdf-to-text": "^1.0",
+        "mhor/php-mediainfo": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -20,6 +20,9 @@ class CreateUploadedFileRuleBreaks extends Migration
 
             $table->enum('result', [ 'unknown', 'warning', 'break', 'ok', 'accepted', 'rejected' ])->default('unknown');
 
+            $table->string('mimetype');
+            $table->integer('length');
+
             $table->text('metadata');
 
             $table->text('warnings');

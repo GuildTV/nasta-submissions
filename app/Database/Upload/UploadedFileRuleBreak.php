@@ -16,6 +16,7 @@ class UploadedFileRuleBreak extends Model
     protected $fillable = [
         'uploaded_file_id', 
         'result', 'metadata',
+        'mimetype', 'length',
         'warnings', 'errors',
     ];
 
