@@ -50,6 +50,11 @@ class OfflineRuleCheck implements ShouldQueue
             return false;
         }
 
+        if ($this->file->category_id == null){
+            Log::warning('Skipping mediainfo of #' . $this->file->id . ', as it does not have a category');
+            return false;
+        }
+
         // check if data has already been generated
         if (!$this->overwrite && $this->file->rule_break != null){
             Log::info("Already has rule check result for #" . $this->file->id);
@@ -357,7 +362,7 @@ class OfflineRuleCheck implements ShouldQueue
             'uploaded_file_id' => $this->file->id,
             'category_id' => $this->file->category_id,
             'level' => 'error',
-            'message' => 'Failed to scrape mediainfo for file \'' . $this->file['name'] . '\'',
+            'message' => 'Failed to update mediainfo for file \'' . $this->file['name'] . '\'',
         ]);
 
         ExceptionEmail::notifyAdmin($exception, "Failed mediainfo: File #" . $this->file->id);

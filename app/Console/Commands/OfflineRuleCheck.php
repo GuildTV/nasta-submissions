@@ -45,19 +45,25 @@ class OfflineRuleCheck extends Command
     public function handle()
     {
         $id = $this->argument('id');
-        $files = null;
+        $files = UploadedFile::query();
 
-        if ($id == 0 || $id == null) {
-            $files = UploadedFile::all(); // TODO - filter out those with data
+        $runAll = ($id == 0 || $id == null);
+        if ($runAll) {
+            $files = $files->doesntHave('rule_break');
         } else {
-            $files = UploadedFile::where('id', $id)->get();
+            $files = $files->where('id', $id);
         }
+
+        $files = $files
+            ->whereNotNull('category_id')
+            ->whereNotNull('path_local')
+            ->get();
 
         Log::info("Found " . $files->count() . " files to check");
 
         foreach ($files as $file){
             try {
-                dispatch((new OfflineJob($file))->onQueue('downloads'));
+                dispatch((new OfflineJob($file, !$runAll))->onQueue('downloads'));
 
             } catch (Exception $e){
                 Log::error('Failed to run: '. $e->getMessage());
