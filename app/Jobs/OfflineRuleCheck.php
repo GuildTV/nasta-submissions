@@ -8,12 +8,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Mail\Admin\ExceptionEmail;
-use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
 use App\Database\Upload\UploadedFileRuleBreak;
-use App\Database\Upload\VideoMetadata;
 
 use Mhor\MediaInfo\MediaInfo;
 
@@ -342,7 +340,7 @@ class OfflineRuleCheck implements ShouldQueue
             'uploaded_file_id' => $this->file->id,
             'category_id' => $this->file->category_id,
             'level' => $level,
-            'message' => $message . ' (#' . $this->file->id . ')',
+            'message' => $message,
         ]);
     }
 
@@ -359,7 +357,7 @@ class OfflineRuleCheck implements ShouldQueue
             'uploaded_file_id' => $this->file->id,
             'category_id' => $this->file->category_id,
             'level' => 'error',
-            'message' => 'Failed to scrape mediainfo for file \'' . $this->file['name'] . '\' (#' . $this->file->id . ')',
+            'message' => 'Failed to scrape mediainfo for file \'' . $this->file['name'] . '\'',
         ]);
 
         ExceptionEmail::notifyAdmin($exception, "Failed mediainfo: File #" . $this->file->id);

@@ -187,7 +187,7 @@ class DropboxScrapeFolder implements ShouldQueue
             'uploaded_file_id' => $this->file->id,
             'category_id' => $this->file->category_id,
             'level' => 'error',
-            'message' => 'Failed to get metadata for file \'' . $this->file['name'] . '\' (#' . $this->file->id . ')',
+            'message' => 'Failed to get metadata for file \'' . $this->file['name'] . '\'',
         ]);
 
         ExceptionEmail::notifyAdmin($exception, "Dropdox scrape metadata: File #" . $this->file->id);
