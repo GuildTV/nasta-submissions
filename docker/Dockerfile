@@ -1,6 +1,10 @@
 FROM guildtv/website-base
 MAINTAINER Julian Waller <julian@tech.guildtv.co.uk>
 
+RUN apt-get update && \
+  apt-get install -y poppler-utils && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/apt/cache/*.deb
+
 # add source
 WORKDIR /src
 ADD ./ /src/

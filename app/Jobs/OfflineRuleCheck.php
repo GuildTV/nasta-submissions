@@ -133,16 +133,12 @@ class OfflineRuleCheck implements ShouldQueue
     private function getFileLength($mime, $fullPath){
         switch($mime){
             case "application/pdf":
-                return $this->getPdfLength($fullPath);
+                return str_word_count(\Spatie\PdfToText\Pdf::getText($fullPath));
+            case "text/plain":
+                return str_word_count(file_get_contents($fullPath));
         }
 
         return -1;
-    }
-
-    private function getPdfLength($fullPath){
-        $text = \Spatie\PdfToText\Pdf::getText($fullPath);
-
-        return str_word_count($text)
     }
 
     private function save($data){
@@ -277,6 +273,9 @@ class OfflineRuleCheck implements ShouldQueue
             $this->log("warn", "Invalid number of video streams " . $general->get('count_of_video_streams'));
         if ($general->get('count_of_audio_streams') != 1)
             $this->log("warn", "Invalid number of audio streams " . $general->get('count_of_audio_streams'));
+
+        if ($general->get('count_of_video_streams') == 0 && $general->get('count_of_audio_streams') == 0)
+            return null;
 
         $metadata = [
             'audio' => [],
