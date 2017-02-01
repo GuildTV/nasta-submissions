@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Database\Upload;
+namespace App\Database\Entry;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class EntryRuleBreak extends Model
      * @var array
      */
     protected $fillable = [
-        'uploaded_file_id', 
+        'entry_id', 
         'result',
         'warnings', 'errors',
     ];

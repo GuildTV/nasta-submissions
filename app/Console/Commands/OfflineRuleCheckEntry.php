@@ -49,11 +49,11 @@ class OfflineRuleCheckEntry extends Command
 
         $runAll = ($id == 0 || $id == null);
         if ($runAll) {
-            $entry = $entry->doesntHave('rule_break');
-        } else {
             $entry = $entry
-                ->where('id', $id)
+                ->doesntHave('rule_break')
                 ->where('submitted', false);
+        } else {
+            $entry = $entry->where('id', $id);
         }
 
         $entries = $entry->get();

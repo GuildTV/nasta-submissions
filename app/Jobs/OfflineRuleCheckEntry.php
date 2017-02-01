@@ -42,8 +42,8 @@ class OfflineRuleCheckEntry implements ShouldQueue
     public function handle()
     {
         // If not submitted, nothing to do!
-        if ($this->entry->submitted) {
-            Log::warning('Skipping rule check of entry #' . $this->file->id . ', as it is not submitted');
+        if ($this->entry->submitted && !$this->overwrite) {
+            Log::warning('Skipping rule check of entry #' . $this->entry->id . ', as it is not submitted');
             return false;
         }
 
@@ -56,6 +56,7 @@ class OfflineRuleCheckEntry implements ShouldQueue
         $constraints = $this->entry->category->constraints()->orderBy('video_duration', 'desc')->get();
 
         $failures = [];
+        $warnings = [];
         if ($files->count() != $constraints->count())
             $failures[] = "file_count";
 
@@ -67,13 +68,71 @@ class OfflineRuleCheckEntry implements ShouldQueue
 
         $topCombination = $this->chooseBestCombination($possibleCombinations);
 
-        
-
-        dd ($topCombination);
+        // dd ($topCombination);
 
         // TODO - now work with this!!
+        
+        if ($constraints->count() != count($topCombination))
+            $failures[] = "matched_file_count";
 
+        if ($topCombination != null){
+            foreach ($topCombination as $fileInfo){
+                // check length 
+                if ($fileInfo['file']->rule_break == null){
+                    $failures[] = 'file_result.missing.' . $fileInfo['file']->id;
+                    continue;
+                }
 
+                if ($fileInfo['file']->rule_break->length > $fileInfo['constraint']->video_duration)
+                    $failures[] = "file_too_long." . $fileInfo['file']->id;
+
+                switch($fileInfo['file']->rule_break->result) {
+                    case 'unknown':
+                        $failures[] = 'file_result.unknown.' . $fileInfo['file']->id;
+                        break;
+                    case 'warning':
+                        $warnings[] = 'file_result.warning.' . $fileInfo['file']->id;
+                        break;
+                    case 'break':
+                        $failures[] = 'file_result.break.' . $fileInfo['file']->id;
+                        break;
+                    case 'rejected':
+                        $failures[] = 'file_result.rejected.' . $fileInfo['file']->id;
+                        break;
+                }
+            }
+        }
+
+        if ($this->entry->isLate())
+            $failures[] = 'late';
+
+        $result = "ok";
+
+        if (count($warnings) > 0){
+            Log::warning("Entry has warnings: " . implode(", ", $warnings));
+            $result = "warning";
+        }
+
+        if (count($failures) > 0){
+            Log::error("Entry failed conform checks with issues: " . implode(", ", $failures));
+            $result = "break";
+        } else {
+            Log::info("Entry passed conform checks");
+        }
+
+        $this->save([
+            'entry_id' => $this->entry->id,
+            'result' => $result,
+            'warnings' => json_encode($warnings), 
+            'errors' => json_encode($failures),
+        ]);
+    }
+
+    private function save($data){
+        if ($this->entry->rule_break != null)
+            $this->entry->rule_break->delete();
+
+        return EntryRuleBreak::create($data);
     }
 
     private function calculateFileScoreSet($constraints, $files){
@@ -174,7 +233,7 @@ class OfflineRuleCheckEntry implements ShouldQueue
         foreach ($possibleCombinations as $comb){
             $score = 0;
             foreach ($comb as $file){
-                $score += $file['score'];
+                $score += abs($file['score']);
             }
 
             if ($score < $minScore){
