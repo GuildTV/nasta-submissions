@@ -66,17 +66,16 @@ class OfflineRuleCheckEntry implements ShouldQueue
         $combinationsMatrix = $this->computeFileScoreMatrix($scoredFiles);
         $possibleCombinations = $this->filterPossibleCombinations($combinationsMatrix);
 
-        $topCombination = $this->chooseBestCombination($possibleCombinations);
-
-        // dd ($topCombination);
-
-        // TODO - now work with this!!
-        
+        $topCombination = $this->chooseBestCombination($possibleCombinations);      
         if ($constraints->count() != count($topCombination))
             $failures[] = "matched_file_count";
 
+        $constraint_map = [];
+
         if ($topCombination != null){
             foreach ($topCombination as $fileInfo){
+                $constraint_map[$fileInfo['file']->id] = $fileInfo['constraint']->id;
+
                 // check length 
                 if ($fileInfo['file']->rule_break == null){
                     $failures[] = 'file_result.missing.' . $fileInfo['file']->id;
@@ -103,6 +102,9 @@ class OfflineRuleCheckEntry implements ShouldQueue
             }
         }
 
+        if (!$this->entry->submitted)
+            $warnings[] = 'not_submitted';
+
         if ($this->entry->isLate())
             $failures[] = 'late';
 
@@ -123,6 +125,7 @@ class OfflineRuleCheckEntry implements ShouldQueue
         $this->save([
             'entry_id' => $this->entry->id,
             'result' => $result,
+            'constraint_map' => json_encode($constraint_map),
             'warnings' => json_encode($warnings), 
             'errors' => json_encode($failures),
         ]);

@@ -72,6 +72,7 @@ $router->group([
   Route::post('/submissions/file/{file}/link/{category}', 'Admin\SubmissionsController@linkfile')->name("admin.submissions.file.link");
   Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
   Route::get('/submissions/file/{file}/metadata', 'Admin\SubmissionsController@metadata')->name("admin.submissions.file.metadata");
+  Route::get('/submissions/rule-break/{entry}', 'Admin\SubmissionsController@rule_break')->name("admin.submissions.rule-break");
 
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");

@@ -84,6 +84,18 @@ window.OpenCategories = [
               </div>
 
               <div class="form-group">
+                <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
+                <div class="col-sm-10">
+                  <p>
+                    {{ $file->rule_break == null ? "pending" : $file->rule_break->result }}
+                    @if($entry != null && $file->rule_break != null)
+                      <a href="{{ route('admin.submissions.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
+                    @endif
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
                   <a class="btn btn-info" href="{{ route('admin.submissions.file.download', $file) }}" target="_blank">Download</a>
                 </div>

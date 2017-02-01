@@ -53,6 +53,18 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
+                <div class="col-sm-10">
+                  <p>
+                    {{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}
+                    @if($entry->rule_break != null)
+                      <a href="{{ route('admin.submissions.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
+                    @endif
+                  </p>
+                </div>
+              </div>
+
             </form>
           </div>
         </div>
