@@ -152,8 +152,6 @@ class OfflineRuleCheckFile implements ShouldQueue
         $errors = [];
         $warnings = [];
 
-        // TODO - check duration
-
         if (!isset($metadata['wrapper']))
             $warnings[] = 'wrapper';
         else if ($specs['wrapper'] != $metadata['wrapper'])

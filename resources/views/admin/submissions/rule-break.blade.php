@@ -36,9 +36,16 @@
                       <p> - </p>
                     @else
                       <ul>
-                      @foreach ($warnings as $warn)
-                        <li>{{ $warn }}</li>
-                      @endforeach
+                        <?php
+                          foreach ($warnings as $msg){
+                            $split = explode("=", $msg);
+                            if (count($split) == 2){
+                              echo "<li>" . trans("rule_break.warning." . $split[0], [ "id" => $split[1] ]) . "</li>";
+                            } else {
+                              echo "<li>" . trans("rule_break.warning." . $msg) . "</li>";
+                            }
+                          }
+                        ?>
                       </ul>
                     @endif
                   </div>
@@ -52,9 +59,16 @@
                       <p> - </p>
                     @else
                       <ul>
-                      @foreach ($errors as $err)
-                        <li>{{ $err }}</li>
-                      @endforeach
+                        <?php
+                          foreach ($errors as $msg){
+                            $split = explode("=", $msg);
+                            if (count($split) == 2){
+                              echo "<li>" . trans("rule_break.error." . $split[0], [ "id" => $split[1] ]) . "</li>";
+                            } else {
+                              echo "<li>" . trans("rule_break.error." . $msg) . "</li>";
+                            }
+                          }
+                        ?>
                       </ul>
                     @endif
                   </div>
@@ -128,9 +142,16 @@
                         <p> - </p>
                       @else
                         <ul>
-                        @foreach ($warnings as $warn)
-                          <li>{{ $warn }}</li>
-                        @endforeach
+                        <?php
+                          foreach ($warnings as $msg){
+                            $split = explode("=", $msg);
+                            if (count($split) == 2){
+                              echo "<li>" . trans("rule_break.warning." . $split[0], [ "id" => $split[1] ]) . "</li>";
+                            } else {
+                              echo "<li>" . trans("rule_break.warning." . $msg) . "</li>";
+                            }
+                          }
+                        ?>
                         </ul>
                       @endif
                     </div>
@@ -144,9 +165,16 @@
                         <p> - </p>
                       @else
                         <ul>
-                        @foreach ($errors as $err)
-                          <li>{{ $err }}</li>
-                        @endforeach
+                        <?php
+                          foreach ($errors as $msg){
+                            $split = explode("=", $msg);
+                            if (count($split) == 2){
+                              echo "<li>" . trans("rule_break.error." . $split[0], [ "id" => $split[1] ]) . "</li>";
+                            } else {
+                              echo "<li>" . trans("rule_break.error." . $msg) . "</li>";
+                            }
+                          }
+                        ?>
                         </ul>
                       @endif
                     </div>
@@ -154,6 +182,12 @@
 
                 @endif
 
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Uploaded At</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" disabled='disabled' value="{{ $file->uploaded_at->toDayDateTimeString() }}">
+                  </div>
+                </div>
 
                 <hr />
               @endforeach

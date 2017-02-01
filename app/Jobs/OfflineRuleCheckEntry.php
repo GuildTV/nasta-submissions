@@ -78,25 +78,25 @@ class OfflineRuleCheckEntry implements ShouldQueue
 
                 // check length 
                 if ($fileInfo['file']->rule_break == null){
-                    $failures[] = 'file_result.missing.' . $fileInfo['file']->id;
+                    $failures[] = 'file_result.missing=' . $fileInfo['file']->id;
                     continue;
                 }
 
                 if ($fileInfo['file']->rule_break->length > $fileInfo['constraint']->video_duration)
-                    $failures[] = "file_too_long." . $fileInfo['file']->id;
+                    $failures[] = "file_too_long=" . $fileInfo['file']->id;
 
                 switch($fileInfo['file']->rule_break->result) {
                     case 'unknown':
-                        $failures[] = 'file_result.unknown.' . $fileInfo['file']->id;
+                        $failures[] = 'file_result.unknown=' . $fileInfo['file']->id;
                         break;
                     case 'warning':
-                        $warnings[] = 'file_result.warning.' . $fileInfo['file']->id;
+                        $warnings[] = 'file_result.warning=' . $fileInfo['file']->id;
                         break;
                     case 'break':
-                        $failures[] = 'file_result.break.' . $fileInfo['file']->id;
+                        $failures[] = 'file_result.break=' . $fileInfo['file']->id;
                         break;
                     case 'rejected':
-                        $failures[] = 'file_result.rejected.' . $fileInfo['file']->id;
+                        $failures[] = 'file_result.rejected=' . $fileInfo['file']->id;
                         break;
                 }
             }
@@ -104,9 +104,6 @@ class OfflineRuleCheckEntry implements ShouldQueue
 
         if (!$this->entry->submitted)
             $warnings[] = 'not_submitted';
-
-        if ($this->entry->isLate())
-            $failures[] = 'late';
 
         $result = "ok";
 
