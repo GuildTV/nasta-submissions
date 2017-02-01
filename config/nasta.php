@@ -64,8 +64,6 @@ return [
     ],
   ],
 
-  'pre_roll_duration' => 15, // duration of the required pre and post roll video in submissions
-
   'late_edit_period' => 60, // Minutes allowed to edit 
   'close_to_deadline_threshold' => 30, // Minutes classed as close to deadline
 

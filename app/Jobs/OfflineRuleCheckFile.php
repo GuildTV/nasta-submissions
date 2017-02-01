@@ -19,7 +19,7 @@ use Config;
 use Exception;
 use Log;
 
-class OfflineRuleCheck implements ShouldQueue
+class OfflineRuleCheckFile implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 

@@ -4,21 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Jobs\OfflineRuleCheck as OfflineJob;
+use App\Jobs\OfflineRuleCheckFile as OfflineJob;
 
 use App\Database\Upload\UploadedFile;
 
 use Log;
 use Exception;
 
-class OfflineRuleCheck extends Command
+class OfflineRuleCheckFile extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'file:rule-check {id=0 : The ID of the file}';
+    protected $signature = 'rule-check:file {id=0 : The ID of the file}';
 
     /**
      * The console command description.
