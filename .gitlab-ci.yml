@@ -28,7 +28,7 @@ build:assets:
     - public/*
 
 build:composer:
-  image: julusian/composer
+  image: julusian/composer:5.6
   script:
     - composer install --no-autoloader --no-scripts --prefer-dist --no-interaction --no-dev
     - composer dump-autoload
