@@ -1400,16 +1400,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Julusian/pdf-to-text.git",
-                "reference": "36bfcf7c0fc8b283bf1b26ffb4f4b82f0da86e1a"
+                "reference": "f244b0de8cce3599c1223cb31b62a70d1be0f1cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Julusian/pdf-to-text/zipball/36bfcf7c0fc8b283bf1b26ffb4f4b82f0da86e1a",
-                "reference": "36bfcf7c0fc8b283bf1b26ffb4f4b82f0da86e1a",
+                "url": "https://api.github.com/repos/Julusian/pdf-to-text/zipball/f244b0de8cce3599c1223cb31b62a70d1be0f1cd",
+                "reference": "f244b0de8cce3599c1223cb31b62a70d1be0f1cd",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
+                "php": "^5.6",
                 "symfony/process": "^3.0"
             },
             "require-dev": {
