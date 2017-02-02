@@ -236,6 +236,16 @@ class OfflineRuleCheckEntry implements ShouldQueue
                 $score += abs($file['score']);
             }
 
+            if (count($comb) == 0)
+                continue;
+
+            if ($score > 9000)
+                continue;
+
+            // TODO - need to add a 'no-file' into the pool of possible files to match to constraints
+            // if ($minObject != null && count($minObject) > count($comb))
+            //     continue;
+
             if ($score < $minScore){
                 $minScore = $score;
                 $minObject = $comb;
