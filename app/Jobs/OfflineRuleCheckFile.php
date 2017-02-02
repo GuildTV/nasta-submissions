@@ -47,18 +47,18 @@ class OfflineRuleCheckFile implements ShouldQueue
         // If not downloaded, nothing to do!
         if ($this->file->path_local == null) {    
             Log::warning('Skipping mediainfo of #' . $this->file->id . ', as db does not have it marked local');
-            return false;
+            return "NO_LOCAL";
         }
 
         if ($this->file->category_id == null){
             Log::warning('Skipping mediainfo of #' . $this->file->id . ', as it does not have a category');
-            return false;
+            return "NO_CATEGORY";
         }
 
         // check if data has already been generated
         if (!$this->overwrite && $this->file->rule_break != null){
             Log::info("Already has rule check result for #" . $this->file->id);
-            return false;
+            return "EXISTING";
         }
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->file->path_local;
@@ -71,17 +71,18 @@ class OfflineRuleCheckFile implements ShouldQueue
         $metadata = $this->parseMetadata($mediaInfoContainer);
         if ($metadata == null) {
             $mime = mime_content_type($fullPath);
+            $length = $this->getFileLength($mime, $fullPath);
 
             $this->save([
                 'uploaded_file_id' => $this->file->id,
-                'result' => 'ok',
+                'result' => $length > 0 ? 'ok' : 'break',
                 'mimetype' => $mime,
-                'length' => $this->getFileLength($mime, $fullPath),
+                'length' => $length,
                 'metadata' => json_encode([]),
                 'warnings' => json_encode([]), 
-                'errors' => json_encode([]),
+                'errors' => json_encode($length > 0 ? [] : [ "bad_mimetype" ]),
             ]);
-            return false;
+            return "NON_VIDEO";
         }
 
         $specs = $this->chooseSpecs($metadata);
@@ -98,7 +99,7 @@ class OfflineRuleCheckFile implements ShouldQueue
                 'warnings' => json_encode([]), 
                 'errors' => json_encode([ 'resolution' ]),
             ]);
-            return false;
+            return "NO_SPEC";
         }
         
         $res = $this->checkVideoConfirms($specs, $metadata);
@@ -128,6 +129,7 @@ class OfflineRuleCheckFile implements ShouldQueue
             'warnings' => json_encode($warnings), 
             'errors' => json_encode($failures),
         ]);
+        return "OK";
     }
 
     private function getFileLength($mime, $fullPath){

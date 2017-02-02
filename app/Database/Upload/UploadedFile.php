@@ -18,7 +18,7 @@ class UploadedFile extends Model
      */
     protected $fillable = [
         'station_id', 'category_id',
-        'account_id', 'path', 'name', 
+        'account_id', 'path', 'name', 'path_local',
         'size', 'hash', 'public_url',
         'uploaded_at', 
     ];

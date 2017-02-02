@@ -21,17 +21,17 @@ class OfflineRuleCheckEntry implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $entry;
-    protected $overwrite;
+    protected $force;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Entry $entry, $overwrite=false)
+    public function __construct(Entry $entry, $force=false)
     {
         $this->entry = $entry;
-        $this->overwrite = $overwrite;
+        $this->force = $force;
     }
 
     /**
@@ -42,9 +42,9 @@ class OfflineRuleCheckEntry implements ShouldQueue
     public function handle()
     {
         // If not submitted, nothing to do!
-        if ($this->entry->submitted && !$this->overwrite) {
+        if (!$this->entry->submitted && !$this->force) {
             Log::warning('Skipping rule check of entry #' . $this->entry->id . ', as it is not submitted');
-            return false;
+            return "SUBMITTED";
         }
 
         $files = $this->entry->uploadedFiles()->with('rule_break')->get()->sortByDesc(function($file, $k){
@@ -74,6 +74,11 @@ class OfflineRuleCheckEntry implements ShouldQueue
 
         if ($topCombination != null){
             foreach ($topCombination as $fileInfo){
+                if ($fileInfo['file'] == null){
+                    $failures[] = 'missing_file';
+                    continue;
+                }
+
                 $constraint_map[$fileInfo['file']->id] = $fileInfo['constraint']->id;
 
                 // check length 
@@ -126,6 +131,8 @@ class OfflineRuleCheckEntry implements ShouldQueue
             'warnings' => json_encode($warnings), 
             'errors' => json_encode($failures),
         ]);
+
+        return "OK";
     }
 
     private function save($data){
@@ -146,6 +153,11 @@ class OfflineRuleCheckEntry implements ShouldQueue
                     "score" => $this->calculateFileScore($constraint, $file),
                 ];
             }
+
+            $filesWithScores[] = [
+                "file" => null,
+                "score" => 0,
+            ];
 
             $scoredFiles[] = [
                 "constraint" => $constraint,
@@ -210,8 +222,8 @@ class OfflineRuleCheckEntry implements ShouldQueue
             $fail = false;
 
             foreach ($comb as $file){
-                $fid = $file['file']->id;
-                if (in_array($fid, $matchedIds)){
+                $fid = $file['file'] == null ? null : $file['file']->id;
+                if ($fid != null && in_array($fid, $matchedIds)){
                     $fail = true;
                     break;
                 }
@@ -231,24 +243,29 @@ class OfflineRuleCheckEntry implements ShouldQueue
         $minObject = null;
 
         foreach ($possibleCombinations as $comb){
+            $combFiltered = [];
+
             $score = 0;
             foreach ($comb as $file){
+                if ($file['file'] == null)
+                    continue;
+
+                $combFiltered[] = $file;
                 $score += abs($file['score']);
             }
 
-            if (count($comb) == 0)
+            if (count($combFiltered) == 0)
                 continue;
 
             if ($score > 9000)
                 continue;
 
-            // TODO - need to add a 'no-file' into the pool of possible files to match to constraints
-            // if ($minObject != null && count($minObject) > count($comb))
-            //     continue;
+            if ($minObject != null && count($minObject) > count($combFiltered))
+                continue;
 
             if ($score < $minScore){
                 $minScore = $score;
-                $minObject = $comb;
+                $minObject = $combFiltered;
             }
             if ($score == $minScore){
                 // TODO - handle in some way!
