@@ -113,7 +113,13 @@
                 <div class="form-group">
                   <label for="entryname" class="col-sm-2 control-label"></label>
                   <div class="col-sm-10">
-                    <h4>{{ $file->name }} - (#{{ $file->id }})</h4>
+                    <h4>
+                      {{ $file->name }} - (#{{ $file->id }})
+
+                      <button class="btn btn-info pull-right" data-id="{{ $file->id }}" data-name="{{ $file->name }}" 
+                        data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('admin.submissions.file.download', $file) }}"
+                        onclick="window.StationCommon.ViewFile(this); return false">View</button>
+                    </h4>
                   </div>
                 </div>
 
@@ -212,4 +218,10 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('modals')
+
+  @include('station.submission.view-modal')
+
 @endsection
