@@ -73,6 +73,12 @@ $router->group([
   Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
   Route::get('/submissions/file/{file}/metadata', 'Admin\SubmissionsController@metadata')->name("admin.submissions.file.metadata");
 
+  Route::get('/rule-break/{entry}', 'Admin\RuleBreakController@index')->name("admin.rule-break");
+  Route::get('/rule-break/{entry}/run', 'Admin\RuleBreakController@entry_recheck')->name("admin.rule-break.entry-check");
+  Route::get('/rule-break/{entry}/{state}', 'Admin\RuleBreakController@entry_accept_reject')->name("admin.rule-break.entry-state");
+  Route::get('/rule-break/{entry}/run/{file}', 'Admin\RuleBreakController@file_recheck')->name("admin.rule-break.file-check");
+  Route::get('/rule-break/{entry}/{state}/{file}', 'Admin\RuleBreakController@file_accept_reject')->name("admin.rule-break.file-state");
+
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
   Route::post('/users/{user}/save', 'Admin\UsersController@save');

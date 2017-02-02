@@ -13,27 +13,55 @@ return [
     'guide' => "https://drive.google.com/uc?export=download&id=0B0ZjlKJimJWvaGFwWWtyZXhvWUk", // submissions guide
   ],
 
-  'video_specs' => [ // Must be lowest to highest bitrate
-    'N-SD' => [
-      'w' => 1024,
-      'h' => 576,
-      'bitrate' => 5.2
+  'video_specs_common' => [
+    "audio" => [
+      "format" => [ "AAC" ],
+      "bit_rate" => 192,
+      "maximum_bit_rate" => 320,
+      "channels" => 2,
+      "sampling_rate" => [ 48000, 44100 ],
+      "bit_rate_tolerance" => 1.20,
+      "maximum_bit_rate_tolerance" => 1.05,
     ],
-    'N-HD' => [
-      'w' => 1280,
-      'h' => 720,
-      'bitrate' => 10.2
+    "video" => [
+      "format" => [ "AVC", "H.264", "H264" ],
+      "bit_rate_mode" => "VBR",
+      "format_profile" => "High@L4.1",
+      "pixel_aspect_ratio" => 1.0,
+      "frame_rate" => 25,
+      "scan_type" => "Progressive",
+      "standard" => "PAL",
+      "bit_rate_tolerance" => 1.20,
+      "maximum_bit_rate_tolerance" => 1.05,
     ],
-    'N-FHD' => [
-      'w' => 1920,
-      'h' => 1080,
-      'bitrate' => 15.2
-    ],
+    "wrapper" => "video/mp4",
   ],
 
-  'video_bitrate_tolerance' => [
-    'acceptable' => 1.01, // Auto accept 1%
-    'needs_approval' => 1.10, // Need approval for up to 10%
+  'video_specs' => [ // this will misbehave if there is more than one of each resolution. also width & height are required in each of these
+    'N-SD' => [
+      "video" => [
+        "bit_rate" => 3000,
+        "maximum_bit_rate" => 5000,
+        "width" => 1024,
+        "height" => 576,
+      ]
+    ],
+    'N-HD' => [
+      "video" => [
+        "bit_rate" => 5000,
+        "maximum_bit_rate" => 10000,
+        "width" => 1280,
+        "height" => 720,
+      ]
+    ],
+    'N-FHD' => [
+      "video" => [
+        "bit_rate" => 10000,
+        "maximum_bit_rate" => 15000,
+        "width" => 1920,
+        "height" => 1080,
+      ]
+    ],
   ],
 
   'late_edit_period' => 60, // Minutes allowed to edit 

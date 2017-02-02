@@ -4,6 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/julusian/pdf-to-text"
+        }
+    ],
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
@@ -16,7 +22,9 @@
         "kunalvarma05/dropbox-php-sdk": "^0.1.4",
         "fideloper/proxy": "^3.2",
         "fedeisas/laravel-mail-css-inliner": "^2.0",
-        "themsaid/laravel-mail-preview": "^1.2"
+        "themsaid/laravel-mail-preview": "^1.2",
+        "mhor/php-mediainfo": "^3.0",
+        "julusian/pdf-to-text": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

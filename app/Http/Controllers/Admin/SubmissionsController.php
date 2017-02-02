@@ -62,8 +62,16 @@ class SubmissionsController extends Controller
   public function file(UploadedFile $file)
   {
     $categories = Category::orderBy('name', 'asc')->get();
+    
+    $entry = null;
+    $category = $file->category;
+    if ($category != null){
+      $entry = $category->getEntryForStation($file->station_id);
+      if ($entry->id == null)
+        $entry = null;
+    }
 
-    return view('admin.submissions.file', compact('file', 'categories'));
+    return view('admin.submissions.file', compact('file', 'categories', 'entry'));
   }
 
   public function linkfile(UploadedFile $file, Category $category)

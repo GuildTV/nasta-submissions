@@ -18,7 +18,7 @@ class UploadedFile extends Model
      */
     protected $fillable = [
         'station_id', 'category_id',
-        'account_id', 'path', 'name', 
+        'account_id', 'path', 'name', 'path_local',
         'size', 'hash', 'public_url',
         'uploaded_at', 
     ];
@@ -44,6 +44,11 @@ class UploadedFile extends Model
     public function metadata()
     {
         return $this->belongsTo('App\Database\Upload\VideoMetadata', "video_metadata_id");
+    }
+
+    public function rule_break()
+    {
+        return $this->hasOne('App\Database\Upload\UploadedFileRuleBreak');
     }
 
     public function isLate($category=null){

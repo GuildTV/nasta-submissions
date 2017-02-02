@@ -20,6 +20,8 @@ class Kernel extends ConsoleKernel
         Commands\CreateFileRequests::class,
         Commands\WelcomeEmails::class,
         Commands\AssignDropboxAccounts::class,
+        Commands\OfflineRuleCheckFile::class,
+        Commands\OfflineRuleCheckEntry::class,
     ];
 
     /**

@@ -36,6 +36,11 @@ class Entry extends Model
         return $this->belongsTo('App\Database\Category\Category');
     }
 
+    public function rule_break()
+    {
+        return $this->hasOne('App\Database\Entry\EntryRuleBreak');
+    }
+
     public function findForStation($sid, $cid){
         return self::where('station_id', $sid)
             ->where('category_id', $cid)

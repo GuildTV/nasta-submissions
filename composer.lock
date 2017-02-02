@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8bd25cc84830cecedc3f2140926f943c",
-    "content-hash": "2030195e6e07750929ec6225d67aff9c",
+    "hash": "5d3b96bd31106fd82a34e7bca2e59ec4",
+    "content-hash": "1bc95c3debc20c9ccab0705bbffa6c32",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1395,6 +1395,65 @@
             "time": "2016-12-07 09:37:55"
         },
         {
+            "name": "julusian/pdf-to-text",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Julusian/pdf-to-text.git",
+                "reference": "f244b0de8cce3599c1223cb31b62a70d1be0f1cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Julusian/pdf-to-text/zipball/f244b0de8cce3599c1223cb31b62a70d1be0f1cd",
+                "reference": "f244b0de8cce3599c1223cb31b62a70d1be0f1cd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6",
+                "symfony/process": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\PdfToText\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Spatie\\PdfToText\\Test\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Extract text from a pdf",
+            "homepage": "https://github.com/julusian/pdf-to-text",
+            "keywords": [
+                "pdf-to-text",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/Julusian/pdf-to-text/tree/master"
+            },
+            "time": "2017-01-31 22:10:36"
+        },
+        {
             "name": "kunalvarma05/dropbox-php-sdk",
             "version": "v0.1.5",
             "source": {
@@ -1710,6 +1769,52 @@
                 "debugbar"
             ],
             "time": "2017-01-05 08:46:19"
+        },
+        {
+            "name": "mhor/php-mediainfo",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mhor/php-mediainfo.git",
+                "reference": "a16bad2b884dc17d40fcea432115ec0c3ec0e739"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mhor/php-mediainfo/zipball/a16bad2b884dc17d40fcea432115ec0c3ec0e739",
+                "reference": "a16bad2b884dc17d40fcea432115ec0c3ec0e739",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "symfony/filesystem": "~2.3|~3.0",
+                "symfony/process": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mhor\\MediaInfo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mhor",
+                    "email": "maxime.horcholle@gmail.com"
+                }
+            ],
+            "description": "PHP wrapper around the mediainfo command",
+            "time": "2017-01-17 22:45:20"
         },
         {
             "name": "mockery/mockery",
@@ -2726,6 +2831,55 @@
             "time": "2017-01-02 20:32:22"
         },
         {
+            "name": "symfony/filesystem",
+            "version": "v3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "a0c6ef2dc78d33b58d91d3a49f49797a184d06f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/a0c6ef2dc78d33b58d91d3a49f49797a184d06f4",
+                "reference": "a0c6ef2dc78d33b58d91d3a49f49797a184d06f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-01-08 20:47:33"
+        },
+        {
             "name": "symfony/finder",
             "version": "v3.1.9",
             "source": {
@@ -3078,16 +3232,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.1.9",
+            "version": "v3.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "b525066a9efe372f0910296e486aa61741b09025"
+                "reference": "2605753c5f8c531623d24d002825ebb1d6a22248"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/b525066a9efe372f0910296e486aa61741b09025",
-                "reference": "b525066a9efe372f0910296e486aa61741b09025",
+                "url": "https://api.github.com/repos/symfony/process/zipball/2605753c5f8c531623d24d002825ebb1d6a22248",
+                "reference": "2605753c5f8c531623d24d002825ebb1d6a22248",
                 "shasum": ""
             },
             "require": {
@@ -3123,7 +3277,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-02 20:31:54"
+            "time": "2017-01-21 17:13:55"
         },
         {
             "name": "symfony/routing",
@@ -4941,7 +5095,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "julusian/pdf-to-text": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
