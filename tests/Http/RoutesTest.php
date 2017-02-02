@@ -23,7 +23,11 @@ class RoutesTest extends AutoTestBase
   const SKIP_NAMES = [
     'auth.reset',
     'debugbar.',
-    'station.entry.upload'  
+    'station.entry.upload',
+    'admin.rule-break.file-state',
+    'admin.rule-break.entry-state',
+    'admin.rule-break.file-check',
+    'admin.rule-break.entry-check',
   ];
 
   // route, params, user
