@@ -22,7 +22,13 @@
               <div class="form-group">
                 <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
                 <div class="col-sm-10">
-                  <p>{{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}</p>
+                  <p>
+                    {{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}
+
+                    <a href="{{ route('admin.rule-break.entry-state', [ $entry, 'rejected' ]) }}" class="btn btn-primary pull-right">Reject</a>
+                    <a href="{{ route('admin.rule-break.entry-state', [ $entry, 'accepted' ]) }}" class="btn btn-primary pull-right">Approve</a>
+                    <a href="{{ route('admin.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Re-run</a>
+                  </p>
                 </div>
               </div>
 
@@ -121,7 +127,13 @@
                 <div class="form-group">
                   <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
                   <div class="col-sm-10">
-                    <p>{{ $file->rule_break == null ? "pending" : $file->rule_break->result }}</p>
+                    <p>
+                      {{ $file->rule_break == null ? "pending" : $file->rule_break->result }}
+
+                      <a href="{{ route('admin.rule-break.file-state', [ $entry, 'rejected', $file ]) }}" class="btn btn-primary pull-right">Reject</a>
+                      <a href="{{ route('admin.rule-break.file-state', [ $entry, 'accepted', $file ]) }}" class="btn btn-primary pull-right">Approve</a>
+                      <a href="{{ route('admin.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Re-run</a>
+                    </p>
                   </div>
                 </div>
 
