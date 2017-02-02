@@ -59,7 +59,7 @@
                   <p>
                     {{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}
                     @if($entry->rule_break != null)
-                      <a href="{{ route('admin.submissions.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
+                      <a href="{{ route('admin.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
                     @endif
                   </p>
                 </div>
