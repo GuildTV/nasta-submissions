@@ -78,7 +78,10 @@ class DropboxDownloadFile implements ShouldQueue
 
     private function targetDir()
     {
-        return $this->file->station->name . "/";
+        if ($this->file->category_id == null)
+            return "Pending/";
+
+        return $this->file->category->compact_name . "/";
     }
 
     private function targetFilename()
