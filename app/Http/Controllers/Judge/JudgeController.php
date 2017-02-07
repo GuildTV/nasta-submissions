@@ -46,7 +46,7 @@ class JudgeController extends Controller
   public function download(UploadedFile $file)
   {
     // Check file belongs to user
-    if ($file->category->judge_id != Auth::user()->id)
+    if ($file->category_id == null || $file->category->judge_id != Auth::user()->id)
       return App::abort(404);
     
     $url = $file->getUrl();
