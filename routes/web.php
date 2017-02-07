@@ -58,6 +58,17 @@ $router->group([
 });
 
 $router->group([
+  'middleware' => ['auth:web', 'can:judge'],
+  'prefix' => 'judge'
+], function ($router) {
+
+  Route::get('/dashboard', 'Judge\JudgeController@dashboard')->name("judge.dashboard");
+  Route::get('/view/{entry}', 'Judge\JudgeController@view')->name("judge.view");
+  Route::get('/download/{file}', 'Judge\JudgeController@download')->name("judge.download");
+
+});
+
+$router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
