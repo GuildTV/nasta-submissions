@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Judge;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Judge\ScoreRequest;
+
 use App\Database\Category\Category;
 use App\Database\Entry\Entry;
+use App\Database\Entry\EntryResult;
 use App\Database\Upload\UploadedFile;
 
 use Auth;
@@ -56,7 +59,28 @@ class JudgeController extends Controller
     return Redirect::to($url);
   }
 
+  public function score(ScoreRequest $request, Entry $entry)
+  {
+    if ($entry->category->judge_id != Auth::user()->id)
+      return App::abort(404);
 
+    if (!$entry->canBeJudged())
+      return App::abort(403);
 
+    $result = $entry->result;
+    if ($result == null)
+      $result = new EntryResult([ "entry_id" => $entry->id ]);
+
+    $result->score = $request->score;
+
+    if ($request->has('feedback'))
+      $result->feedback = $request->feedback;
+    else
+      $result->feedback = "";
+
+    $result->save();
+
+    return $result;
+  }
 
 }

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('js')
+  window.JudgeScore.BindValidator();
+@endsection
+
 @section('content')
 <div class="container">
   <div class="row">
@@ -10,7 +14,9 @@
 
         <div class="row">
           <div class="col-md-12">
-            <form class="form-horizontal" onsubmit="return false">
+            <form class="form-horizontal" id="scoreform" onsubmit="return false">
+
+              <input type="hidden" id="entryid" value="{{ $entry->id }}" />
 
               <div class="form-group">
                 <label for="entryname" class="col-sm-2 control-label">Station</label>
@@ -37,12 +43,12 @@
               <div class="form-group">
                 <label for="score" class="col-sm-2 control-label">Score</label>
                 <div class="col-sm-10">
-                  <select id="score" class="form-control">
+                  <select id="score" name="score" class="form-control">
                     <option> - </option>
                   <?php
                     $result = $entry->result != null ? $entry->result->score : -1;
                     for($i=0; $i<=20; $i++)
-                      echo "<option " . ($i == $result ? "disabled=\"disabled\"" : "") . ">" . $i . "</option>";
+                      echo "<option " . ($i == $result ? "selected=\"selected\"" : "") . ">" . $i . "</option>";
                   ?>
                   </select>
                 </div>
@@ -50,7 +56,7 @@
               <div class="form-group">
                 <label for="feedback" class="col-sm-2 control-label">Feedback</label>
                 <div class="col-sm-10">
-                  <textarea id="feedback" class="form-control" rows="5">{{ $entry->result != null ? $entry->result->feedback : "" }}</textarea>
+                  <textarea id="feedback" name="feedback" class="form-control" rows="5">{{ $entry->result != null ? $entry->result->feedback : "" }}</textarea>
                 </div>
               </div>
 

@@ -10,8 +10,6 @@
         <div class="panel-heading">Entries for {{ $category->name }}</div>
 
         <div class="panel-body">
-          <div class="row card-container">
-            
           <table class="table" id="entries-table">
             <thead>
               <th>Station</th>
@@ -34,7 +32,10 @@
             </tbody>
           </table>
 
-          </div>
+          <hr />
+
+          
+
         </div>
       </div>
     </div>

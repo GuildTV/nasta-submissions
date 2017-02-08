@@ -63,8 +63,9 @@ $router->group([
 ], function ($router) {
 
   Route::get('/dashboard', 'Judge\JudgeController@dashboard')->name("judge.dashboard");
-  Route::get('/view/{entry}', 'Judge\JudgeController@view')->name("judge.view");
+  Route::get('/entry/{entry}', 'Judge\JudgeController@view')->name("judge.view");
   Route::get('/download/{file}', 'Judge\JudgeController@download')->name("judge.download");
+  Route::post('/entry/{entry}/score', 'Judge\JudgeController@score')->name("judge.score");
 
 });
 
