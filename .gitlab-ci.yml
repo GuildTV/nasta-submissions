@@ -152,7 +152,7 @@ promote:gcr:
   type: promote
   only:
     - master
-    - develop
+    # - develop
   tags:
     - shell
     - docker-build

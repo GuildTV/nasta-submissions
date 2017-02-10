@@ -75,6 +75,7 @@
                                 <li><a href="{{ route("admin.dashboard") }}">Dashboard</a></li>
 
                             @elseif (Auth::user()->type == "judge")
+                                <li><a href="{{ route("judge.dashboard") }}">Dashboard</a></li>
 
                             @else
                                 <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>

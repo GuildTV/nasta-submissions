@@ -62,7 +62,7 @@ spec:
           name: mysql-link
       - name: vault-data
         hostPath:
-          path: "/VAULT-NASTA"
+          path: "/mnt/vault-nasta"
       - name: storage
         nfs:
           server: files.guild.julus.uk
