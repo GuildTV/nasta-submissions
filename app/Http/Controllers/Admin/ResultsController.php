@@ -19,7 +19,7 @@ class ResultsController extends Controller
 
   public function view(Category $category)
   {
-    $category->load('entries.station', 'entries.result');
+    $category->load('entries.station', 'entries.result', 'entries.rule_break');
 
     $categories = [ $category ];
     $adminVersion = true;

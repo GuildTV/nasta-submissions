@@ -34,13 +34,15 @@
             </thead>
             <tbody>
 @foreach ($category->entries as $entry)
-<?php if (!$entry->canBeJudged()) continue; ?>
+<?php if (!$entry->canBeJudged(true)) continue; ?>
               <tr>
                 <td style="white-space: nowrap;">{{ $entry->station->name }}</td>
                 <td>{{ $entry->name }}</td>
                 <td>{{ $entry->result ? $entry->result->score : "-" }}</td>
                 <td>
-                  @if (!$adminVersion)
+                  @if ($entry->rule_break == null || $entry->rule_break == "warning" || $entry->rule_break== "break")
+                    pending
+                  @elseif (!$adminVersion)
                   <a href="{{ route('judge.view', [$entry]) }}">View</a>
                   @endif
                 </td>
@@ -52,7 +54,7 @@
           <hr />
 
 <?php
-  $missing_results = $category->entries->filter(function($v){ return $v->canBeJudged() && $v->result == null; })->count();
+  $missing_results = $category->entries->filter(function($v){ return $v->canBeJudged(true) && $v->result == null; })->count();
 ?>
 
           <h3>Final results</h3>

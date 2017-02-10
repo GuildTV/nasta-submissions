@@ -94,13 +94,14 @@ class Entry extends Model
         return $this->countReasonsLate($category) > 0;
     }
 
-    public function canBeJudged(){
+    public function canBeJudged($allowRuleBreak=false){
         if (!$this->submitted)
             return false;
         if (!$this->rules)
             return false;
 
-        // TODO - include rule check
+        if (!$allowRuleBreak && ($this->rule_break == null || $this->rule_break == "warning" || $this->rule_break == "break"))
+            return false;
 
         return true;
     }

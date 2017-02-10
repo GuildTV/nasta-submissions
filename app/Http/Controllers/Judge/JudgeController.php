@@ -30,9 +30,9 @@ class JudgeController extends Controller
   public function dashboard()
   {
     $categories = Category::where('judge_id', Auth::user()->id)
-      ->with('entries')->with('entries.station')->with('entries.result')
+      ->with('entries')->with('entries.station')->with('entries.result')->with('entries.rule_break')
       ->get();
-    $adminVersion = true;
+    $adminVersion = false;
 
     return view('judge.dashboard', compact('categories', 'adminVersion'));
   }
