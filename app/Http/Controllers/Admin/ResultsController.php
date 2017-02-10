@@ -4,29 +4,23 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Database\User;
 use App\Database\Category\Category;
-use App\Database\Entry\Entry;
-use App\Database\Upload\UploadedFile;
-use App\Database\Upload\UploadedFileLog;
-
-use App\Jobs\DropboxScrapeMetadata;
-
-use App;
-use Redirect;
 
 class ResultsController extends Controller
 { 
 
   public function dashboard()
   {
-    $categories = Category::orderBy('name', 'asc')->get();
+    $categories = Category::orderBy('name', 'asc')
+      ->with('result')->get();
 
     return view('admin.results', compact('categories'));
   }
 
   public function view(Category $category)
   {
+    $category->load('entries.station', 'entries.result');
+
     $categories = [ $category ];
     $adminVersion = true;
 
