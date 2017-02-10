@@ -129,7 +129,7 @@ class JudgeController extends Controller
 
     // TODO - email host/admins to notify of the finish!
 
-    return $result
+    return $result;
   }
 
 }
