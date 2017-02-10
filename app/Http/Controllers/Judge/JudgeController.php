@@ -8,6 +8,7 @@ use App\Http\Requests\Judge\ScoreRequest;
 
 use App\Mail\Judge\CategoryJudged;
 
+use App\Database\User;
 use App\Database\Category\Category;
 use App\Database\Category\CategoryResult;
 use App\Database\Entry\Entry;
@@ -102,11 +103,20 @@ class JudgeController extends Controller
     if ($category->isResultsReadOnly())
       return App::abort(403);
 
+    if ($request->winner_id == $request->commended_id)
+      return App::abort(422);
+
+    // ensure each entry has a result
+    foreach ($category->entries as $entry){
+      if ($entry->result == null)
+        return App::abort(422);
+    }
+
     // ensure the specified winners are valid
     $winner = Entry::find($request->winner_id);
     $commended = Entry::find($request->commended_id);
     $count = ($winner == null ? 0 : 1) + ($commended == null ? 0 : 1);
-    $entryCount = $category->entries()->count();
+    $entryCount = $category->entries->count();
 
     // if we dont have the correct number of 'winners' then fail
     if (min($entryCount, 2) != $count)

@@ -100,8 +100,23 @@ class Entry extends Model
         if (!$this->rules)
             return false;
 
-        if (!$allowRuleBreak && ($this->rule_break == null || $this->rule_break == "warning" || $this->rule_break == "break"))
+        // if run rule break check, and no data then fail
+        if (!$allowRuleBreak && $this->rule_break == null)
             return false;
+
+        if ($this->rule_break != null) {
+            switch ($this->rule_break->result){
+                case "rejected":
+                    // always fail with a rejected
+                    return false;
+                case "warning":
+                case "break":
+                case "unknown":
+                    // only fail these if we are skipping the rule break check
+                    if (!$allowRuleBreak)
+                        return false;
+            }
+        }
 
         return true;
     }
