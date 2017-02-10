@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Judge\ScoreRequest;
 
+use App\Mail\Judge\CategoryJudged;
+
 use App\Database\Category\Category;
 use App\Database\Category\CategoryResult;
 use App\Database\Entry\Entry;
@@ -15,6 +17,8 @@ use App\Database\Upload\UploadedFile;
 use Auth;
 use App;
 use Redirect;
+use Mail;
+use Config;
 
 class JudgeController extends Controller
 { 
@@ -127,7 +131,10 @@ class JudgeController extends Controller
 
     $result = CategoryResult::create($data);
 
-    // TODO - email host/admins to notify of the finish!
+    // email host/admins to notify of the finish!
+    foreach (User::where('type', 'admin')->get() as $user){
+      Mail::to($user)->queue(new CategoryJudged($category));
+    }
 
     return $result;
   }
