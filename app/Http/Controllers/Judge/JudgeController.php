@@ -32,8 +32,9 @@ class JudgeController extends Controller
     $categories = Category::where('judge_id', Auth::user()->id)
       ->with('entries')->with('entries.station')->with('entries.result')
       ->get();
+    $adminVersion = true;
 
-    return view('judge.dashboard', compact('categories'));
+    return view('judge.dashboard', compact('categories', 'adminVersion'));
   }
 
   public function view(Entry $entry)

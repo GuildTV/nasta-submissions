@@ -10,14 +10,14 @@
         <div class="panel-heading">Entries for {{ $category->name }}</div>
 
         <div class="panel-body">
-          @if ($category->isResultsReadOnly())
+          @if ($category->isResultsReadOnly() && !$adminVersion)
           <div class="row">
             <div class="alert alert-warning col-sm-10 col-sm-offset-1">
               <p>You cannot edit your feedback as you have finalised the results.</p>
               <p>If you need to make a correction, please email {{ Config::get('nasta.judge_support_email') }}</p>
             </div>
           </div>
-          @else
+          @elseif (!$adminVersion)
           <div class="row">
             <div class="alert alert-info col-sm-10 col-sm-offset-1">
               <p>If you have any issues saving feedback or viewing any files, please email {{ Config::get('nasta.judge_support_email') }}</p>
@@ -40,7 +40,9 @@
                 <td>{{ $entry->name }}</td>
                 <td>{{ $entry->result ? $entry->result->score : "-" }}</td>
                 <td>
+                  @if (!$adminVersion)
                   <a href="{{ route('judge.view', [$entry]) }}">View</a>
+                  @endif
                 </td>
               </tr>
 @endforeach
@@ -105,7 +107,7 @@
                         <label class="col-sm-2 control-label">Comment</label>
                         <div class="col-sm-10">
                           <input id="winner_comment" name="winner_comment" type="text" class="form-control" maxlength="200" 
-                            {!! $category->isResultsReadOnly() ? "disabled='disabled'" : "placeholder=\"Please provide a short comment for the certificate\"" !!}
+                            {!! $adminVersion || $category->isResultsReadOnly() ? "disabled='disabled'" : "placeholder=\"Please provide a short comment for the certificate\"" !!}
                             value="{{ $category->result != null ? $category->result->winner_comment : "" }}">
                         </div>
                       </div>
@@ -130,7 +132,7 @@
                         <label class="col-sm-2 control-label">Comment</label>
                         <div class="col-sm-10">
                           <input id="commended_comment" name="commended_comment" type="text" class="form-control" maxlength="200" 
-                            {!! $category->isResultsReadOnly() ? "disabled='disabled'" : "placeholder='Please provide a short comment for the certificate'" !!}
+                            {!! $adminVersion || $category->isResultsReadOnly() ? "disabled='disabled'" : "placeholder='Please provide a short comment for the certificate'" !!}
                             value="{{ $category->result != null ? $category->result->commended_comment : "" }}">
                         </div>
                       </div>
@@ -139,7 +141,7 @@
 
                       <hr />
 
-                      @if (!$category->isResultsReadOnly())
+                      @if (!$adminVersion && !$category->isResultsReadOnly())
                       <div class="form-group">
                         <div class="col-sm-10 col-sm-offset-2">
                           <button class="btn btn-primary" type="submit">Finalize results</button>
@@ -148,7 +150,6 @@
                       @endif
 
                   @endif
-
 
                 @endif
 

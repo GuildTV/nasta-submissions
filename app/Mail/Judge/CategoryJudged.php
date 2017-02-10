@@ -24,7 +24,7 @@ class CategoryJudged extends Mailable
      */
     public function __construct(Category $category, Carbon $date=null)
     {
-        $this->category = $category
+        $this->category = $category;
     }
 
     /**
