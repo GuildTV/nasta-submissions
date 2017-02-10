@@ -13,7 +13,6 @@
             <a class="btn btn-default" href="{{ route("admin.submissions") }}">Submissions</a>
             <a class="btn btn-default" href="{{ route('admin.submissions.files') }}">Uploaded files</a>
             <a class="btn btn-default" href="{{ route('admin.users') }}">Users</a>
-            <a class="btn btn-default" href="{{ route('admin.results') }}">Results</a>
           </div>
         </div>
       </div>

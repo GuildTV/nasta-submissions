@@ -2,7 +2,7 @@ window.StationSettings = {
 
   BindValidator: function(){
     $("#entryform").validate({
-      // debug: true,
+      debug: true,
       submitHandler: () => window.StationSettings.Submit(),
       rules: {
         useremail: {

@@ -58,19 +58,6 @@ $router->group([
 });
 
 $router->group([
-  'middleware' => ['auth:web', 'can:judge'],
-  'prefix' => 'judge'
-], function ($router) {
-
-  Route::get('/dashboard', 'Judge\JudgeController@dashboard')->name("judge.dashboard");
-  Route::get('/entry/{entry}', 'Judge\JudgeController@view')->name("judge.view");
-  Route::get('/download/{file}', 'Judge\JudgeController@download')->name("judge.download");
-  Route::post('/entry/{entry}/score', 'Judge\JudgeController@score')->name("judge.score");
-  Route::post('/finalize/{category}', 'Judge\JudgeController@finalize')->name("judge.finalize");
-
-});
-
-$router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
@@ -85,9 +72,6 @@ $router->group([
   Route::post('/submissions/file/{file}/link/{category}', 'Admin\SubmissionsController@linkfile')->name("admin.submissions.file.link");
   Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
   Route::get('/submissions/file/{file}/metadata', 'Admin\SubmissionsController@metadata')->name("admin.submissions.file.metadata");
-
-  Route::get('/results', 'Admin\ResultsController@dashboard')->name("admin.results");
-  Route::get('/results/{category}', 'Admin\ResultsController@view')->name("admin.results.view");
 
   Route::get('/rule-break/{entry}', 'Admin\RuleBreakController@index')->name("admin.rule-break");
   Route::get('/rule-break/{entry}/run', 'Admin\RuleBreakController@entry_recheck')->name("admin.rule-break.entry-check");
