@@ -17,14 +17,18 @@
             <form class="form-horizontal" id="scoreform" onsubmit="return false">
 
               @if ($readonly)
-
               <div class="row">
                 <div class="alert alert-warning col-sm-10 col-sm-offset-1">
                   <p>You cannot edit your feedback as you have finalised the results.</p>
                   <p>If you need to make a correction, please email {{ Config::get('nasta.judge_support_email') }}</p>
                 </div>
               </div>
-
+              @else
+              <div class="row">
+                <div class="alert alert-info col-sm-10 col-sm-offset-1">
+                  <p>If you have any issues saving feedback or viewing any files, please email {{ Config::get('nasta.judge_support_email') }}</p>
+                </div>
+              </div>
               @endif
 
               <input type="hidden" id="entryid" value="{{ $entry->id }}" />
