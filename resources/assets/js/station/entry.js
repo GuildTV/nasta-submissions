@@ -2,7 +2,7 @@ window.StationEntry = {
 
   BindValidator: function(){
     $("#entryform").validate({
-      debug: true,
+      // debug: true,
       submitHandler: () => window.StationEntry.Submit(),
       rules: {
         entryname: {

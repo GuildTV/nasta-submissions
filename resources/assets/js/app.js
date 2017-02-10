@@ -12,6 +12,7 @@ require('./station/files');
 require('./station/settings');
 require('./station/common');
 
+require('./judge/dashboard');
 require('./judge/score');
 
 require('./admin/submission-files');

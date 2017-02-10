@@ -2,7 +2,7 @@ window.JudgeScore = {
 
   BindValidator: function(){
     $("#scoreform").validate({
-      debug: true,
+      // debug: true,
       submitHandler: () => window.JudgeScore.SaveScore(),
       rules: {
         score: {

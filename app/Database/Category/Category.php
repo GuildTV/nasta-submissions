@@ -56,6 +56,12 @@ class Category extends Model
         return $this->hasMany('App\Database\Entry\Entry');
     }
 
+
+    public function result()
+    {
+        return $this->hasOne('App\Database\Category\CategoryResult');
+    }
+
     public function myEntry()
     {
         $user = Auth::user();
@@ -133,5 +139,9 @@ class Category extends Model
         }
 
         return $categories;
+    }
+
+    public function isResultsReadOnly(){
+        return $this->result != null;
     }
 }

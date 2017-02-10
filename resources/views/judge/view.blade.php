@@ -16,6 +16,17 @@
           <div class="col-md-12">
             <form class="form-horizontal" id="scoreform" onsubmit="return false">
 
+              @if ($readonly)
+
+              <div class="row">
+                <div class="alert alert-warning col-sm-10 col-sm-offset-1">
+                  <p>You cannot edit your feedback as you have finalised the results.</p>
+                  <p>If you need to make a correction, please email {{ Config::get('nasta.judge_support_email') }}</p>
+                </div>
+              </div>
+
+              @endif
+
               <input type="hidden" id="entryid" value="{{ $entry->id }}" />
 
               <div class="form-group">
@@ -43,7 +54,7 @@
               <div class="form-group">
                 <label for="score" class="col-sm-2 control-label">Score</label>
                 <div class="col-sm-10">
-                  <select id="score" name="score" class="form-control">
+                  <select id="score" name="score" {{ $readonly ? "disabled='disabled'" : "" }} class="form-control">
                     <option> - </option>
                   <?php
                     $result = $entry->result != null ? $entry->result->score : -1;
@@ -56,15 +67,19 @@
               <div class="form-group">
                 <label for="feedback" class="col-sm-2 control-label">Feedback</label>
                 <div class="col-sm-10">
-                  <textarea id="feedback" name="feedback" class="form-control" rows="5">{{ $entry->result != null ? $entry->result->feedback : "" }}</textarea>
+                  <textarea id="feedback" name="feedback" class="form-control" {{ $readonly ? "disabled='disabled'" : "" }} rows="5">{{ $entry->result != null ? $entry->result->feedback : "" }}</textarea>
                 </div>
               </div>
+
+              @if (!$readonly)
 
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-2">
                   <button type="submit" class="btn btn-success" id="scoreave">Save</button>
                 </div>
               </div>
+
+              @endif
 
             </form>
           </div>
