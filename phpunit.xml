@@ -23,7 +23,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="LOCAL_ENTRY_DIR" value="storage/app/entries/" />
+        <env name="LOCAL_ENTRY_DIR" value="storage/test/" />
         <env name="DB_CONNECTION" value="test_mysql" />
         <env name="ENCODE_DB_CONNECTION" value="test_mysql" />
     </php>
