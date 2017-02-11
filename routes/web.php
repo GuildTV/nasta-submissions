@@ -33,6 +33,13 @@ Route::get('/help/video-format', 'HelpController@video_format')->name("help.vide
 Route::get('/help/contact', 'HelpController@contact')->name("help.contact");
 
 $router->group([
+  'middleware' => ['auth:web'],
+], function ($router) {
+  Route::get('/settings', 'Common\SettingsController@settings')->name("settings");
+  Route::post('/settings', 'Common\SettingsController@save')->name("settings.save");
+});
+
+$router->group([
   'middleware' => ['auth:web', 'can:station'],
   'prefix' => 'station'
 ], function ($router) {
@@ -51,9 +58,6 @@ $router->group([
 
   Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
   Route::post('/categories/{category}/edit', 'Station\EntryController@edit')->name("station.entry.edit");
-
-  Route::get('/settings', 'Station\SettingsController@settings')->name("station.settings");
-  Route::post('/settings', 'Station\SettingsController@save')->name("station.settings.save");
 });
 
 $router->group([

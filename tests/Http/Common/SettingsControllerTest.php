@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Http\User;
+namespace Tests\Http\Common;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use TestCase;
@@ -12,7 +12,7 @@ class SettingsControllerTest extends TestCase
 {
   use DatabaseTransactions;
 
-  private static $saveUrl = '/station/settings';
+  private static $saveUrl = '/settings';
 
   private function assertUser($user, $expected){
     $this->assertNotNull($user);
@@ -47,16 +47,16 @@ class SettingsControllerTest extends TestCase
   public function testAuthorization()
   {
     $this->postAjax(self::$saveUrl)
-        ->assertResponseStatus(401);
+        ->assertResponseStatus(403);
 
     $this->actingAs($this->station)->postAjax(self::$saveUrl)
         ->assertResponseStatus(422);
 
     $this->actingAs($this->judge)->postAjax(self::$saveUrl)
-        ->assertResponseStatus(403);
+        ->assertResponseStatus(422);
 
     $this->actingAs($this->admin)->postAjax(self::$saveUrl)
-        ->assertResponseStatus(403);
+        ->assertResponseStatus(422);
   }
 
   public function testSave(){
