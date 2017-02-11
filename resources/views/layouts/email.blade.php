@@ -67,7 +67,7 @@
         margin-right: 16px;
         align-items: center;
         text-decoration: none;
-        background: url({{ url('images/logo.svg') }}) left center no-repeat;
+        background: url({{ url('images/logo.png') }}) left center no-repeat;
         background-size: 128px 128px;
     }
     .menu {
@@ -160,14 +160,14 @@
         <a href="https://submissions.nasta.tv" class="logo__icon" title="Go to the submissions website."></a>
       </div>
 
-      <div class="menu">
+      {{-- <div class="menu">
         <div class="menu__nav">
           <ul class="menu__nav-item-container">
             <li class="menu__nav-item"><a rel="noopener" target="_blank" href="https://awards.nasta.tv">Awards</a></li>
             <li class="menu__nav-item"><a rel="noopener" target="_blank" href="https://submissions.nasta.tv">Submissions</a></li>
           </ul>
         </div>
-      </div>
+      </div> --}}
     </div>
   </header>
 
