@@ -68,7 +68,7 @@
         align-items: center;
         text-decoration: none;
         background: url({{ url('images/logo.png') }}) left center no-repeat;
-        background-size: 128px 128px;
+        background-size: contain;
     }
     .menu {
         height: 72px;
