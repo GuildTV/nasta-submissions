@@ -33,6 +33,8 @@ class User extends Authenticatable
 		'password', 'remember_token',
 	];
 
+	protected $dates = [ 'last_login_at' ];
+
 	public function uploadedFiles(){
 		return $this->hasMany('App\Database\Upload\UploadedFile', 'station_id');
 	}

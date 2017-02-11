@@ -14,6 +14,7 @@
             <thead>
               <th>Name</th>
               <th>Type</th>
+              <th>Last Login</th>
               <th>&nbsp;</th>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@
               <tr>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->type }}</td>
+                <td>{{ $user->last_login_at == null ? "-" : $user->last_login_at->toDayDateTimeString() }}</td>
                 <td>
                   <a class="btn btn-primary" href="{{ route('admin.users.view', $user) }}">View</button>
                 </td>

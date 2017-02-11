@@ -55,6 +55,13 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label for="userusername" class="col-sm-3 control-label">Last Login</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" disabled="disabled" value="{{ $user->last_login_at == null ? "-" : $user->last_login_at->toDayDateTimeString() }}" />
+                </div>
+              </div>
+
             <div class="form-group">
               <div class="col-sm-offset-7 col-sm-2">
                 <button type="submit" class="btn btn-success" id="usersave">Save</button>
