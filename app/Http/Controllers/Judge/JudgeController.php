@@ -44,7 +44,7 @@ class JudgeController extends Controller
       return App::abort(404);
 
     if (!$entry->canBeJudged())
-      return App::abort(403);
+      return App::abort(404);
 
     $constraint_map = [];
     if ($entry->rule_break != null)

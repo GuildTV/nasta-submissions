@@ -47,7 +47,7 @@ class SettingsControllerTest extends TestCase
   public function testAuthorization()
   {
     $this->postAjax(self::$saveUrl)
-        ->assertResponseStatus(403);
+        ->assertResponseStatus(401);
 
     $this->actingAs($this->station)->postAjax(self::$saveUrl)
         ->assertResponseStatus(422);

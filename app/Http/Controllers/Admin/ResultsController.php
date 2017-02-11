@@ -24,7 +24,7 @@ class ResultsController extends Controller
     $categories = [ $category ];
     $adminVersion = true;
 
-    return view('judge.dashboard', compact('categories', 'adminVersion'));
+    return view('judge.dashboard.index', compact('categories', 'adminVersion'));
   }
 
 
