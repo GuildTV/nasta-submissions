@@ -68,7 +68,10 @@ class StationController extends Controller
 	{
 		$entry = $category->myEntry;
 		if ($entry == null)
-			return Response::json([]);
+			return Response::json([
+				"expected_count" => $category->constraints()->count(),
+				"files" => [],
+			]);
 
 		$files = $entry->uploadedFiles->map(function ($f){
 			return [
