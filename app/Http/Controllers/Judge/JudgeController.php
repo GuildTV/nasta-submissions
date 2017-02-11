@@ -35,7 +35,7 @@ class JudgeController extends Controller
       ->get();
     $adminVersion = false;
 
-    return view('judge.dashboard', compact('categories', 'adminVersion'));
+    return view('judge.dashboard.index', compact('categories', 'adminVersion'));
   }
 
   public function view(Entry $entry)
@@ -125,6 +125,10 @@ class JudgeController extends Controller
     if ($winner != null && $winner->category_id != $category->id)
       return App::abort(422);
     if ($commended != null && $commended->category_id != $category->id)
+      return App::abort(422);
+
+    // if scores match, then fail 
+    if ($winner != null &&  $commended != null && $winner->result->score == $commended->result->score)
       return App::abort(422);
 
     $data = [

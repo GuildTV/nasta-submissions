@@ -125,7 +125,7 @@ class JudgeControllerFinalizeTest extends TestCase
     // entry from another category
     $entry = Entry::find(72);
     $this->assertNotNull($entry);
-    $this->createEntryResult(72, 20);
+    $this->createEntryResult(72, 19);
 
     $this->createEntryResult(29, 20);
     $this->createEntryResult(75, 10);
@@ -207,6 +207,17 @@ class JudgeControllerFinalizeTest extends TestCase
       'commended_id' => 75,
       'commended_comment' => str_random(30),
     ], $res, 403);
+  }
+  public function testFinalizeDuplicateWinnerScore(){
+    $this->createEntryResult(29, 10);
+    $this->createEntryResult(75, 10);
+
+    $this->assertFinalizeFail(self::$finalizeUrl, [
+      'winner_id' => 29,
+      'winner_comment' => str_random(30),
+      'commended_id' => 75,
+      'commended_comment' => str_random(30),
+    ]);
   }
 
 }
