@@ -88,6 +88,7 @@ class DropboxScrapeFolder implements ShouldQueue
             }
 
             $url =  $client->getPublicUrl($filename);
+            $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'raw=1';
 
             // $count = $this->countReasonsLate($folder->station, $category);
 
