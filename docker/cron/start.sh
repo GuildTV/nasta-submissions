@@ -5,6 +5,8 @@ if [ -n "$UID" ]; then
   usermod -u $UID www-data
 fi
 
+touch /etc/crontab /etc/cron.*/*
+
 rsyslogd
 cron
 touch /var/log/cron.log
