@@ -51,7 +51,7 @@ return [
             'pixel_aspect_ratio' => 'Unknown video pixel aspect ratio',
             'frame_rate' => 'Unknown video frame rate',
             'scan_type' => 'Unknown video scan type',
-            'standard' => 'Unknown video srandard',
+            'standard' => 'Unknown video standard',
             'width' => 'Unknown video width',
             'height' => 'Unknown video height',
             'bit_rate' => 'Unknown video bit ratea',

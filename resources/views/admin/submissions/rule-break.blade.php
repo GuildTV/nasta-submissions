@@ -198,6 +198,13 @@
                     </div>
                   </div>
 
+                  <div class="form-group">
+                    <label for="entryname" class="col-sm-2 control-label">Metadata</label>
+                    <div class="col-sm-10">
+                      <pre>{{ json_encode(json_decode($file->rule_break->metadata), JSON_PRETTY_PRINT) }}</pre>
+                    </div>
+                  </div>
+
                 @endif
 
                 <div class="form-group">
