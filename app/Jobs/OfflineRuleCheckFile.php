@@ -145,7 +145,7 @@ class OfflineRuleCheckFile implements ShouldQueue
         if (!$entry->id)
             return;
 
-        dispatch(new OfflineRuleCheckentry($entry);
+        dispatch(new OfflineRuleCheckentry($entry));
     }
 
     private function getFileLength($mime, $fullPath){
