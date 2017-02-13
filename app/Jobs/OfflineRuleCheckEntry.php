@@ -55,6 +55,14 @@ class OfflineRuleCheckEntry implements ShouldQueue
         });
         $constraints = $this->entry->category->constraints()->orderBy('video_duration', 'desc')->get();
 
+        // ensure all files have had the checks
+        foreach ($files as $file){
+            if ($file->rule_break == null){
+                Log::warning('Skipping rule check of entry #' . $this->entry->id . ', as some files are missing checks');
+                return "MISSING_FOR_FILE";
+            }
+        }
+
         $failures = [];
         $warnings = [];
         if ($files->count() != $constraints->count())

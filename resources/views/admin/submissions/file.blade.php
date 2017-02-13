@@ -88,7 +88,7 @@ window.OpenCategories = [
                 <div class="col-sm-10">
                   <p>
                     {{ $file->rule_break == null ? "pending" : $file->rule_break->result }}
-                    @if($entry != null && $file->rule_break != null)
+                    @if($entry != null)
                       <a href="{{ route('admin.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
                     @endif
                   </p>

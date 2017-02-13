@@ -58,9 +58,7 @@
                 <div class="col-sm-10">
                   <p>
                     {{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}
-                    @if($entry->rule_break != null)
-                      <a href="{{ route('admin.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
-                    @endif
+                    <a href="{{ route('admin.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
                   </p>
                 </div>
               </div>

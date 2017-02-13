@@ -12,6 +12,8 @@ use App\Helpers\Files\DropboxFileServiceHelper;
 
 use App\Database\Upload\UploadedFile;
 
+use App\Jobs\OfflineRuleCheckFile;
+
 use Config;
 use Exception;
 use Log;
@@ -72,6 +74,8 @@ class DropboxDownloadFile implements ShouldQueue
         $this->file->path_local = $target;
         $this->file->save();
         Log::info('Download complete');
+
+        dispatch((new OfflineRuleCheckFile($file))->onQueue("downloads"));
 
         return true;
     }

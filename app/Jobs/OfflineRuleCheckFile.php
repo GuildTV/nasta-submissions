@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Mail\Admin\ExceptionEmail;
 
+use App\Jobs\OfflineRuleCheckentry;
+
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
 use App\Database\Upload\UploadedFileRuleBreak;
@@ -82,6 +84,7 @@ class OfflineRuleCheckFile implements ShouldQueue
                 'warnings' => json_encode([]), 
                 'errors' => json_encode($length > 0 ? [] : [ "bad_mimetype" ]),
             ]);
+            $this->queueEntryRuleCheck();
             return "NON_VIDEO";
         }
 
@@ -99,6 +102,7 @@ class OfflineRuleCheckFile implements ShouldQueue
                 'warnings' => json_encode([]), 
                 'errors' => json_encode([ 'resolution' ]),
             ]);
+            $this->queueEntryRuleCheck();
             return "NO_SPEC";
         }
         
@@ -129,7 +133,19 @@ class OfflineRuleCheckFile implements ShouldQueue
             'warnings' => json_encode($warnings), 
             'errors' => json_encode($failures),
         ]);
+        $this->queueEntryRuleCheck();
         return "OK";
+    }
+
+    private function queueEntryRuleCheck(){
+        if ($this->file->category_id == null)
+            return;
+
+        $entry = $this->file->category->getEntryForStation($this->file->station_id);
+        if (!$entry->id)
+            return;
+
+        dispatch(new OfflineRuleCheckentry($entry);
     }
 
     private function getFileLength($mime, $fullPath){
