@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('js')
+$('#files-table').DataTable({
+  paging: false,
+});
+@endsection
+
 @section('content')
 <div class="container">
   <div class="row">
@@ -16,7 +22,7 @@
               <th>Category</th>
               <th>Filename</th>
               <th>Uploaded At</th>
-              <th>Invalid</th>
+              <th>Rule break</th>
               <th>&nbsp;</th>
             </thead>
             <tbody>
@@ -26,7 +32,7 @@
                 <td>{{ $file->category != null ? $file->category->name : "" }}</td>
                 <td>{{ $file->name }}</td>
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
-                <td>-</td>
+                <td>{{ $file->rule_break == null ? "pending" : $file->rule_break->result }}</td>
                 <td>
                   <a class="btn btn-primary" href="{{ route('admin.submissions.file', $file) }}">View</button>
                 </td>

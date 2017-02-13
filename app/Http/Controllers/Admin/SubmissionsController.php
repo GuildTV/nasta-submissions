@@ -27,10 +27,18 @@ class SubmissionsController extends Controller
     return view('admin.submissions.dashboard', compact('users', 'categories'));
   }
 
+  public function all()
+  {
+    $entries = Entry::with('station', 'category', 'uploadedFiles', 'rule_break')
+      ->orderBy("updated_at", "DESC")->get();
+
+    return view('admin.submissions.all', compact('entries'));
+  }
+
   public function category(Category $category)
   {
     $users = User::where('type', 'station')->orderBy('name', 'asc')->get();
-    $entries = Entry::where('category_id', $category->id)->get();
+    $entries = Entry::where('category_id', $category->id)->with('uploadedFiles', 'rule_break')->get();
 
     return view('admin.submissions.category', compact('category', 'users', 'entries'));
   }
@@ -38,7 +46,7 @@ class SubmissionsController extends Controller
   public function station(User $station)
   {
     $categories = Category::orderBy('name', 'asc')->get();
-    $entries = Entry::where('station_id', $station->id)->get();
+    $entries = Entry::where('station_id', $station->id)->with('uploadedFiles', 'rule_break')->get();
 
     return view('admin.submissions.station', compact('station', 'categories', 'entries'));
   }
@@ -54,7 +62,7 @@ class SubmissionsController extends Controller
 
   public function files()
   {
-    $files = UploadedFile::with('category')->with('station')->get();
+    $files = UploadedFile::with(['category', 'station', 'rule_break'])->get();
 
     return view('admin.submissions.files', compact('files'));
   }

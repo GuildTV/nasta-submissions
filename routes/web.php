@@ -64,6 +64,7 @@ $router->group([
   Route::get('/dashboard', 'Admin\AdminController@dashboard')->name("admin.dashboard");
 
   Route::get('/submissions', 'Admin\SubmissionsController@dashboard')->name("admin.submissions");
+  Route::get('/submissions/all', 'Admin\SubmissionsController@all')->name("admin.submissions.all");
   Route::get('/submissions/category/{category}', 'Admin\SubmissionsController@category')->name("admin.submissions.category");
   Route::get('/submissions/station/{station}', 'Admin\SubmissionsController@station')->name("admin.submissions.station");
   Route::get('/submissions/view/{station}/{category}', 'Admin\SubmissionsController@view')->name("admin.submissions.view");

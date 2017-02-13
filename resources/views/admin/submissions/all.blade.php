@@ -9,15 +9,16 @@ $('#submissions-table').DataTable({
 @section('content')
 <div class="container">
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12">
 
       <div class="panel panel-default">
-        <div class="panel-heading">Submissions by {{ $station->name }}</div>
+        <div class="panel-heading">All Submissions</div>
 
         <div class="panel-body">
 
           <table class="table" id="submissions-table">
             <thead>
+              <th>Station</th>
               <th>Category</th>
               <th>Status</th>
               <th>No. of files</th>
@@ -26,20 +27,20 @@ $('#submissions-table').DataTable({
               <th>&nbsp;</th>
             </thead>
             <tbody>
-@foreach ($categories as $cat)
+@foreach ($entries as $entry)
 <?php 
-  $entry = $entries->first(function($v, $k) use ($cat) { return $v->category_id == $cat->id; }); 
-  $msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate($cat) ? "Late" : "Submitted") : "Draft");
+  $msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate() ? "Late" : "Submitted") : "Draft");
 ?>
               <tr>
-                <td>{{ $cat->name }}</td>
+                <td>{{ $entry->station->name }}</td>
+                <td>{{ $entry->category->name }}</td>
                 <td>{{ $msg }}</td>
                 <td>{{ $entry == null ? "" : count($entry->uploadedFiles) }}</td>
                 <td>{{ $entry == null ? "" : $entry->updated_at->toDayDateTimeString() }}</td>
-                <td>{{ $entry == null ? "" : ($entry->rule_break == null ? "pending" : $entry->rule_break->result) }}</td>
+                <td>{{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}</td>
                 <td>
                   @if ($entry != null)
-                  <a href="{{ route('admin.submissions.view', [$station, $cat]) }}">View</a>
+                  <a href="{{ route('admin.submissions.view', [$entry->station, $entry->category]) }}">View</a>
                   @endif
                 </td>
               </tr>

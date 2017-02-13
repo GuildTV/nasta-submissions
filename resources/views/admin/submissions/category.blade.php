@@ -22,6 +22,7 @@ $('#submissions-table').DataTable({
               <th>Status</th>
               <th>No. of files</th>
               <th>Updated At</th>
+              <th>Rule break</th>
               <th>&nbsp;</th>
             </thead>
             <tbody>
@@ -35,6 +36,7 @@ $('#submissions-table').DataTable({
                 <td>{{ $msg }}</td>
                 <td>{{ $entry == null ? "" : count($entry->uploadedFiles) }}</td>
                 <td>{{ $entry == null ? "" : $entry->updated_at->toDayDateTimeString() }}</td>
+                <td>{{ $entry == null ? "" : ($entry->rule_break == null ? "pending" : $entry->rule_break->result) }}</td>
                 <td>
                   @if ($entry != null)
                   <a href="{{ route('admin.submissions.view', [$station, $category]) }}">View</a>
