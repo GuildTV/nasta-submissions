@@ -47,13 +47,13 @@ class Entry extends Model
             ->first();
     }
 
-    public function uploadedFiles(){
+    public function uploadedFiles(){ // Note: cannot be eager/lazy loaded
         return $this->hasMany('App\Database\Upload\UploadedFile', 'category_id', 'category_id')
             ->with('metadata')
             ->where('station_id', $this->station_id);
     }
 
-    public function uploadedFileLog(){
+    public function uploadedFileLog(){ // Note: cannot be eager/lazy loaded
         return $this->hasMany('App\Database\Upload\UploadedFileLog', 'category_id', 'category_id')
             ->where('station_id', $this->station_id);
     }

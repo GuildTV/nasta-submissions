@@ -29,8 +29,9 @@ class SubmissionsController extends Controller
 
   public function all()
   {
-    $entries = Entry::with('station', 'category', 'uploadedFiles', 'rule_break')
+    $entries = Entry::with('station', 'category', 'rule_break')
       ->orderBy("updated_at", "DESC")->get();
+    // $entries->load('uploadedFiles'); // eager loading does not work due to extra conditions
 
     return view('admin.submissions.all', compact('entries'));
   }
@@ -38,7 +39,8 @@ class SubmissionsController extends Controller
   public function category(Category $category)
   {
     $users = User::where('type', 'station')->orderBy('name', 'asc')->get();
-    $entries = Entry::where('category_id', $category->id)->with('uploadedFiles', 'rule_break')->get();
+    $entries = Entry::where('category_id', $category->id)->with('rule_break')->get();
+    // $entries->load('uploadedFiles'); // eager loading does not work due to extra conditions
 
     return view('admin.submissions.category', compact('category', 'users', 'entries'));
   }
@@ -46,7 +48,8 @@ class SubmissionsController extends Controller
   public function station(User $station)
   {
     $categories = Category::orderBy('name', 'asc')->get();
-    $entries = Entry::where('station_id', $station->id)->with('uploadedFiles', 'rule_break')->get();
+    $entries = Entry::where('station_id', $station->id)->with('rule_break')->get();
+    // $entries->load('uploadedFiles'); // eager loading does not work due to extra conditions
 
     return view('admin.submissions.station', compact('station', 'categories', 'entries'));
   }
