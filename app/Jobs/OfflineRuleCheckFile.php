@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Mail\Admin\ExceptionEmail;
 
-use App\Jobs\OfflineRuleCheckentry;
+use App\Jobs\OfflineRuleCheckEntry;
 
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
@@ -145,7 +145,7 @@ class OfflineRuleCheckFile implements ShouldQueue
         if (!$entry->id)
             return;
 
-        dispatch(new OfflineRuleCheckentry($entry));
+        dispatch(new OfflineRuleCheckEntry($entry));
     }
 
     private function getFileLength($mime, $fullPath){
