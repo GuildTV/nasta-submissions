@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('js')
+$.fn.dataTable.moment( 'ddd, MMM D, YYYY h:mm A' ); // Thu, Dec 25, 1975 2:15 PM
+
 $('#submissions-table').DataTable({
   paging: false,
 });
@@ -22,7 +24,7 @@ $('#submissions-table').DataTable({
               <th>Category</th>
               <th>Status</th>
               <th>No. of files</th>
-              <th>Updated At</th>
+              <th data-type="moment-ddd, MMM D, YYYY h:mm A">Updated At</th>
               <th>Rule break</th>
               <th>&nbsp;</th>
             </thead>

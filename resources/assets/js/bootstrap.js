@@ -12,8 +12,11 @@ require('bootstrap-sass');
 require('jquery-validation');
 window.bootbox = require('bootbox');
 
+window.moment = require('moment');
+
 require('datatables.net');
 require('datatables.net-bs');
+require('./lib/datatables-date-sort');
 
 $.ajaxSetup({
   headers: {

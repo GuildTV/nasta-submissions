@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('email:daily-deadlines')
                  ->dailyAt('09:00');
         $schedule->command('email:daily-summary')
-                 ->dailyAt('19:10'); // 10 minutes past last deadline
+                 ->dailyAt('17:10'); // 10 minutes past last deadline
     }
 
     /**

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('js')
+$.fn.dataTable.moment( 'ddd, MMM D, YYYY h:mm A' ); // Thu, Dec 25, 1975 2:15 PM
+
 $('#files-table').DataTable({
   paging: false,
 });
@@ -21,7 +23,7 @@ $('#files-table').DataTable({
               <th>Station</th>
               <th>Category</th>
               <th>Filename</th>
-              <th>Uploaded At</th>
+              <th data-type="moment-ddd, MMM D, YYYY h:mm A">Uploaded At</th>
               <th>Rule break</th>
               <th>&nbsp;</th>
             </thead>
