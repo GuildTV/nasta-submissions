@@ -17,6 +17,7 @@ window.moment = require('moment');
 require('datatables.net');
 require('datatables.net-bs');
 require('./lib/datatables-date-sort');
+require('./lib/datatables-ellipsis');
 
 $.ajaxSetup({
   headers: {

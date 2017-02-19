@@ -5,6 +5,11 @@ $.fn.dataTable.moment( 'ddd, MMM D, YYYY h:mm A' ); // Thu, Dec 25, 1975 2:15 PM
 
 $('#files-table').DataTable({
   paging: false,
+  order: [[ 3, 'desc' ]]
+  columnDefs: [ {
+    targets: 2,
+    render: $.fn.dataTable.render.ellipsis( 50 )
+  } ]
 });
 @endsection
 
