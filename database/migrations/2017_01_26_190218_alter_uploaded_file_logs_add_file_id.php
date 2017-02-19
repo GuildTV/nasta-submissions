@@ -16,7 +16,7 @@ class AlterUploadedFileLogsAddFileId extends Migration
         Schema::table('uploaded_file_logs', function (Blueprint $table) {
             $table->integer('uploaded_file_id')->after('station_id')->unsigned()->nullable()->default(null);
 
-            $table->foreign('uploaded_file_id')->references('id')->on('uploaded_files')->onDelete('cascade');
+            $table->foreign('uploaded_file_id')->references('id')->on('uploaded_files')->onDelete('set null');
         });
     }
 

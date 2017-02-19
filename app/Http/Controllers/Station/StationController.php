@@ -66,7 +66,7 @@ class StationController extends Controller
 
 	public function submission_files(Category $category)
 	{
-		$entry = $category->myEntry;
+		$entry = $category->myEntryOrNew();
 		if ($entry == null)
 			return Response::json([
 				"expected_count" => $category->constraints()->count(),
