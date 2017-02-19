@@ -56,10 +56,37 @@ spec:
           timeoutSeconds: 5
           periodSeconds: 10
           initialDelaySeconds: 10
+      - image: registry.julus.uk/kubectl
+        name: beanstalkd-link
+        command: [ "/bin/sh", "/blah/run.sh" ]
+        volumeMounts:
+          - mountPath: /blah
+            name: kubescript-bs
+        livenessProbe:
+          exec:
+            command: 
+              - sh 
+              - -c 
+              - "nc -zv 127.0.0.1 11300 &> /dev/null; echo $?"
+          timeoutSeconds: 5
+          periodSeconds: 10
+          initialDelaySeconds: 10
+        readinessProbe:
+          exec:
+            command: 
+              - sh 
+              - -c 
+              - "nc -zv 127.0.0.1 11300 &> /dev/null; echo $?"
+          timeoutSeconds: 5
+          periodSeconds: 10
+          initialDelaySeconds: 10
       volumes:
       - name: kubescript
         configMap:
           name: mysql-link
+      - name: kubescript-bs
+        configMap:
+          name: beanstalkd-link
       - name: vault-data
         hostPath:
           path: "/VAULT-NASTA"

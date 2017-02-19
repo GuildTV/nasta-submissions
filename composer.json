@@ -24,7 +24,8 @@
         "fedeisas/laravel-mail-css-inliner": "^2.0",
         "themsaid/laravel-mail-preview": "^1.2",
         "mhor/php-mediainfo": "^3.0",
-        "julusian/pdf-to-text": "dev-master"
+        "julusian/pdf-to-text": "dev-master",
+        "pda/pheanstalk": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
