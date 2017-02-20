@@ -69,16 +69,28 @@
 									<thead>
 										<th>Filename</th>
 										<th>Uploaded At</th>
+										<th>Status</th>
 										<th id="countdown-holder" class="center">&nbsp;</th>
 									</thead>
 									<tbody id="file-table-body">
 										@foreach ($entry->uploadedFiles as $file)
+										<?php
+											$errors = [];
+											if ($file->rule_break != null){
+												$errs = json_decode($file->rule_break->errors, true);
+												foreach ($errs as $err){
+													$errors[] = trans("rule_break.error." . $err);
+												}
+											}
+										?>
 										<tr>
 											<td>{{ $file->name }}</td>
 											<td>{{ $file->uploaded_at != null ? $file->uploaded_at->toDayDateTimeString() : " - " }}</td>
+											<td>{{ $file->rule_break == null ? "pending" : ($file->rule_break->errors == "[]" ? "ok" : "fail") }}</td>
 											<td>
 												<button class="btn btn-info btn-small" data-id="{{ $file->id }}" data-name="{{ $file->name }}" 
 													data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('station.files.download', $file) }}"
+													data-errors="{{ json_encode($errors) }}"
 													onclick="window.StationCommon.ViewFile(this); return false">View</button>
 											@if (!$readonly)
 												<button class="btn btn-danger btn-small" data-id="{{ $file->id }}" onclick="window.StationEntry.DeleteFile(this); return false">Delete</button>

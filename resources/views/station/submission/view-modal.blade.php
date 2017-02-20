@@ -9,6 +9,8 @@
         <p class="cannot-preview">This file cannot be previewed.</p>
 
         <div id="preview-player"></div>
+
+        <div id="errors"></div>
       </div>
       <div class="modal-footer">
         <a class="btn btn-primary download-file" href="">Download</a>

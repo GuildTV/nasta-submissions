@@ -5,6 +5,7 @@ window.StationCommon = {
     const name = e.getAttribute("data-name");
     const type = e.getAttribute("data-type");
     const url = e.getAttribute("data-url");
+    const errors = e.getAttribute("data-errors");
     if (id == undefined || name == undefined || type == undefined || url == undefined)
       return false;
 
@@ -27,6 +28,21 @@ window.StationCommon = {
         source: url,
         parentId: "#preview-player"
       });
+
+    const errHolder = modal.find('#errors');
+    errHolder.empty();
+
+    try {
+      const errs = JSON.parse(errors);
+      if (errs.length > 0)
+        errHolder.append($('<h3>').text("Errors"));
+
+      for(var i=0; i<errs.length; i++)
+        errHolder.append($('<p>').text(errs[i]));
+
+    } catch (e2){
+      console.log(e2)
+    }
 
     modal.modal();
   },
