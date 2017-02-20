@@ -39,7 +39,8 @@ class EntryController extends Controller
     $entry->submitted = $request->has('submit') && $request->input('submit');
     $entry->save();
 
-    Mail::to($request->user())->queue(new EntrySubmitted($entry));
+    if ($sendSubmittedEmail)
+      Mail::to($request->user())->queue(new EntrySubmitted($entry));
 
     Session::flash('entry.save', 'Your changes have been saved');
 
