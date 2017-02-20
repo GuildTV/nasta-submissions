@@ -14,3 +14,4 @@ require('./station/common');
 
 require('./admin/submission-files');
 require('./admin/users');
+require('./admin/rule-break');

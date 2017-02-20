@@ -18,7 +18,7 @@ class CreateUploadedFileRuleBreaks extends Migration
             $table->increments('id');
             $table->integer('uploaded_file_id')->unsigned()->unique();
 
-            $table->enum('result', [ 'unknown', 'warning', 'break', 'ok', 'accepted', 'rejected' ])->default('unknown');
+            $table->enum('result', [ 'unknown', 'warning', 'break', 'ok', 'accepted', 'rejected', 'pending' ])->default('unknown');
 
             $table->string('mimetype');
             $table->integer('length');

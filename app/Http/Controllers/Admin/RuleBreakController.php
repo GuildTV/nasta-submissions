@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AjaxRequest;
 
 use App\Database\Entry\Entry;
 use App\Database\Category\FileConstraint;
@@ -71,22 +72,15 @@ class RuleBreakController extends Controller
     return view('admin.rule-break.errors', compact('errors', 'warnings'));
   }
 
-  public function entry_accept_reject(Entry $entry, $state){
-    switch ($state){
-      case "accepted":
-      case "rejected":
-        break;
-      default:
-        return App::abort(404);
-    }
-
+  public function entry_save(AjaxRequest $r, Entry $entry){
     if ($entry->rule_break == null)
       return App::abort(404);
 
-    $entry->rule_break->result = $state;
+    $entry->rule_break->result = $r->result;
+    $entry->rule_break->notes = $r->notes;
     $entry->rule_break->save();
 
-    return Redirect::route('admin.rule-break', $entry);
+    return $entry;
   }
 
   public function entry_recheck(Entry $entry){
@@ -95,22 +89,15 @@ class RuleBreakController extends Controller
     return Redirect::route('admin.rule-break', $entry);
   }
 
-  public function file_accept_reject(Entry $entry, $state, UploadedFile $file){
-    switch ($state){
-      case "accepted":
-      case "rejected":
-        break;
-      default:
-        return App::abort(404);
-    }
-
+  public function file_save(AjaxRequest $r, UploadedFile $file){
     if ($file->rule_break == null)
       return App::abort(404);
 
-    $file->rule_break->result = $state;
+    $file->rule_break->result = $r->result;
+    $file->rule_break->notes = $r->notes;
     $file->rule_break->save();
 
-    return Redirect::route('admin.rule-break', $entry);
+    return $file;
   }
 
   public function file_recheck(Entry $entry, UploadedFile $file){

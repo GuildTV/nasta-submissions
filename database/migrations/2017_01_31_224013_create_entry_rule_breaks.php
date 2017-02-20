@@ -18,7 +18,7 @@ class CreateEntryRuleBreaks extends Migration
             $table->increments('id');
             $table->integer('entry_id')->unsigned()->unique();
 
-            $table->enum('result', [ 'unknown', 'warning', 'break', 'ok', 'accepted', 'rejected' ])->default('unknown');
+            $table->enum('result', [ 'unknown', 'warning', 'break', 'ok', 'accepted', 'rejected', 'pending' ])->default('unknown');
 
             $table->text('constraint_map');
 

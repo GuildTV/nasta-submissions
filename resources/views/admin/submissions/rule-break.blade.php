@@ -10,7 +10,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <form id="entryform" class="form-horizontal" onsubmit="return false">
+            <form class="form-horizontal" onsubmit="window.AdminRuleBreak.SubmitEntry(this);return false">
 
               <div class="form-group">
                 <label for="entryname" class="col-sm-2 control-label"></label>
@@ -19,20 +19,52 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
-                <div class="col-sm-10">
-                  <p>
-                    {{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}
 
-                    <a href="{{ route('admin.rule-break.entry-state', [ $entry, 'rejected' ]) }}" class="btn btn-primary pull-right">Reject</a>
-                    <a href="{{ route('admin.rule-break.entry-state', [ $entry, 'accepted' ]) }}" class="btn btn-primary pull-right">Approve</a>
-                    <a href="{{ route('admin.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Re-run</a>
-                  </p>
+                @if($entry->rule_break == null)
+
+                 <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
+                  <div class="col-sm-10">
+                    <p>pending</p>
+                  </div>
                 </div>
-              </div>
 
-              @if($entry->rule_break != null)
+                @else
+
+                <input type="hidden" class="entryid" value="{{ $entry->id }}" />
+
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" name="result" id="result">
+                    <?php $res = $entry->rule_break->result; ?>
+                      @if ($res != "pending" && $res != "accepted" && $res != "rejected")
+                        <option value="{{ $res }}" selected='selected'>{{ $res }}</option>
+                      @endif
+
+                      <option value="pending" {!! $res == "pending" ? "selected='selected'" : "" !!}>pending</option>
+                      <option value="accepted" {!! $res == "accepted" ? "selected='selected'" : "" !!}>accepted</option>
+                      <option value="rejected" {!! $res == "rejected" ? "selected='selected'" : "" !!}>rejected</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Notes</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" id="notes" name="notes" rows="5">{{ $entry->rule_break->notes }}</textarea>
+                    <p></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-9">
+                    <button type="submit" class="btn btn-success" id="save">Save</button>
+                    <a href="{{ route('admin.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Re-run</a>
+                  </div>
+                </div>
+
+                <hr />
 
                 <div class="form-group">
                   <label for="entryname" class="col-sm-2 control-label">Warnings</label>
@@ -107,9 +139,8 @@
 
         <div class="row">
           <div class="col-md-12">
-            <form id="entryform" class="form-horizontal" onsubmit="return false">
-
-              @foreach ($files as $file)
+            @foreach ($files as $file)
+              <form class="form-horizontal" onsubmit="window.AdminRuleBreak.SubmitFile(this);return false">
                 <div class="form-group">
                   <label for="entryname" class="col-sm-2 control-label"></label>
                   <div class="col-sm-10">
@@ -130,20 +161,51 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                @if($file->rule_break == null)
+
+                 <div class="form-group">
                   <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
                   <div class="col-sm-10">
-                    <p>
-                      {{ $file->rule_break == null ? "pending" : $file->rule_break->result }}
-
-                      <a href="{{ route('admin.rule-break.file-state', [ $entry, 'rejected', $file ]) }}" class="btn btn-primary pull-right">Reject</a>
-                      <a href="{{ route('admin.rule-break.file-state', [ $entry, 'accepted', $file ]) }}" class="btn btn-primary pull-right">Approve</a>
-                      <a href="{{ route('admin.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Re-run</a>
-                    </p>
+                    <p>pending</p>
                   </div>
                 </div>
 
-                @if($file->rule_break != null)
+                @else
+
+                <input type="hidden" class="fileid" value="{{ $file->id }}" />
+
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" name="result" id="result">
+                    <?php $res = $file->rule_break->result; ?>
+                      @if ($res != "pending" && $res != "accepted" && $res != "rejected")
+                        <option value="{{ $res }}" selected='selected'>{{ $res }}</option>
+                      @endif
+
+                      <option value="pending" {!! $res == "pending" ? "selected='selected'" : "" !!}>pending</option>
+                      <option value="accepted" {!! $res == "accepted" ? "selected='selected'" : "" !!}>accepted</option>
+                      <option value="rejected" {!! $res == "rejected" ? "selected='selected'" : "" !!}>rejected</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Notes</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" id="notes" name="notes" rows="5">{{ $file->rule_break->notes }}</textarea>
+                    <p></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-9">
+                    <button type="submit" class="btn btn-success" id="save">Save</button>
+                    <a href="{{ route('admin.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Re-run</a>
+                  </div>
+                </div>
+
+                <hr />
 
                   <div class="form-group">
                     <label for="entryname" class="col-sm-2 control-label">Length</label>
@@ -215,9 +277,9 @@
                 </div>
 
                 <hr />
-              @endforeach
+              </form>
 
-            </form>
+            @endforeach
           </div>
         </div>
 

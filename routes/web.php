@@ -78,9 +78,9 @@ $router->group([
   Route::get('/rule-break/errors', 'Admin\RuleBreakController@errors')->name("admin.rule-break.errors");
   Route::get('/rule-break/{entry}', 'Admin\RuleBreakController@index')->name("admin.rule-break");
   Route::get('/rule-break/{entry}/run', 'Admin\RuleBreakController@entry_recheck')->name("admin.rule-break.entry-check");
-  Route::get('/rule-break/{entry}/{state}', 'Admin\RuleBreakController@entry_accept_reject')->name("admin.rule-break.entry-state");
+  Route::post('/rule-break/entry/{entry}/save', 'Admin\RuleBreakController@entry_save')->name("admin.rule-break.entry-save");
   Route::get('/rule-break/{entry}/run/{file}', 'Admin\RuleBreakController@file_recheck')->name("admin.rule-break.file-check");
-  Route::get('/rule-break/{entry}/{state}/{file}', 'Admin\RuleBreakController@file_accept_reject')->name("admin.rule-break.file-state");
+  Route::post('/rule-break/file/{file}/save', 'Admin\RuleBreakController@file_save')->name("admin.rule-break.file-save");
 
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
