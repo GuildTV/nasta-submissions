@@ -34,12 +34,14 @@ window.StationCommon = {
 
     try {
       const errs = JSON.parse(errors);
-      if (errs.length > 0)
-        errHolder.append($('<h3>').text("Errors"));
+      if (errs.length > 0) {
+        errHolder.append($('<h3>').text("Technical Errors"));
+        const list = $('<ul>');
+        errHolder.append(list);
 
-      for(var i=0; i<errs.length; i++)
-        errHolder.append($('<p>').text(errs[i]));
-
+        for(var i=0; i<errs.length; i++)
+          list.append($('<li>').text(errs[i]));  
+      }
     } catch (e2){
       console.log(e2)
     }

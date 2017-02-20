@@ -102,7 +102,8 @@
 								 </table>
 
 								<hr>
-								<p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to view all of your uploaded files</p>
+								{{-- <p>Note: files may a few minutes to show here. If it does not show up, <a href="{{ route("station.files") }}" target="_new">Click here</a> to view all of your uploaded files</p> --}}
+								<p>Note: it can take up to 15 minutes to calculate the status of your files. The time will vary based on the rate of submissions being uploaded.</p>
 							</div>
 						</div>
 

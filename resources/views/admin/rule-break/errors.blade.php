@@ -6,7 +6,7 @@
     <div class="col-md-12">
 
       <div class="panel panel-default">
-        <div class="panel-heading">All Rule break errors</div>
+        <div class="panel-heading">File Rule break errors</div>
 
         <div class="panel-body">
 
@@ -31,7 +31,7 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading">All Rule break warnings</div>
+        <div class="panel-heading">File Rule break warnings</div>
 
         <div class="panel-body">
 
