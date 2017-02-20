@@ -3,8 +3,6 @@
 @section('content')
   <h2>Hi {{ $user->name }},</h2>
 
-  <p>The Awards Categories that close today are:</p>
-
   @if (count($entries) == 0)
   <p>You did not enter any of the categories that close today.</p>
   @else
