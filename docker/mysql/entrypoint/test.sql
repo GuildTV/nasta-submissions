@@ -23,7 +23,7 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `compact_name`, `description`, `closing_at`, `opening_at`, `created_at`, `updated_at`) VALUES
 ('already-closed', 'Already closed', 'already-closed', '', '2016-12-21 00:00:00', NULL, '2017-01-18 21:21:31', '2017-01-18 21:21:31'),
-('animation', 'Animation', 'Male', 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by your station.', '2017-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
+('animation', 'Animation', 'Male', 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by your station.', '2019-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
 ('no-constraints', 'no file constraints!', 'no-constraints', '', '2028-04-17 00:00:00', NULL, '2017-01-18 21:15:43', '2017-01-18 21:15:43'),
 ('something', 'Something', 'Something', 'fbsgsdd', '2016-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31');
 
