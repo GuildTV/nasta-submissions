@@ -59,7 +59,7 @@ class EmailDailySummary extends Command
       $sent = 0;
 
       foreach ($users as $user) {
-        Mail::to($user)->queue($new DailySubmitted($user, Carbon::now()));
+        Mail::to($user)->queue(new DailySubmitted($user, Carbon::now()));
         $sent++;
       }
 
