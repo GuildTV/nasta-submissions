@@ -199,6 +199,7 @@ window.StationEntry = {
           const row = $('<tr>');
           row.append($('<td>').text(file.name));
           row.append($('<td>').text(file.uploaded_at));
+          row.append($('<td>').text(file.status));
           
           const buttons = $('<td>');
           row.append(buttons);
@@ -209,6 +210,7 @@ window.StationEntry = {
               .attr('data-name', file.name)
               .attr('data-type', file.type)
               .attr('data-url', file.url)
+              .attr('data-errors', file.errors)
               .attr('onclick', 'window.StationCommon.ViewFile(this);return false')
               .text('View')
           );

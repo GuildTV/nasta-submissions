@@ -74,12 +74,22 @@ class StationController extends Controller
 			]);
 
 		$files = $entry->uploadedFiles->map(function ($f){
+			$errors = [];
+			if ($f->rule_break != null){
+				$errs = json_decode($f->rule_break->errors, true);
+				foreach ($errs as $err){
+					$errors[] = trans("rule_break.error." . $err);
+				}
+			}
+
 			return [
 				"id" => $f->id,
 				"name" => $f->name,
 				"uploaded_at" => $f->uploaded_at->toDayDateTimeString(),
 				"type" => $f->metadata == null ? "other" : "video",
 				"url" => route('station.files.download', $f),
+				"errors" => json_encode($errors),
+				"status" => $f->rule_break == null ? "pending" : (count($errors) == 0 ? "ok" : "fail"),
 			];
 		});
 
