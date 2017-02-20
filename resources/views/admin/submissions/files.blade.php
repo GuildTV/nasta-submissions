@@ -7,8 +7,11 @@ $('#files-table').DataTable({
   paging: false,
   order: [[ 3, 'desc' ]],
   columnDefs: [ {
+    targets: 1,
+    render: $.fn.dataTable.render.ellipsis( 20 )
+  }, {
     targets: 2,
-    render: $.fn.dataTable.render.ellipsis( 50 )
+    render: $.fn.dataTable.render.ellipsis( 40 )
   } ]
 });
 @endsection

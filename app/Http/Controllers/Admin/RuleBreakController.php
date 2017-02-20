@@ -36,6 +36,41 @@ class RuleBreakController extends Controller
     return view('admin.submissions.rule-break', compact('files', 'entry', 'constraint_map'));
   }
 
+  public function errors()
+  {
+    $files = UploadedFile::with('rule_break')->get();
+
+    $errors = [];
+    $warnings = [];
+
+    foreach ($files as $file){
+      if ($file->rule_break == null)
+        continue;
+
+      $errs = json_decode($file->rule_break->errors, true);
+      foreach ($errs as $err){
+        if (!isset($errors[$err]))
+          $errors[$err] = [ "total"=>0, "pending"=>0 ];
+
+        $errors[$err]["total"]++;
+        if ($file->rule_break->result != "accepted")
+          $errors[$err]["pending"]++;
+      }
+
+      $warns = json_decode($file->rule_break->warnings, true);
+      foreach ($warns as $warn){
+        if (!isset($warnings[$warn]))
+          $warnings[$warn] = [ "total"=>0, "pending"=>0 ];
+
+        $warnings[$warn]["total"]++;
+        if ($file->rule_break->result != "accepted")
+          $warnings[$warn]["pending"]++;
+      }
+    }
+
+    return view('admin.rule-break.errors', compact('errors', 'warnings'));
+  }
+
   public function entry_accept_reject(Entry $entry, $state){
     switch ($state){
       case "accepted":
