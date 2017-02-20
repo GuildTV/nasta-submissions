@@ -113,7 +113,7 @@ class EntryControllerTest extends TestCase
     ];
 
     $this->assertSave($data, self::$submitUrl, self::$testCategory);
-    $this->assertEmailSent();
+    //$this->assertEmailSent();
   }
 
   public function testUpdateClosed(){
