@@ -234,7 +234,9 @@ class OfflineRuleCheckFile implements ShouldQueue
             $errors[] = 'video.bit_rate';
 
         if (!isset($metadata['video']['maximum_bit_rate']))
-            $warnings[] = 'video.maximum_bit_rate';
+        {
+            // $warnings[] = 'video.maximum_bit_rate';
+        }
         else if ($metadata['video']['maximum_bit_rate'] > $specs['video']['maximum_bit_rate'] * $specs['video']['maximum_bit_rate_tolerance'])
             $errors[] = 'video.maximum_bit_rate';
 
