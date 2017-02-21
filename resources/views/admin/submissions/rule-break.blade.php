@@ -26,6 +26,8 @@
                   <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
                   <div class="col-sm-10">
                     <p>pending</p>
+                    
+                    <a href="{{ route('admin.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Re-run</a>
                   </div>
                 </div>
 
@@ -167,6 +169,7 @@
                   <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
                   <div class="col-sm-10">
                     <p>pending</p>
+                    <a href="{{ route('admin.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Re-run</a>
                   </div>
                 </div>
 
