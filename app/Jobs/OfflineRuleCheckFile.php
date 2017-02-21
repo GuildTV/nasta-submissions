@@ -78,6 +78,7 @@ class OfflineRuleCheckFile implements ShouldQueue
             $this->save([
                 'uploaded_file_id' => $this->file->id,
                 'result' => $length > 0 ? 'ok' : 'break',
+                'notes' => "",
                 'mimetype' => $mime,
                 'length' => $length,
                 'metadata' => json_encode([]),
@@ -96,6 +97,7 @@ class OfflineRuleCheckFile implements ShouldQueue
             $this->save([
                 'uploaded_file_id' => $this->file->id,
                 'result' => 'break',
+                'notes' => "",
                 'mimetype' => $metadata['wrapper'],
                 'length' => $metadata['duration'],
                 'metadata' => json_encode($metadata),
@@ -127,6 +129,7 @@ class OfflineRuleCheckFile implements ShouldQueue
         $this->save([
             'uploaded_file_id' => $this->file->id,
             'result' => $result,
+            'notes' => "",
             'mimetype' => $metadata['wrapper'],
             'length' => $metadata['duration'],
             'metadata' => json_encode($metadata),

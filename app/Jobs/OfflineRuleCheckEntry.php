@@ -135,6 +135,7 @@ class OfflineRuleCheckEntry implements ShouldQueue
         $this->save([
             'entry_id' => $this->entry->id,
             'result' => $result,
+            'notes' => "",
             'constraint_map' => json_encode($constraint_map),
             'warnings' => json_encode($warnings), 
             'errors' => json_encode($failures),

@@ -15,7 +15,7 @@ class EntryRuleBreak extends Model
      */
     protected $fillable = [
         'entry_id', 
-        'result', 'constraint_map',
+        'result', 'notes', 'constraint_map',
         'warnings', 'errors',
     ];
 
