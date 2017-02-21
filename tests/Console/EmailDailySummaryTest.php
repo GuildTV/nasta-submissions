@@ -61,7 +61,7 @@ class EmailDailySummaryTest extends TestCase
 
     $scraper = new EmailDailySummary();
     $res = $scraper->handle();
-    $this->assertEquals(1, $res);
+    $this->assertEquals(2, $res);
     $this->assertEmailSent();
   }
 
