@@ -67,6 +67,7 @@ class DailySubmitted extends Mailable
 
         $entries = Entry::where("station_id", $this->user->id)
             ->whereIn('category_id', $ids)
+            ->where('submitted', true)
             ->get();
 
         $this->entries = [];
