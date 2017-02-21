@@ -185,14 +185,16 @@ class OfflineRuleCheckFile implements ShouldQueue
             $errors[] = 'video.format';
 
         if (!isset($metadata['video']['bit_rate_mode']))
-            $warnings[] = 'video.bit_rate_mode';
+        {
+            // $warnings[] = 'video.bit_rate_mode';
+        }
         else if (strtoupper($metadata['video']['bit_rate_mode']) != strtoupper($specs['video']['bit_rate_mode']))
             $errors[] = 'video.bit_rate_mode';
 
         if (!isset($metadata['video']['format_profile']))
             $warnings[] = 'video.format_profile';
         else if (strtoupper($metadata['video']['format_profile']) != strtoupper($specs['video']['format_profile']))
-            $errors[] = 'video.format_profile';
+            $warnings[] = 'video.format_profile_wrong';
 
         if (!isset($metadata['video']['pixel_aspect_ratio']))
             $warnings[] = 'video.pixel_aspect_ratio';
@@ -210,9 +212,11 @@ class OfflineRuleCheckFile implements ShouldQueue
             $errors[] = 'video.scan_type';
 
         if (!isset($metadata['video']['standard']))
-            $warnings[] = 'video.standard';
+        {
+            // $warnings[] = 'video.standard';
+        }
         else if (strtoupper($metadata['video']['standard']) != strtoupper($specs['video']['standard']))
-            $errors[] = 'video.standard';
+            $warnings[] = 'video.standard_wrong';
 
         if (!isset($metadata['video']['width']))
             $warnings[] = 'video.width';
@@ -256,9 +260,11 @@ class OfflineRuleCheckFile implements ShouldQueue
             $errors[] = 'audio.bit_rate';
 
         if (!isset($metadata['audio']['maximum_bit_rate']))
-            $warnings[] = 'audio.maximum_bit_rate';
+        {
+            // $warnings[] = 'audio.maximum_bit_rate';
+        }
         else if ($metadata['audio']['maximum_bit_rate'] > $specs['audio']['maximum_bit_rate'] * $specs['audio']['maximum_bit_rate_tolerance'])
-            $errors[] = 'audio.maximum_bit_rate';
+            $warnings[] = 'audio.maximum_bit_rate_wrong';
 
         return [
             "errors" => $errors, 
