@@ -9,7 +9,7 @@ return [
             'wrapper' => 'Incorrect media wrapper',
             'format' => 'Incorrect video format',
             'bit_rate_mode' => 'Incorrect video bit rate mode',
-            'format_profile' => 'Incorrect video format profile',
+            'format_profile' => 'Incorrect encoder profile or level',
             'pixel_aspect_ratio' => 'Incorrect video pixel aspect ratio',
             'frame_rate' => 'Incorrect video frame rate',
             'scan_type' => 'Incorrect video scan type',
@@ -47,7 +47,7 @@ return [
         'video' => [
             'format' => 'Missing video format',
             'bit_rate_mode' => 'Missing video bit rate mode',
-            'format_profile' => 'Missing video format profile',
+            'format_profile' => 'Missing encoder profile or level',
             'pixel_aspect_ratio' => 'Missing video pixel aspect ratio',
             'frame_rate' => 'Missing video frame rate',
             'scan_type' => 'Missing video scan type',
