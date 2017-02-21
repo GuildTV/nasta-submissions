@@ -49,7 +49,7 @@ class ScrapeWatch implements ShouldQueue
 
             try {
                 dispatch((new UploadEncoded($watch->job, $watch->file))->onQueue('downloads'));
-                // $watch->delete();
+                $watch->delete();
 
             } catch (Exception $e){
                 Log::error('Failed to run: '. $e->getMessage());
