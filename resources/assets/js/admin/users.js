@@ -11,7 +11,7 @@ window.AdminUsers = {
       username: $('#userusername').val(),
       email: $('#useremail').val(),
       password: $('#userpassword').val(),
-      password_confirmation: $('#userpassword_confirm:checked').val(),
+      password_confirmation: $('#userpassword_confirm').val(),
     };
 
     $.ajax({
