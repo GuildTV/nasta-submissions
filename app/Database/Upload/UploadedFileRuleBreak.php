@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UploadedFileRuleBreak extends Model
 {
+    use \Venturecraft\Revisionable\RevisionableTrait;
     
     /**
      * The attributes that are mass assignable.

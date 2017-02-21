@@ -26,7 +26,7 @@ class CreateVideoMetadataTable extends Migration
         Schema::table('uploaded_files', function (Blueprint $table) {
             $table->integer('video_metadata_id')->unsigned()->after('public_url')->unique()->nullable()->default(null);
 
-            $table->foreign('video_metadata_id')->references('id')->on('video_metadata')->onDelete('cascade');
+            $table->foreign('video_metadata_id')->references('id')->on('video_metadata')->onDelete('set null');
         });
 
     }

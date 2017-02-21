@@ -154,6 +154,16 @@ class DropboxFileServiceHelper implements IFileService{
     }
   }
 
+  public function upload($src, $dest){
+    try {
+      $file = $this->client->upload($src, $dest);
+      return $this->genFile($file);
+
+    } catch (Exception $e) {
+      return null;
+    }
+  }
+
   public function getPublicUrl($path){
     $data = null;
     try {

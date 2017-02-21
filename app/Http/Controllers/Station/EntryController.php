@@ -11,6 +11,7 @@ use App\Http\Requests\Station\SubmitRequest;
 use App\Mail\Station\EntrySubmitted;
 
 use App\Database\Category\Category;
+use App\Database\Entry\EntryRuleBreak;
 
 use Carbon\Carbon;
 
@@ -54,6 +55,9 @@ class EntryController extends Controller
     $entry = $category->getEntryForStation(Auth::user()->id); // Gets an empty entry
     $entry->submitted = false;
     $entry->save();
+
+    // delete any entry rule breaks
+    EntryRuleBreak::where('entry_id', $entry->id)->delete();
 
     Session::flash('entry.edit', 'You entry has been un-submitted');
 

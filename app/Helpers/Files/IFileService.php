@@ -20,6 +20,8 @@ interface IFileService extends Serializable {
 
   public function download($src, $dest);
 
+  public function upload($src, $dest);
+
   public function getPublicUrl($path);
 
   public function getMetadata($path);

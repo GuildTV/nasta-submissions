@@ -122,7 +122,7 @@ class TestFileServiceHelper implements IFileService{
   }
 
   public function download($src, $dest){
-    $this->addOperation([ "move", $src, $dest ]);
+    $this->addOperation([ "download", $src, $dest ]);
 
     foreach ($this->files as $k=>$f){
       if ($f['name'] != $src)
@@ -132,6 +132,10 @@ class TestFileServiceHelper implements IFileService{
     }
 
     return false;
+  }
+
+  public function upload($src, $dest){
+    throw new Exception("Not implemented!");
   }
 
   public function getPublicUrl($path){
