@@ -37,6 +37,8 @@
 
   <p>You can view your full list of entries <a href="{{ route('station.categories') }}">here</a>.</p>
 
+  <p>If there are any issues, or content you have submitted has not been listed please get in contact immediately.</p>
+
   <h2>
     Regards,
     <br/ ><br/ >

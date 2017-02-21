@@ -32,5 +32,7 @@ Your summary of todays deadlines:
 
 You can view your full list of entries at {{ route('station.categories') }}
 
+If there are any issues, or content you have submitted has not been listed please get in contact immediately.
+
 Regards,
 The Submissions Team
