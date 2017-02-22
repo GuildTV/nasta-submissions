@@ -28,7 +28,7 @@ class UploadEncoded implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $encjob;
+    protected $srcFile;
     protected $file;
 
     /**
@@ -36,9 +36,9 @@ class UploadEncoded implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(EncodeJob $encjob, UploadedFile $file)
+    public function __construct($srcFile, UploadedFile $file)
     {
-        $this->encjob = $encjob;
+        $this->srcFile = $srcFile;
         $this->file = $file;
     }
 
@@ -52,9 +52,12 @@ class UploadEncoded implements ShouldQueue
         Log::info('Starting upload of new #' . $this->file->id);
         $client = new DropboxFileServiceHelper($this->file->account->access_token);
 
-        $fullPath = Config::get('nasta.local_entries_path') . $this->encjob->destination_file;
+        $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->file->path);
         $targetPath = $srcFile['dirname'].'/'.$srcFile['filename'].'-fixed'.'.'.$srcFile['extension'];
+
+        if (!file_exists($fullPath))
+            throw new Exception("Source file does not exist");
 
         // upload new file
         $res = $client->upload($fullPath, $targetPath);
@@ -66,7 +69,7 @@ class UploadEncoded implements ShouldQueue
 
         // clean up old version references
         $this->file->path = $targetPath;
-        $this->file->path_local = $this->encjob->destination_file;
+        $this->file->path_local = $this->srcFile;
         $this->file->size = $res['size'];
         $this->file->hash = $res['hash'];
         $this->file->public_url = $url;
@@ -101,6 +104,6 @@ class UploadEncoded implements ShouldQueue
      */
     public function failed(Exception $exception)
     {
-        ExceptionEmail::notifyAdmin($exception, "Failed to uplaod replacement file #" . $this->encjob->id . " for #" . $this->file->id);
+        ExceptionEmail::notifyAdmin($exception, "Failed to uplaod replacement file for #" . $this->file->id);
     }
 }
