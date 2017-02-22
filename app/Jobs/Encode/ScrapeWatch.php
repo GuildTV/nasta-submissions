@@ -37,6 +37,7 @@ class ScrapeWatch implements ShouldQueue
     public function handle()
     {
         $watches = EncodeWatch::with('job')->get();
+        $finished = 0;
 
         foreach ($watches as $watch){
             if ($watch->job == null){
@@ -50,11 +51,14 @@ class ScrapeWatch implements ShouldQueue
             try {
                 dispatch((new UploadEncoded($watch->job->destination_file, $watch->file))->onQueue('downloads'));
                 $watch->delete();
+                $finished++;
 
             } catch (Exception $e){
                 Log::error('Failed to run: '. $e->getMessage());
             }
         }
+
+        return $finished;
     }
 
     /**

@@ -53,7 +53,7 @@ class UploadEncoded implements ShouldQueue
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->file->path);
-        $targetPath = $srcFile['dirname'].'/'.$srcFile['filename'].'-fixed'.'.'.$srcFile['extension'];
+        $targetPath = @$srcFile['dirname'].'/'.$srcFile['filename'].'-fixed'.'.'.@$srcFile['extension'];
 
         if (!file_exists($fullPath))
             throw new Exception("Source file does not exist");

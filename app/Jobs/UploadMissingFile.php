@@ -58,7 +58,7 @@ class UploadMissingFile implements ShouldQueue
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->srcFile);
-        $targetPath = $srcFile['dirname'].'/'.$srcFile['filename'].'-manual'.'.'.$srcFile['extension'];
+        $targetPath = @$srcFile['dirname'].'/'.$srcFile['filename'].'-manual'.'.'.@$srcFile['extension'];
 
         if (!file_exists($fullPath))
             throw new Exception("Source file does not exist");

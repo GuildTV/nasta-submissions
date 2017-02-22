@@ -19,6 +19,15 @@ class EncodeJob extends Model {
   protected $connection = 'encode_mysql';
   public $timestamps = false;
 
+  public function __construct(array $attributes = array()) 
+  {
+    parent::__construct($attributes);
+
+    // allow this to vary for testing
+    $this->connection = env('ENCODE_DB_CONNECTION', 'encode_mysql');
+  }
+
+
   protected $fillable = array('source_file', 'destination_file', 'format_id', 'status', 'progress');
 
   public function isFinished(){

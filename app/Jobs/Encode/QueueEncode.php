@@ -45,7 +45,7 @@ class QueueEncode implements ShouldQueue
           return false;
 
         $srcFile = pathinfo($this->file->path_local);
-        $destFile = $srcFile['dirname'].'/'.$srcFile['filename'].'-fixed'.'.'.$srcFile['extension'];
+        $destFile = @$srcFile['dirname'].'/'.$srcFile['filename'].'-fixed'.'.'.@$srcFile['extension'];
 
         $job = EncodeJob::create([
           'source_file' => $this->file->path_local,
