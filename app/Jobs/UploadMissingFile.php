@@ -56,7 +56,7 @@ class UploadMissingFile implements ShouldQueue
     {
         Log::info('Starting upload of new file to ' . $this->category->name . ' for ' . $this->station->name);
         $account = DropboxAccount::inRandomOrder()->first();
-        $client = $this->helper != null ? $this->helper : new DropboxFileServiceHelper($account);
+        $client = $this->helper != null ? $this->helper : new DropboxFileServiceHelper($account->access_token);
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->srcFile);
