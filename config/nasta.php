@@ -74,5 +74,8 @@ return [
 
   'encode_profiles' => [
     'fix_audio' => 5,
+    '1080p' => 0,
+    '720p' => 0,
+    'sd' => 0,
   ],
 ];

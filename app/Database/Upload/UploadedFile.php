@@ -51,6 +51,11 @@ class UploadedFile extends Model
         return $this->hasOne('App\Database\Upload\UploadedFileRuleBreak');
     }
 
+    public function transcode()
+    {
+        return $this->hasOne('App\Database\Encode\EncodeWatch');
+    }
+
     public function isLate($category=null){
         if ($category == null && $this->category_id != null)
             $category = $this->category;

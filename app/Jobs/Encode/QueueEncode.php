@@ -56,7 +56,7 @@ class QueueEncode implements ShouldQueue
         ]);
 
         EncodeWatch::create([
-          'uploaded_file_id' => $fthis->ile->id,
+          'uploaded_file_id' => $this->file->id,
           'job_id' => $job->id
         ]);
 

@@ -210,6 +210,24 @@
 
                 <hr />
 
+                @if ($file->rule_break->errors != "[]]")
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Transcode</label>
+                  <div class="col-sm-10">
+                    @if ($file->transcode != null)
+                    <p>pending</p>
+                    @else
+                    <button class="btn btn-warning" data-id="{{ $file->id }}" data-profile="fix_audio" onclick="window.AdminRuleBreak.StartTranscode(this);return false">Fix audio</button>
+                    <button class="btn btn-warning" data-id="{{ $file->id }}" data-profile="1080p" onclick="window.AdminRuleBreak.StartTranscode(this);return false">1080P</button>
+                    <button class="btn btn-warning" data-id="{{ $file->id }}" data-profile="720p" onclick="window.AdminRuleBreak.StartTranscode(this);return false">720P</button>
+                    <button class="btn btn-warning" data-id="{{ $file->id }}" data-profile="sd" onclick="window.AdminRuleBreak.StartTranscode(this);return false">SD</button>
+                    @endif
+                  </div>
+                </div>
+                @endif
+
+                <hr />
+
                   <div class="form-group">
                     <label for="entryname" class="col-sm-2 control-label">Length</label>
                     <div class="col-sm-10">
