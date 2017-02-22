@@ -89,7 +89,7 @@ class StationController extends Controller
 				"type" => $f->metadata == null ? "other" : "video",
 				"url" => route('station.files.download', $f),
 				"errors" => json_encode($errors),
-				"status" => $f->rule_break == null ? "pending" : (count($errors) == 0 ? "ok" : "fail"),
+				"status" => $f->rule_break == null ? "pending" : (count($errors) == 0 ? "pass" : "fail"),
 			];
 		});
 
