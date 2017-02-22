@@ -165,3 +165,14 @@ a:active {
         overflow: scroll;
     }
 }
+
+@media(max-width: 767px){
+    .navbar-default{
+        & .navbar-collapse,
+        & .navbar-form {
+            background: $navbar-default-bg;
+            box-shadow: $box-shadow;
+        }
+    }
+
+}
