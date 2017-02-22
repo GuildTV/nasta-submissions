@@ -63,7 +63,7 @@ window.StationEntry = {
 
     bootbox.confirm({
       title: "Submit Entry",
-      message: "By submitting your entry you acknowledge that your entry is complete, and that all your files are shown above. You can unsubmit your entry if you wish to make more changes",
+      message: "By submitting your entry you acknowledge that your entry is complete, and that the correct version of all your files are shown above. You can unsubmit your entry if you wish to make more changes",
       callback: r => r ? StationEntry.DoSubmit(category, data) : null
     });
   },
