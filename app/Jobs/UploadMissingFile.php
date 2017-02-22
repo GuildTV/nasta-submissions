@@ -32,17 +32,19 @@ class UploadMissingFile implements ShouldQueue
     protected $srcFile;
     protected $category;
     protected $station;
+    protected $helper;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($srcFile, Category $category, User $station)
+    public function __construct($srcFile, Category $category, User $station, $helper = null)
     {
         $this->srcFile = $srcFile;
         $this->category = $category;
         $this->station = $station;
+        $this->helper = $helper;
     }
 
     /**
@@ -54,11 +56,12 @@ class UploadMissingFile implements ShouldQueue
     {
         Log::info('Starting upload of new file to ' . $this->category->name . ' for ' . $this->station->name);
         $account = DropboxAccount::inRandomOrder()->first();
-        $client = new DropboxFileServiceHelper($account);
+        $client = $this->helper != null ? $this->helper : new DropboxFileServiceHelper($account);
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->srcFile);
-        $targetPath = @$srcFile['dirname'].'/'.$srcFile['filename'].'-manual'.'.'.@$srcFile['extension'];
+        $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $this->station->name;
+        $targetPath = $targetDir.'/'.$srcFile['filename'].'-manual'.'.'.@$srcFile['extension'];
 
         if (!file_exists($fullPath))
             throw new Exception("Source file does not exist");
@@ -74,7 +77,8 @@ class UploadMissingFile implements ShouldQueue
         $file = UploadedFile::create([
             'station_id' => $this->station->id,
             'account_id' => $account->id,
-            'path' => $this->srcFile,
+            'path' => $targetPath,
+            'path_local' => $this->srcFile,
             'name' => $res['name'],
             'size' => $res['size'],
             'hash' => $res['hash'],
@@ -109,6 +113,7 @@ class UploadMissingFile implements ShouldQueue
         }
 
         Log::info("Imported: " . $res['name']);
+        return $file;
     }
 
     /**

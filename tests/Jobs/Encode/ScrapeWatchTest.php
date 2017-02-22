@@ -16,11 +16,6 @@ class ScrapeWatchTest extends TestCase
 {
   use DatabaseTransactions;
 
-  private static $debugHelper = false;
-  private static $testAccountId = "test";
-  private static $testSourceTextFile = "/test/document.txt";
-  private static $testSourceImageFile = "/test/test_file.png";
-
   public function testSuccess(){
     Queue::fake();
 
@@ -74,34 +69,5 @@ class ScrapeWatchTest extends TestCase
 
     Queue::assertNotPushed(UploadEncoded::class);
   }
-
-  // public function testQueue(){
-  //   $file = UploadedFile::find(131);
-  //   $this->assertNotNull($file);
-  //   $file->path_local = "fake/path.mp4";
-  //   $expected = "fake/path-fixed.mp4";
-
-  //   // ensure no false positives
-  //   EncodeJob::truncate();
-  //   EncodeWatch::truncate();
-
-  //   // run job
-  //   $job = new QueueEncode($file, 99);
-  //   $res = $job->handle();
-  //   $this->assertNotNull($res);
-
-  //   $encJob = EncodeJob::first();
-  //   $this->assertNotNull($encJob);
-  //   $this->assertEquals($file->path_local, $encJob->source_file);
-  //   $this->assertEquals($expected, $encJob->destination_file);
-  //   $this->assertEquals(99, $encJob->format_id);
-  //   $this->assertEquals("Not Encoding", $encJob->status);
-  //   $this->assertEquals(0, $encJob->progress);
-
-  //   $watch = EncodeWatch::first();
-  //   $this->assertNotNull($watch);
-  //   $this->assertEquals($file->id, $watch->uploaded_file_id);
-  //   $this->assertEquals($encJob->id, $watch->job_id);
-  // }
 
 }

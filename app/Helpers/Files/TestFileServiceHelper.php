@@ -3,6 +3,8 @@ namespace App\Helpers\Files;
 
 use App\Helpers\Files\IFileService;
 
+use Carbon\Carbon;
+
 use Exception;
 
 class TestFileServiceHelper implements IFileService{
@@ -11,6 +13,7 @@ class TestFileServiceHelper implements IFileService{
 
   private $files = [];
   private $operations = [];
+  private $uploaded = [];
 
   public function __construct($files, $debug){
     $this->files = $files;
@@ -44,6 +47,10 @@ class TestFileServiceHelper implements IFileService{
 
   public function getOperations(){
     return $this->operations;
+  }
+
+  public function getUploadedOperations(){
+    return $this->uploaded;
   }
 
   private function genFile($path, $file){
@@ -135,7 +142,15 @@ class TestFileServiceHelper implements IFileService{
   }
 
   public function upload($src, $dest){
-    throw new Exception("Not implemented!");
+    $this->addOperation([ "upload", $src, $dest ]);
+
+    return $this->uploaded[$dest] = [
+      "name"     => $src,
+      "modified" => Carbon::now(),
+      "size"     => 123456,
+      "rev"      => 9845,
+      "hash"     => "sffsdofnsdf",
+    ];
   }
 
   public function getPublicUrl($path){

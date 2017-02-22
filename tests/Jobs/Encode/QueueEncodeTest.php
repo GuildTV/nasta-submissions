@@ -14,11 +14,6 @@ class QueueEncodeTest extends TestCase
 {
   use DatabaseTransactions;
 
-  private static $debugHelper = false;
-  private static $testAccountId = "test";
-  private static $testSourceTextFile = "/test/document.txt";
-  private static $testSourceImageFile = "/test/test_file.png";
-
   public function testFileMissing(){
     $file = UploadedFile::find(131);
     $this->assertNotNull($file);

@@ -53,7 +53,8 @@ class UploadEncoded implements ShouldQueue
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->file->path);
-        $targetPath = @$srcFile['dirname'].'/'.$srcFile['filename'].'-fixed'.'.'.@$srcFile['extension'];
+        $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $this->file->station->name;
+        $targetPath = $targetDir.'/'.$srcFile['filename'].'-manual'.'.'.@$srcFile['extension'];
 
         if (!file_exists($fullPath))
             throw new Exception("Source file does not exist");
