@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EntryRuleBreak extends Model
 {
+    use \Venturecraft\Revisionable\RevisionableTrait;
     
     /**
      * The attributes that are mass assignable.

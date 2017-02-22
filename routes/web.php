@@ -82,6 +82,8 @@ $router->group([
   Route::get('/rule-break/{entry}/run/{file}', 'Admin\RuleBreakController@file_recheck')->name("admin.rule-break.file-check");
   Route::post('/rule-break/file/{file}/save', 'Admin\RuleBreakController@file_save')->name("admin.rule-break.file-save");
 
+  Route::post('/transcode/{file}/{profile}', 'Admin\RuleBreakController@transcode')->name("admin.transcode");
+
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
   Route::post('/users/{user}/save', 'Admin\UsersController@save');

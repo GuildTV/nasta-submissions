@@ -71,4 +71,11 @@ return [
   'dropbox_imported_files_path' => "/Imported", // subfoldered by station name. no trailing slash
 
   'local_entries_path' => env('LOCAL_ENTRY_DIR', storage_path("app/entries") . "/"),
+
+  'encode_profiles' => [
+    'fix_audio' => 5,
+    '1080p' => 0,
+    '720p' => 0,
+    'sd' => 0,
+  ],
 ];

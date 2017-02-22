@@ -52,4 +52,26 @@ window.AdminRuleBreak = {
     });
   },
 
+  StartTranscode: function(e){
+    e = $(e);
+
+    const id = e.attr('data-id')
+    if (!id)
+      return alert("Missing ID");
+
+    $.ajax({
+      url: '/admin/transcode/' + id + '/' + e.attr('data-profile'),
+      method: 'POST',
+      success: function(res) {
+        bootbox.alert("Queued!", function(){
+          window.location.reload();
+        });
+      },
+      error: function(res) {
+        console.log(res);
+        bootbox.alert("An error occured");
+      }
+    });
+  }
+
 };

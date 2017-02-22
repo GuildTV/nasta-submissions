@@ -12,9 +12,12 @@ use App\Database\Upload\UploadedFile;
 
 use App\Jobs\OfflineRuleCheckEntry;
 use App\Jobs\OfflineRuleCheckFile;
+use App\Jobs\Encode\QueueEncode;
+
 
 use App;
 use Redirect;
+use Config;
 
 class RuleBreakController extends Controller
 { 
@@ -104,6 +107,17 @@ class RuleBreakController extends Controller
     dispatch((new OfflineRuleCheckFile($file, true))->onQueue("downloads"));
 
     return Redirect::route('admin.rule-break', $entry);
+  }
+
+  public function transcode(UploadedFile $file, $profile){
+    $options = Config::get('nasta.encode_profiles');
+    if (!isset($options[$profile]))
+      return App::abort(404);
+
+    $profile_id = $options[$profile];
+    dispatch((new QueueEncode($file, $profile_id))->onQueue('downloads'));
+
+    return "OK";
   }
 
 }

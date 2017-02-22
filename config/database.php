@@ -65,6 +65,20 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+
+        'encode_mysql' => [
+            'driver' => 'mysql',
+            'host' => env('ENCODE_DB_HOST', '127.0.0.1'),
+            'port' => env('ENCODE_DB_PORT', '3306'),
+            'database' => env('ENCODE_DB_DATABASE', 'encode'),
+            'username' => env('ENCODE_DB_USERNAME', 'encode'),
+            'password' => env('ENCODE_DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
         
         'test_mysql' => [
             'driver' => 'mysql',
