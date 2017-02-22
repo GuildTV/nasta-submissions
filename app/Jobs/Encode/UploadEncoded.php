@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Mail\Admin\ExceptionEmail;
 
-use App\Database\Encode\EncodeJob;
 use App\Database\Upload\UploadedFile;
 use App\Database\Upload\UploadedFileLog;
 
@@ -76,7 +75,7 @@ class UploadEncoded implements ShouldQueue
         $this->file->save();
 
         $this->file->rule_break()->delete();
-        // $this->file->metadata()->delete();
+        $this->file->metadata()->delete();
 
         UploadedFileLog::create([
             'station_id' => $this->file->station->id,

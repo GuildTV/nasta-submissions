@@ -19,7 +19,7 @@ class UploadFileReplacement extends Command
      *
      * @var string
      */
-    protected $signature = 'upload-replacement {id=0 : The ID of the file} {path="" : The path of the file}';
+    protected $signature = 'upload-file:replace {id : The ID of the file} {path : The path of the file}';
 
     /**
      * The console command description.
