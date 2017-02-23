@@ -41,6 +41,9 @@ class Kernel extends ConsoleKernel
                  ->everyFiveMinutes();
         $schedule->command('scrape:uploads')
                  ->everyMinute();
+        $schedule->command('encode-check')
+                 ->everyMinute();
+                 
         $schedule->command('email:daily-deadlines')
                  ->dailyAt('09:00');
         $schedule->command('email:daily-summary')
