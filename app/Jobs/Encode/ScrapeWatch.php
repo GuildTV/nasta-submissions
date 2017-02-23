@@ -49,7 +49,7 @@ class ScrapeWatch implements ShouldQueue
                 continue;
 
             try {
-                dispatch((new UploadEncoded($watch->job->destination_file, $watch->file))->onQueue('downloads'));
+                dispatch((new UploadEncoded($watch->job->destination_file, $watch->file))->onQueue('uploads'));
                 $watch->delete();
                 $finished++;
 

@@ -51,7 +51,7 @@ class EncodeFile extends Command
         if ($file == null)
             return Log::error("Failed to find file");
 
-        dispatch((new QueueEncode($file, $profile))->onQueue('downloads'));
+        dispatch((new QueueEncode($file, $profile))->onQueue('process'));
     }
 
 }

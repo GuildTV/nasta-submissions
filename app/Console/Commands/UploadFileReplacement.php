@@ -52,7 +52,7 @@ class UploadFileReplacement extends Command
         if ($file == null)
             throw new Exception("Bad file id!");
 
-       dispatch((new UploadEncoded($path, $file))->onQueue('downloads'));
+       dispatch((new UploadEncoded($path, $file))->onQueue('uploads'));
     }
 
 }

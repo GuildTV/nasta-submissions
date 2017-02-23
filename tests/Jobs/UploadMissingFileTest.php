@@ -72,7 +72,7 @@ class UploadMissingFileTest extends TestCase
     // Queued jobs
     Queue::assertNotPushed(\App\Jobs\DropboxDownloadFile::class);
     Queue::assertPushed(\App\Jobs\DropboxScrapeMetadata::class);
-    Queue::assertPushedOn('downloads', \App\Jobs\OfflineRuleCheckFile::class);
+    Queue::assertPushedOn('process', \App\Jobs\OfflineRuleCheckFile::class);
   }
 
 }

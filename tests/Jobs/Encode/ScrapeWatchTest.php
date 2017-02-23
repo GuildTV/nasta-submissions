@@ -29,7 +29,7 @@ class ScrapeWatchTest extends TestCase
     $this->assertEquals(1, EncodeJob::count());
     $this->assertEquals(0, EncodeWatch::count());
 
-    Queue::assertPushedOn('downloads', UploadEncoded::class);
+    Queue::assertPushedOn('uploads', UploadEncoded::class);
   }
 
   public function testNotFinished(){

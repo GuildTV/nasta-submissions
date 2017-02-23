@@ -57,7 +57,7 @@ class UploadFileMissing extends Command
         if ($Category == null)
             throw new Exception("Bad Category id!");
 
-       dispatch((new UploadMissingFile($path, $Category, $station))->onQueue('downloads'));
+       dispatch((new UploadMissingFile($path, $Category, $station))->onQueue('uploads'));
     }
 
 }

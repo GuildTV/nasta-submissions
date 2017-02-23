@@ -63,7 +63,7 @@ class OfflineRuleCheckFile extends Command
 
         foreach ($files as $file){
             try {
-                dispatch((new OfflineJob($file, !$runAll))->onQueue('downloads'));
+                dispatch((new OfflineJob($file, !$runAll))->onQueue('process'));
 
             } catch (Exception $e){
                 Log::error('Failed to run: '. $e->getMessage());

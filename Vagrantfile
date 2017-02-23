@@ -109,7 +109,7 @@ Vagrant.configure(2) do |config|
             d.build_dir = "docker/queue"
             d.name = "nasta-submissions-queue-downloads"
             d.build_args = ["--tag=nasta-sub:queue"]   
-            d.cmd = ["/start.sh", "--queue=downloads", "--timeout=300", "--memory=256", "--delay=120"]
+            d.cmd = ["/start.sh", "--queue=process,downloads,uploads", "--timeout=300", "--memory=256", "--delay=120"]
 
             d.link("nasta-submissions-db:db")
             d.link("nasta-submissions-mailhog:mailhog")

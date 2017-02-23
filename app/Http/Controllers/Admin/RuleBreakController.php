@@ -104,7 +104,7 @@ class RuleBreakController extends Controller
   }
 
   public function file_recheck(Entry $entry, UploadedFile $file){
-    dispatch((new OfflineRuleCheckFile($file, true))->onQueue("downloads"));
+    dispatch((new OfflineRuleCheckFile($file, true))->onQueue("process"));
 
     return Redirect::route('admin.rule-break', $entry);
   }
@@ -115,7 +115,7 @@ class RuleBreakController extends Controller
       return App::abort(404);
 
     $profile_id = $options[$profile];
-    dispatch((new QueueEncode($file, $profile_id))->onQueue('downloads'));
+    dispatch((new QueueEncode($file, $profile_id))->onQueue('process'));
 
     return "OK";
   }

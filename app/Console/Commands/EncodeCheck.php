@@ -43,7 +43,7 @@ class EncodeCheck extends Command
      */
     public function handle()
     {
-       dispatch((new ScrapeWatch())->onQueue('downloads'));
+       dispatch((new ScrapeWatch())->onQueue('process'));
     }
 
 }

@@ -87,7 +87,7 @@ class UploadEncoded implements ShouldQueue
         ]);
 
         try {
-            dispatch((new OfflineRuleCheckFile($this->file))->onQueue('downloads'));
+            dispatch((new OfflineRuleCheckFile($this->file))->onQueue('process'));
             dispatch((new DropboxScrapeMetadata($this->file))->delay(Carbon::now()->addMinutes(5)));
         } catch (Exception $e) {
             Log::warning("Dropbox upload processing for file failed. Ignoring.");

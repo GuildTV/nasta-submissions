@@ -21,7 +21,7 @@ spec:
       - image: registry.julus.uk/nasta-sub/queue:latest
         name: sub-queue-downloads-gc
         command: ["/start.sh"]
-        args: ["--queue=downloads", "--timeout=300", "--tries=3", "--delay=120", "--memory=256"]
+        args: ["--queue=process,downloads,uploads", "--timeout=300", "--tries=3", "--delay=120", "--memory=256"]
         env:
           - name: VM_ENV
             value: production

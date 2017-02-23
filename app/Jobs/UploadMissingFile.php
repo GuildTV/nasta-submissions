@@ -107,7 +107,7 @@ class UploadMissingFile implements ShouldQueue
 
         try {
             dispatch((new DropboxScrapeMetadata($file))->delay(Carbon::now()->addMinutes(5)));
-            dispatch((new OfflineRuleCheckFile($file))->onQueue('downloads'));
+            dispatch((new OfflineRuleCheckFile($file))->onQueue('process'));
         } catch (Exception $e) {
             Log::warning("Dropbox download for file failed. Ignoring.");
         }

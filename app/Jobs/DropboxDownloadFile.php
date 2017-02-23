@@ -75,7 +75,7 @@ class DropboxDownloadFile implements ShouldQueue
         $this->file->save();
         Log::info('Download complete');
 
-        dispatch((new OfflineRuleCheckFile($this->file))->onQueue("downloads"));
+        dispatch((new OfflineRuleCheckFile($this->file))->onQueue("process"));
 
         return true;
     }

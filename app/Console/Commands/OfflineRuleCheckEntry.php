@@ -62,7 +62,7 @@ class OfflineRuleCheckEntry extends Command
 
         foreach ($entries as $entry){
             try {
-                dispatch((new OfflineJob($entry, !$runAll))->onQueue('downloads'));
+                dispatch((new OfflineJob($entry, !$runAll)));
 
             } catch (Exception $e){
                 Log::error('Failed to run: '. $e->getMessage());
