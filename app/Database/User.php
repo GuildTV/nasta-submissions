@@ -39,6 +39,11 @@ class User extends Authenticatable
 		return $this->hasMany('App\Database\Upload\UploadedFile', 'station_id');
 	}
 
+	public function entries(){
+		return $this->hasMany('App\Database\Entry\Entry', 'station_id')
+      ->with('category', 'uploadedFiles', 'uploadedFiles.metadata');
+	}
+
 	public function stationFolder(){
 		return $this->hasOne('App\Database\Upload\StationFolder');
 	}

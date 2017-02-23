@@ -21,8 +21,10 @@ class SubmissionsController extends Controller
 
   public function dashboard()
   {
-    $users = User::where('type', 'station')->orderBy('name', 'asc')->get();
-    $categories = Category::orderBy('name', 'asc')->get();
+    $users = User::where('type', 'station')->orderBy('name', 'asc')
+      ->with('entries')->get();
+    $categories = Category::orderBy('name', 'asc')
+      ->with('entries')->get();
 
     return view('admin.submissions.dashboard', compact('users', 'categories'));
   }

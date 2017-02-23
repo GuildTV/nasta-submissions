@@ -53,7 +53,8 @@ class Category extends Model
 
     public function entries()
     {
-        return $this->hasMany('App\Database\Entry\Entry');
+        return $this->hasMany('App\Database\Entry\Entry')
+            ->with('uploadedFiles', 'uploadedFiles.metadata');
     }
 
     public function myEntry()
