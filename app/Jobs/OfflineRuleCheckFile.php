@@ -70,7 +70,7 @@ class OfflineRuleCheckFile implements ShouldQueue
         $mediaInfo = new MediaInfo();
         $mediaInfoContainer = $mediaInfo->getInfo($fullPath);
         
-        $metadata = $this->parseMetadata($mediaInfoContainer);
+        $metadata = self::parseMetadata($mediaInfoContainer, true);
         if ($metadata == null) {
             $mime = mime_content_type($fullPath);
             $length = $this->getFileLength($mime, $fullPath);
@@ -89,7 +89,7 @@ class OfflineRuleCheckFile implements ShouldQueue
             return "NON_VIDEO";
         }
 
-        $specs = $this->chooseSpecs($metadata);
+        $specs = self::chooseSpecs($metadata, true);
         if ($specs == null) {
             $resolution = $metadata['video']['width'] . "x" . $metadata['video']['height'];
             $this->log("error", "Failed to find specs with resolution " . $resolution);
@@ -108,7 +108,7 @@ class OfflineRuleCheckFile implements ShouldQueue
             return "NO_SPEC";
         }
         
-        $res = $this->checkVideoConfirms($specs, $metadata);
+        $res = self::checkVideoConfirms($specs, $metadata);
         $failures = $res['errors'];
         $warnings = $res['warnings'];
 
@@ -169,7 +169,7 @@ class OfflineRuleCheckFile implements ShouldQueue
         return UploadedFileRuleBreak::create($data);
     }
 
-    private function checkVideoConfirms($specs, $metadata){
+    public function checkVideoConfirms($specs, $metadata){
         $errors = [];
         $warnings = [];
 
@@ -274,7 +274,7 @@ class OfflineRuleCheckFile implements ShouldQueue
         ];
     }
 
-    private function chooseSpecs($metadata) {
+    public function chooseSpecs($metadata, $log) {
         $options = Config::get('nasta.video_specs');
         foreach ($options as $key => $opt) {
             if ($opt['video']['height'] != $metadata['video']['height'])
@@ -283,23 +283,26 @@ class OfflineRuleCheckFile implements ShouldQueue
             if ($opt['video']['width'] != $metadata['video']['width'])
                 continue;
 
-            $this->log("info", "Matched spec " . $key);
+            if ($log)
+                $this->log("info", "Matched spec " . $key);
             return array_merge_recursive(Config::get('nasta.video_specs_common'), $opt);
         }
 
         return null;
     }
 
-    private function parseMetadata($mediaInfoContainer){
+    public function parseMetadata($mediaInfoContainer, $log){
         $general = $mediaInfoContainer->getGeneral();
         if ($general == null) {
             return null;
         }
         
-        if ($general->get('count_of_video_streams') != 1)
-            $this->log("warn", "Invalid number of video streams " . $general->get('count_of_video_streams'));
-        if ($general->get('count_of_audio_streams') != 1)
-            $this->log("warn", "Invalid number of audio streams " . $general->get('count_of_audio_streams'));
+        if ($log){
+            if ($general->get('count_of_video_streams') != 1)
+                $this->log("warn", "Invalid number of video streams " . $general->get('count_of_video_streams'));
+            if ($general->get('count_of_audio_streams') != 1)
+                $this->log("warn", "Invalid number of audio streams " . $general->get('count_of_audio_streams'));
+        }
 
         if ($general->get('count_of_video_streams') == 0 && $general->get('count_of_audio_streams') == 0)
             return null;

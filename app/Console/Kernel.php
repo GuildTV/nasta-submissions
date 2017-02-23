@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         Commands\EncodeCheck::class,
         Commands\UploadFileReplacement::class,
         Commands\UploadFileMissing::class,
+        Commands\StandaloneRuleCheckFile::class,
     ];
 
     /**

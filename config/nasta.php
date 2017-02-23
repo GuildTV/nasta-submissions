@@ -73,9 +73,9 @@ return [
   'local_entries_path' => env('LOCAL_ENTRY_DIR', storage_path("app/entries") . "/"),
 
   'encode_profiles' => [
-    'fix_audio' => 5,
-    '1080p' => 0,
-    '720p' => 0,
-    'sd' => 0,
+    'fix_audio' => 6,
+    '1080p' => 7,
+    '720p' => 8,
+    'sd' => 9,
   ],
 ];
