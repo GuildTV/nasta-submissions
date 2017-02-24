@@ -163,6 +163,15 @@
                   </div>
                 </div>
 
+                @if ($file->hasReplacement())
+                <div class="form-group">
+                  <label for="entryname" class="col-sm-2 control-label">Replaced</label>
+                  <div class="col-sm-10">
+                    <p>By #{{ $file->replacement_id }}</p>
+                  </div>
+                </div>
+                @endif
+
                 @if($file->rule_break == null)
 
                  <div class="form-group">

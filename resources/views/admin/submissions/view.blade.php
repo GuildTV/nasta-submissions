@@ -77,14 +77,16 @@
               <th>Filename</th>
               <th>Uploaded At</th>
               <th>Late</th>
+              <th>Replaced</th>
               <th>&nbsp;</th>
             </thead>
             <tbody>
-@foreach ($entry->uploadedFiles as $file)
+@foreach ($entry->allUploadedFiles as $file)
               <tr>
                 <td>{{ $file->name }}</td>
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td class="{{ $file->isLate($category) ? "late-upload" : "submitted-upload" }}">{{ $file->isLate($category) ? "Yes" : "No" }}</td>
+                <td>{{ $file->hasReplacement() ? ("#".$file->replacement_id) : "-" }}</td>
                 <td>
                   <a class="btn btn-primary" href="{{ route('admin.submissions.file', $file) }}">View</button>
                 </td>

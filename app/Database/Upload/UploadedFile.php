@@ -27,7 +27,7 @@ class UploadedFile extends Model
 
     public function hasReplacement()
     {
-        return $this->replacement != null;
+        return $this->replacement_id != null;
     }
 
     public function replacement() // replacement file if this was transcoded/reuploaded 

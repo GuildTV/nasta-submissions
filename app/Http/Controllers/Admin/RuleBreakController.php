@@ -23,7 +23,7 @@ class RuleBreakController extends Controller
 { 
   public function index(Entry $entry)
   {
-    $files = $entry->uploadedFiles->load('rule_break');
+    $files = $entry->allUploadedFiles->load('rule_break');
 
     $constraint_map = [];
     if ($entry->rule_break != null){

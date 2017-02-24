@@ -50,6 +50,13 @@ class Entry extends Model
     public function uploadedFiles(){ // Note: cannot be eager/lazy loaded
         return $this->hasMany('App\Database\Upload\UploadedFile', 'category_id', 'category_id')
             ->with('metadata')
+            ->whereNull('replacement_id')
+            ->where('station_id', $this->station_id);
+    }
+
+    public function allUploadedFiles(){ // Note: cannot be eager/lazy loaded
+        return $this->hasMany('App\Database\Upload\UploadedFile', 'category_id', 'category_id')
+            ->with('metadata')
             ->where('station_id', $this->station_id);
     }
 
@@ -68,6 +75,9 @@ class Entry extends Model
             $reasons++;
 
         foreach ($this->uploadedFiles as $file){
+            if ($file->hasReplacement())
+                continue;
+            
             if ($file->isLate($category))
                 $reasons++;
         }

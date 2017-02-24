@@ -58,6 +58,7 @@ class StationController extends Controller
 		$categories = array_filter($categories->all(), function($cat){ return $cat->myEntry == null || !$cat->myEntry->submitted; });
 
 		$files = Auth::user()->uploadedFiles()->orderBy("category_id")
+			->whereNull('replacement_id')
 			->with('category')->with('category.myEntry')->with('metadata')
 			->get();
 
