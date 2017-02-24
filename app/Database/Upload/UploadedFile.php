@@ -20,11 +20,20 @@ class UploadedFile extends Model
         'station_id', 'category_id',
         'account_id', 'path', 'name', 'path_local',
         'size', 'hash', 'public_url',
-        'uploaded_at', 
+        'uploaded_at', 'replacement_id'
     ];
 
     protected $dates = ['uploaded_at'];
 
+    public function hasReplacement()
+    {
+        return $this->replacement != null;
+    }
+
+    public function replacement() // replacement file if this was transcoded/reuploaded 
+    {
+        return $this->belongsTo('App\Database\Upload\UploadedFile', 'replacement_id');
+    }
 
     public function category()
     {

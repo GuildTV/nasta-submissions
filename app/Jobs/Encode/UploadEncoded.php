@@ -67,28 +67,34 @@ class UploadEncoded implements ShouldQueue
         $url =  $client->getPublicUrl($targetPath);
         $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'raw=1';
 
-        // clean up old version references
-        $this->file->path = $targetPath;
-        $this->file->path_local = $this->srcFile;
-        $this->file->size = $res['size'];
-        $this->file->hash = $res['hash'];
-        $this->file->public_url = $url;
+        $file = UploadedFile::create([
+            'station_id' => $this->file->station->id,
+            'account_id' => $this->file->account->id,
+            'path' => $targetPath,
+            'path_local' => $this->srcFile,
+            'name' => $res['name'],
+            'size' => $res['size'],
+            'hash' => $res['hash'],
+            'public_url' => $url,
+            'category_id' => $this->file->category_id,
+            'uploaded_at' => $this->file->uploaded_at,
+        ]);
+
+        // update old version
+        $this->file->replacement_id = $file->id;
         $this->file->save();
 
-        $this->file->rule_break()->delete();
-        $this->file->metadata()->delete();
-
         UploadedFileLog::create([
-            'station_id' => $this->file->station->id,
-            'uploaded_file_id' => $this->file->id,
-            'category_id' => $this->file->category_id,
+            'station_id' => $file->station->id,
+            'uploaded_file_id' => $file->id,
+            'category_id' => $file->category_id,
             'level' => 'info',
             'message' => 'File \'' . $res['name'] . '\' has been replaced with an transcoded copy',
         ]);
 
         try {
-            dispatch((new OfflineRuleCheckFile($this->file))->onQueue('process'));
-            dispatch((new DropboxScrapeMetadata($this->file))->delay(Carbon::now()->addMinutes(5)));
+            dispatch((new OfflineRuleCheckFile($file))->onQueue('process'));
+            dispatch((new DropboxScrapeMetadata($file))->delay(Carbon::now()->addMinutes(5)));
         } catch (Exception $e) {
             Log::warning("Dropbox upload processing for file failed. Ignoring.");
         }
