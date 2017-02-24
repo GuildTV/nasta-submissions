@@ -26,6 +26,7 @@ class MailTest extends AutoTestBase
     'App\Mail\Station\DailyDeadlines',
     'App\Mail\Station\DailySubmitted',
     'App\Mail\Admin\ExceptionEmail',
+    'App\Mail\Admin\EnsureFilesExistEverywhereMail',
   ];
 
   public function testMails()
