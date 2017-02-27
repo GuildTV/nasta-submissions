@@ -15,18 +15,17 @@ class StringHelper {
   }
 
   public static function formatDuration($durationInSeconds) {
+    $duration = '';
+    $minutes = floor($durationInSeconds / 60);
+    $seconds = floor($durationInSeconds - $minutes * 60);
 
-  $duration = '';
-  $minutes = floor($durationInSeconds / 60);
-  $seconds = floor($durationInSeconds - $minutes * 60);
-
-  if($minutes > 0) {
-    $duration .= ' ' . $minutes . 'm';
+    if($minutes > 0) {
+      $duration .= ' ' . $minutes . 'm';
+    }
+    if($seconds > 0) {
+      $duration .= ' ' . $seconds . 's';
+    }
+    return $duration;
   }
-  if($seconds > 0) {
-    $duration .= ' ' . $seconds . 's';
-  }
-  return $duration;
-}
 
 }

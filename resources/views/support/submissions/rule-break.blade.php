@@ -241,7 +241,11 @@
                   <div class="form-group">
                     <label for="entryname" class="col-sm-2 control-label">Length</label>
                     <div class="col-sm-10">
-                      <p>{{ $file->rule_break->length }}</p>
+                      @if ($file->metadata != null)
+                        <p>{{ \App\Helpers\StringHelper::formatDuration($file->rule_break->length) }}</p>
+                      @else
+                        <p>{{ $file->rule_break->length }}</p>
+                      @endif
                     </div>
                   </div>
 
