@@ -74,6 +74,9 @@
                             @if (Auth::user()->type == "admin")
                                 <li><a href="{{ route("admin.dashboard") }}">Dashboard</a></li>
 
+                            @elseif (Auth::user()->type == "support")
+                                <li><a href="{{ route("support.dashboard") }}">Dashboard</a></li>
+
                             @elseif (Auth::user()->type == "judge")
 
                             @else
