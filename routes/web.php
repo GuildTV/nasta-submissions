@@ -82,6 +82,19 @@ $router->group([
 });
 
 $router->group([
+  'middleware' => ['auth:web', 'can:judge'],
+  'prefix' => 'judge'
+], function ($router) {
+
+  Route::get('/dashboard', 'Judge\JudgeController@dashboard')->name("judge.dashboard");
+  Route::get('/entry/{entry}', 'Judge\JudgeController@view')->name("judge.view");
+  Route::get('/download/{file}', 'Judge\JudgeController@download')->name("judge.download");
+  Route::post('/entry/{entry}/score', 'Judge\JudgeController@score')->name("judge.score");
+  Route::post('/finalize/{category}', 'Judge\JudgeController@finalize')->name("judge.finalize");
+
+});
+
+$router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
@@ -89,6 +102,8 @@ $router->group([
 
   Route::post('/transcode/{file}/{profile}', 'Admin\RuleBreakController@transcode')->name("admin.transcode");
 
+  Route::get('/results', 'Admin\ResultsController@dashboard')->name("admin.results");
+  Route::get('/results/{category}', 'Admin\ResultsController@view')->name("admin.results.view");
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
   Route::post('/users/{user}/save', 'Admin\UsersController@save');

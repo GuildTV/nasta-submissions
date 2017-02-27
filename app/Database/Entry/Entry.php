@@ -41,6 +41,11 @@ class Entry extends Model
         return $this->hasOne('App\Database\Entry\EntryRuleBreak');
     }
 
+    public function result()
+    {
+        return $this->hasOne('App\Database\Entry\EntryResult');
+    }
+
     public function findForStation($sid, $cid){
         return self::where('station_id', $sid)
             ->where('category_id', $cid)
@@ -87,5 +92,16 @@ class Entry extends Model
 
     public function isLate($category=null){
         return $this->countReasonsLate($category) > 0;
+    }
+
+    public function canBeJudged(){
+        if (!$this->submitted)
+            return false;
+        if (!$this->rules)
+            return false;
+
+        // TODO - include rule check
+
+        return true;
     }
 }

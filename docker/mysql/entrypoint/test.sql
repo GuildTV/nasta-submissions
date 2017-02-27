@@ -240,6 +240,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (64, '2017_02_09_210557_create_category_results', 26),
 (65, '2017_02_20_222434_alter_rule_breaks_add_notes', 27),
 (66, '2017_02_21_221653_create_encode_watch', 28);
+(67, '2017_02_07_214600_create_entry_results', 25);
 
 CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -530,6 +531,9 @@ ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `video_metadata`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_judge_id_foreign` FOREIGN KEY (`judge_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_judge_id_foreign` FOREIGN KEY (`judge_id`) REFERENCES `users` (`id`);
