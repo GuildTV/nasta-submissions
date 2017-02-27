@@ -240,7 +240,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (64, '2017_02_09_210557_create_category_results', 26),
 (65, '2017_02_20_222434_alter_rule_breaks_add_notes', 27),
 (66, '2017_02_21_221653_create_encode_watch', 28),
-(67, '2017_02_07_214600_create_entry_results', 25);
+(67, '2017_02_07_214600_create_entry_results', 25),
+(68, '2017_02_24_085923_alter_uploaded_files_add_replacement_id', 29);
 
 CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -296,24 +297,25 @@ CREATE TABLE `uploaded_files` (
   `path_local` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `public_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `video_metadata_id` int(10) UNSIGNED DEFAULT NULL,
+  `replacement_id` int(10) UNSIGNED DEFAULT NULL,
   `uploaded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `path`, `name`, `size`, `hash`, `path_local`, `public_url`, `video_metadata_id`, `uploaded_at`, `created_at`, `updated_at`) VALUES
-(20, 3, 'animation', 'test', '/Imported/Test Station/Julian Waller - LSTV_Male_DennisTheMenace22.mp4', 'Julian Waller - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, NULL, NULL, '2016-12-03 19:49:44', '2016-12-03 19:49:44', '2016-12-03 19:49:44'),
-(21, 3, NULL, 'test', '/Imported/Test Station/test  - fgf - LSTV_Male_DennisTheMenace22.mp4', 'test  - fgf - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, NULL, NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
-(22, 3, 'something', 'test', 'Nope', 'Fake file', '', '', NULL, NULL, NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
-(131, 3, 'something', 'test', 'Nope', 'Fake file', '', '', 'Nope', NULL, NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
-(190, 3, 'already-closed', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
-(191, 3, NULL, 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
-(192, 3, 'something', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
-(193, 3, 'animation', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
-(194, 3, 'already-closed', 'test', 'YQrfdS2wXT', 'For a minute or two sobs choked his voice. \'Same as if she did not wish to offend the Dormouse crossed the court, she said to Alice. \'What IS the use of repeating all that green stuff be?\' said Alice. \'I wonder what CAN have happened to me! When I used.', '73544', 'EsaR7djVg2TB2vW7BBEWXAuEc5CiE64w7zkh53eJ', 'SgdiHqxu2Q41iiDIt5Js', 'http://localhost/vU9vAnNpPydvG4PtV3Dj', 2, '2017-02-08 23:26:17', '2017-02-08 23:26:17', '2017-02-08 23:26:17'),
-(195, 4, 'animation', 'test', 't3xNU4xnv6', 'Alice. \'Why, you don\'t explain it is almost certain to disagree with you, sooner or later. However, this bottle was NOT marked \'poison,\' so Alice soon began talking to him,\' said Alice to herself. (Alice had no reason to be a comfort, one way--never to.', '67591', 'WUvIuOGTFR6O7GmrCritb44eDKECYlUI4HVzEC1S', 'a257BwoM1g3wbbNLHrBr', 'http://localhost/9xnfwI4QZY1XBUL8YB5J', 3, '2017-02-08 23:26:25', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
-(196, 4, 'animation', 'test', 'tZxhqMrwaP', 'Alice began telling them her adventures from the roof. There were doors all round the refreshments!\' But there seemed to rise like a serpent. She had quite forgotten the Duchess replied, in a sorrowful tone; \'at least there\'s no use their putting their.', '96445', 'lMnq8rtwdwYJUMBoHT2IIGc9y4AMp4vE0c1WJqv4', 'GAinGaMI5L58eQN9ndWB', 'http://localhost/NGPOAZidP20QALmFqCX1', 4, '2017-02-08 23:26:25', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
-(197, 4, 'something', 'test', 'gggEt0Gx6X', 'White Rabbit, with a sigh. \'I only took the regular course.\' \'What was THAT like?\' said Alice. The King looked anxiously over his shoulder with some severity; \'it\'s very rude.\' The Hatter shook his head sadly. \'Do I look like one, but it said in a.', '64950', 'S1ctTOfM7WA6GbmeJ4ZiPUMqTnVMqkeXFBt9rHy9', 'Bx9AMs6HqBxP7A7jbPpS', 'http://localhost/wZiX2VQ2ERB5MEuvcRvR', NULL, '2017-02-08 23:26:25', '2017-02-08 23:26:25', '2017-02-08 23:26:25');
+INSERT INTO `uploaded_files` (`id`, `station_id`, `category_id`, `account_id`, `path`, `name`, `size`, `hash`, `path_local`, `public_url`, `video_metadata_id`, `replacement_id`, `uploaded_at`, `created_at`, `updated_at`) VALUES
+(20, 3, 'animation', 'test', '/Imported/Test Station/Julian Waller - LSTV_Male_DennisTheMenace22.mp4', 'Julian Waller - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, NULL, NULL, NULL, '2016-12-03 19:49:44', '2016-12-03 19:49:44', '2016-12-03 19:49:44'),
+(21, 3, NULL, 'test', '/Imported/Test Station/test  - fgf - LSTV_Male_DennisTheMenace22.mp4', 'test  - fgf - LSTV_Male_DennisTheMenace22.mp4', '', '', NULL, NULL, NULL, NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+(22, 3, 'something', 'test', 'Nope', 'Fake file', '', '', NULL, NULL, NULL, NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+(131, 3, 'something', 'test', 'Nope', 'Fake file', '', '', 'Nope', NULL, NULL, NULL, '2017-04-28 19:49:45', '2016-12-03 19:49:46', '2016-12-03 19:49:46'),
+(190, 3, 'already-closed', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(191, 3, NULL, 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(192, 3, 'something', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(193, 3, 'animation', 'test', '/no/no/no', 'not a file!', '400', 'fsdfsdf', NULL, NULL, NULL, NULL, '2017-02-24 00:00:00', '2017-01-18 21:31:53', '2017-01-18 21:31:53'),
+(194, 3, 'already-closed', 'test', 'YQrfdS2wXT', 'For a minute or two sobs choked his voice. \'Same as if she did not wish to offend the Dormouse crossed the court, she said to Alice. \'What IS the use of repeating all that green stuff be?\' said Alice. \'I wonder what CAN have happened to me! When I used.', '73544', 'EsaR7djVg2TB2vW7BBEWXAuEc5CiE64w7zkh53eJ', 'SgdiHqxu2Q41iiDIt5Js', 'http://localhost/vU9vAnNpPydvG4PtV3Dj', 2, NULL, '2017-02-08 23:26:17', '2017-02-08 23:26:17', '2017-02-08 23:26:17'),
+(195, 4, 'animation', 'test', 't3xNU4xnv6', 'Alice. \'Why, you don\'t explain it is almost certain to disagree with you, sooner or later. However, this bottle was NOT marked \'poison,\' so Alice soon began talking to him,\' said Alice to herself. (Alice had no reason to be a comfort, one way--never to.', '67591', 'WUvIuOGTFR6O7GmrCritb44eDKECYlUI4HVzEC1S', 'a257BwoM1g3wbbNLHrBr', 'http://localhost/9xnfwI4QZY1XBUL8YB5J', 3, NULL, '2017-02-08 23:26:25', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
+(196, 4, 'animation', 'test', 'tZxhqMrwaP', 'Alice began telling them her adventures from the roof. There were doors all round the refreshments!\' But there seemed to rise like a serpent. She had quite forgotten the Duchess replied, in a sorrowful tone; \'at least there\'s no use their putting their.', '96445', 'lMnq8rtwdwYJUMBoHT2IIGc9y4AMp4vE0c1WJqv4', 'GAinGaMI5L58eQN9ndWB', 'http://localhost/NGPOAZidP20QALmFqCX1', 4, NULL, '2017-02-08 23:26:25', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
+(197, 4, 'something', 'test', 'gggEt0Gx6X', 'White Rabbit, with a sigh. \'I only took the regular course.\' \'What was THAT like?\' said Alice. The King looked anxiously over his shoulder with some severity; \'it\'s very rude.\' The Hatter shook his head sadly. \'Do I look like one, but it said in a.', '64950', 'S1ctTOfM7WA6GbmeJ4ZiPUMqTnVMqkeXFBt9rHy9', 'Bx9AMs6HqBxP7A7jbPpS', 'http://localhost/wZiX2VQ2ERB5MEuvcRvR', NULL, NULL, '2017-02-08 23:26:25', '2017-02-08 23:26:25', '2017-02-08 23:26:25');
 
 CREATE TABLE `uploaded_file_logs` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -363,7 +365,8 @@ INSERT INTO `users` (`id`, `name`, `compact_name`, `username`, `email`, `passwor
 (1, 'Test Admin', 'TestAdmin', 'test_admin', 'test@email.com', '$2y$10$EVf9rQNjszZywYF/7/opyOXuzo6heEfn8G4TD6Py6hUTPfMhKGDmO', '5WzQAVQSUiwxaDHippU7tgxHwtobQ2b7WuitkkxjQvJzpBKWU5EXE4SIndNS', 'admin', NULL, NULL, '2016-11-26 16:57:31', '2016-12-03 16:45:37'),
 (2, 'Test Judge', 'TestJudge', 'test_judge', 'judge@email.com', '$2y$10$J82DBmvgsH59vsKxrMDCHe1BVu9ufIV/w44ldggAM6HCDpMvqxhvK', NULL, 'judge', NULL, NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
 (3, 'Test Station', 'TestStation', 'test_station', 'station@email.com', '$2y$10$qBA1pYoTPOLNMgi14B8P2u4GIf9kNu.XDSzOfQPn9XNr5Mo5Lvocm', 'QvY1MEsiYXWZbcwJvxroEOq8hd7nAZfv6PrsBYf2jThn4vtqCXcesnwP3Z75', 'station', NULL, NULL, '2016-11-26 16:57:31', '2016-12-03 15:51:24'),
-(4, 'Station no submissions', 'Stationnosubmissions', 'no-subs', 'no@subs.com', '', NULL, 'station', NULL, NULL, '2017-01-17 09:09:57', '2017-01-17 09:09:57');
+(4, 'Station no submissions', 'Stationnosubmissions', 'no-subs', 'no@subs.com', '', NULL, 'station', NULL, NULL, '2017-01-17 09:09:57', '2017-01-17 09:09:57'),
+(5, 'Test Support', 'TestSupport', 'test_support', 'test@support.com', '', NULL, 'support', NULL, NULL, '2017-02-27 22:57:01', '2017-02-27 22:57:01');
 
 CREATE TABLE `video_metadata` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -470,7 +473,8 @@ ALTER TABLE `uploaded_files`
   ADD UNIQUE KEY `uploaded_files_video_metadata_id_unique` (`video_metadata_id`),
   ADD KEY `uploaded_files_account_id_foreign` (`account_id`),
   ADD KEY `uploaded_files_station_id_foreign` (`station_id`),
-  ADD KEY `uploaded_files_category_id_foreign` (`category_id`);
+  ADD KEY `uploaded_files_category_id_foreign` (`category_id`),
+  ADD KEY `uploaded_files_replacement_id_foreign` (`replacement_id`);
 
 ALTER TABLE `uploaded_file_logs`
   ADD PRIMARY KEY (`id`),
@@ -496,19 +500,19 @@ ALTER TABLE `video_metadata`
 ALTER TABLE `category_file_constraint`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `category_results`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 ALTER TABLE `encode_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 ALTER TABLE `encode_watch`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 ALTER TABLE `entries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 ALTER TABLE `entries_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `entry_results`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 ALTER TABLE `entry_rule_breaks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 ALTER TABLE `failed_jobs`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 ALTER TABLE `file_constraints`
@@ -516,21 +520,21 @@ ALTER TABLE `file_constraints`
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 ALTER TABLE `revisions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 ALTER TABLE `station_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `uploaded_files`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
 ALTER TABLE `uploaded_file_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 ALTER TABLE `uploaded_file_rule_breaks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `video_metadata`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_judge_id_foreign` FOREIGN KEY (`judge_id`) REFERENCES `users` (`id`);
@@ -568,6 +572,7 @@ ALTER TABLE `station_folders`
 ALTER TABLE `uploaded_files`
   ADD CONSTRAINT `uploaded_files_account_id_foreign` FOREIGN KEY (`account_id`) REFERENCES `dropbox_accounts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `uploaded_files_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `uploaded_files_replacement_id_foreign` FOREIGN KEY (`replacement_id`) REFERENCES `uploaded_files` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `uploaded_files_station_id_foreign` FOREIGN KEY (`station_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `uploaded_files_video_metadata_id_foreign` FOREIGN KEY (`video_metadata_id`) REFERENCES `video_metadata` (`id`) ON DELETE CASCADE;
 
