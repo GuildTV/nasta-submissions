@@ -14,6 +14,7 @@
             <a class="btn btn-default" href="{{ route('support.submissions.files') }}">Uploaded files</a>
             <a class="btn btn-default" href="{{ route('admin.users') }}">Users</a>
             <a class="btn btn-default" href="{{ route('support.rule-break.errors') }}">Rule break errors</a>
+            <a class="btn btn-default" href="{{ route('admin.results') }}">Results</a>
           </div>
         </div>
       </div>

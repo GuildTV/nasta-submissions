@@ -33,6 +33,13 @@ Route::get('/help/video-format', 'HelpController@video_format')->name("help.vide
 Route::get('/help/contact', 'HelpController@contact')->name("help.contact");
 
 $router->group([
+  'middleware' => ['auth:web'],
+], function ($router) {
+  Route::get('/settings', 'Common\SettingsController@settings')->name("settings");
+  Route::post('/settings', 'Common\SettingsController@save')->name("settings.save");
+});
+
+$router->group([
   'middleware' => ['auth:web', 'can:station'],
   'prefix' => 'station'
 ], function ($router) {
@@ -51,9 +58,6 @@ $router->group([
 
   Route::post('/categories/{category}/submit', 'Station\EntryController@submit')->name("station.entry.submit");
   Route::post('/categories/{category}/edit', 'Station\EntryController@edit')->name("station.entry.edit");
-
-  Route::get('/settings', 'Station\SettingsController@settings')->name("station.settings");
-  Route::post('/settings', 'Station\SettingsController@save')->name("station.settings.save");
 });
 
 $router->group([
@@ -82,6 +86,19 @@ $router->group([
 });
 
 $router->group([
+  'middleware' => ['auth:web', 'can:judge'],
+  'prefix' => 'judge'
+], function ($router) {
+
+  Route::get('/dashboard', 'Judge\JudgeController@dashboard')->name("judge.dashboard");
+  Route::get('/entry/{entry}', 'Judge\JudgeController@view')->name("judge.view");
+  Route::get('/download/{file}', 'Judge\JudgeController@download')->name("judge.download");
+  Route::post('/entry/{entry}/score', 'Judge\JudgeController@score')->name("judge.score");
+  Route::post('/finalize/{category}', 'Judge\JudgeController@finalize')->name("judge.finalize");
+
+});
+
+$router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
@@ -89,6 +106,8 @@ $router->group([
 
   Route::post('/transcode/{file}/{profile}', 'Admin\RuleBreakController@transcode')->name("admin.transcode");
 
+  Route::get('/results', 'Admin\ResultsController@dashboard')->name("admin.results");
+  Route::get('/results/{category}', 'Admin\ResultsController@view')->name("admin.results.view");
   Route::get('/users', 'Admin\UsersController@dashboard')->name("admin.users");
   Route::get('/users/{user}', 'Admin\UsersController@view')->name("admin.users.view");
   Route::post('/users/{user}/save', 'Admin\UsersController@save');

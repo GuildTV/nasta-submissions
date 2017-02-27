@@ -2,7 +2,7 @@
 
 @section('js')
 
-window.StationSettings.BindValidator();
+window.CommonSettings.BindValidator();
 
 @endsection
 

@@ -78,6 +78,7 @@
                                 <li><a href="{{ route("support.dashboard") }}">Dashboard</a></li>
 
                             @elseif (Auth::user()->type == "judge")
+                                <li><a href="{{ route("judge.dashboard") }}">Dashboard</a></li>
 
                             @else
                                 <li><a <?=(@View::getSections()['page_selected']=="categories"?' class="active"':'')?> href="{{ route("station.categories") }}">Categories</a></li>
@@ -107,7 +108,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ route("station.settings") }}">Settings</a></li>
+                                    <li><a href="{{ route("settings") }}">Settings</a></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Station;
+namespace App\Http\Controllers\Common;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,7 +9,7 @@ use App\Exceptions\DataIntegrityException;
 
 use App\Database\User;
 
-use App\Http\Requests\Station\SettingsRequest;
+use App\Http\Requests\Common\SettingsRequest;
 
 use App;
 use Auth;
@@ -25,7 +25,7 @@ class SettingsController extends Controller
   public function settings()
   {
     $user = Auth::user();
-    return view('station.settings', compact('user'));
+    return view('common.settings', compact('user'));
   }
 
   public function save(SettingsRequest $request)

@@ -41,6 +41,11 @@ class Entry extends Model
         return $this->hasOne('App\Database\Entry\EntryRuleBreak');
     }
 
+    public function result()
+    {
+        return $this->hasOne('App\Database\Entry\EntryResult');
+    }
+
     public function findForStation($sid, $cid){
         return self::where('station_id', $sid)
             ->where('category_id', $cid)
@@ -87,5 +92,32 @@ class Entry extends Model
 
     public function isLate($category=null){
         return $this->countReasonsLate($category) > 0;
+    }
+
+    public function canBeJudged($allowRuleBreak=false){
+        if (!$this->submitted)
+            return false;
+        if (!$this->rules)
+            return false;
+
+        // if run rule break check, and no data then fail
+        if (!$allowRuleBreak && $this->rule_break == null)
+            return false;
+
+        if ($this->rule_break != null) {
+            switch ($this->rule_break->result){
+                case "rejected":
+                    // always fail with a rejected
+                    return false;
+                case "warning":
+                case "break":
+                case "unknown":
+                    // only fail these if we are skipping the rule break check
+                    if (!$allowRuleBreak)
+                        return false;
+            }
+        }
+
+        return true;
     }
 }

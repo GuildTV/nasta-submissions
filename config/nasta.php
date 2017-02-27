@@ -78,4 +78,6 @@ return [
     '720p' => 8,
     'sd' => 9,
   ],
+
+  'judge_support_email' => 'submissions@nasta.tv',
 ];

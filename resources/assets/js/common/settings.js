@@ -1,9 +1,9 @@
-window.StationSettings = {
+window.CommonSettings = {
 
   BindValidator: function(){
     $("#entryform").validate({
-      debug: true,
-      submitHandler: () => window.StationSettings.Submit(),
+      // debug: true,
+      submitHandler: () => window.CommonSettings.Submit(),
       rules: {
         useremail: {
           required: true,
@@ -42,7 +42,7 @@ window.StationSettings = {
     };
 
     $.ajax({
-      url: '/station/settings',
+      url: '/settings',
       method: 'POST',
       data: data,
       success: function(res) {

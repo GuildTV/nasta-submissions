@@ -1,5 +1,5 @@
 <?php 
-namespace App\Http\Requests\Station;
+namespace App\Http\Requests\Common;
 
 use App\Http\Requests\AjaxRequest;
 
@@ -27,7 +27,7 @@ class SettingsRequest extends AjaxRequest {
    */
   public function authorize()
   {
-    return Auth::check() && Auth::user()->can('station');
+    return Auth::check();
   }
 
 }
