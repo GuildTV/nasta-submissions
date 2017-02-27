@@ -33,6 +33,7 @@ $('#files-table').DataTable({
               <th>Filename</th>
               <th data-type="moment-ddd, MMM D, YYYY h:mm A">Uploaded At</th>
               <th>Rule break</th>
+              <th>Replaced</th>
               <th>&nbsp;</th>
             </thead>
             <tbody>
@@ -43,6 +44,7 @@ $('#files-table').DataTable({
                 <td>{{ $file->name }}</td>
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td>{{ $file->rule_break == null ? "pending" : $file->rule_break->result }}</td>
+                <td>{{ $file->replacement_id == null ? "-" : ("#" . $file->replacement_id) }}</td>
                 <td>
                   <a class="btn btn-primary" href="{{ route('support.submissions.file', $file) }}">View</button>
                 </td>
