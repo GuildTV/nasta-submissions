@@ -15,7 +15,7 @@ window.AdminSubmissionFiles = {
         if (!r) return;
 
         $.ajax({
-          url: '/admin/submissions/file/' + id + '/link/' + r,
+          url: '/support/submissions/file/' + id + '/link/' + r,
           method: 'POST',
           success: function(res) {
             // submitted entry, so reload to get everything be readonly

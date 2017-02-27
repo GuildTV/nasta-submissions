@@ -44,7 +44,7 @@ $('#files-table').DataTable({
                 <td>{{ $file->uploaded_at->toDayDateTimeString() }}</td>
                 <td>{{ $file->rule_break == null ? "pending" : $file->rule_break->result }}</td>
                 <td>
-                  <a class="btn btn-primary" href="{{ route('admin.submissions.file', $file) }}">View</button>
+                  <a class="btn btn-primary" href="{{ route('support.submissions.file', $file) }}">View</button>
                 </td>
               </tr>
 @endforeach

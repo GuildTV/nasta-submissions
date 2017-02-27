@@ -10,10 +10,10 @@
 
         <div class="panel-body">
           <div class="center">
-            <a class="btn btn-default" href="{{ route("admin.submissions") }}">Submissions</a>
-            <a class="btn btn-default" href="{{ route('admin.submissions.files') }}">Uploaded files</a>
+            <a class="btn btn-default" href="{{ route("support.submissions") }}">Submissions</a>
+            <a class="btn btn-default" href="{{ route('support.submissions.files') }}">Uploaded files</a>
             <a class="btn btn-default" href="{{ route('admin.users') }}">Users</a>
-            <a class="btn btn-default" href="{{ route('admin.rule-break.errors') }}">Rule break errors</a>
+            <a class="btn btn-default" href="{{ route('support.rule-break.errors') }}">Rule break errors</a>
           </div>
         </div>
       </div>

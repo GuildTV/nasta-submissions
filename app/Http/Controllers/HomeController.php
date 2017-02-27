@@ -29,6 +29,8 @@ class HomeController extends Controller
 			return Redirect::route('judge.dashboard');
 		if ($user->can('admin'))
 			return Redirect::route('admin.dashboard');
+		if ($user->can('support'))
+			return Redirect::route('support.dashboard');
 
 		throw new Exception("Unhandled user type in dashboard!");
 	}

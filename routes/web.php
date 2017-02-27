@@ -57,28 +57,35 @@ $router->group([
 });
 
 $router->group([
+  'middleware' => ['auth:web', 'can:support'],
+  'prefix' => 'support'
+], function ($router) {
+  Route::get('/dashboard', 'Support\SupportController@dashboard')->name("support.dashboard");
+
+  Route::get('/submissions', 'Support\SubmissionsController@dashboard')->name("support.submissions");
+  Route::get('/submissions/all', 'Support\SubmissionsController@all')->name("support.submissions.all");
+  Route::get('/submissions/category/{category}', 'Support\SubmissionsController@category')->name("support.submissions.category");
+  Route::get('/submissions/station/{station}', 'Support\SubmissionsController@station')->name("support.submissions.station");
+  Route::get('/submissions/view/{station}/{category}', 'Support\SubmissionsController@view')->name("support.submissions.view");
+  Route::get('/submissions/files', 'Support\SubmissionsController@files')->name("support.submissions.files");
+  Route::get('/submissions/file/{file}', 'Support\SubmissionsController@file')->name("support.submissions.file");
+  Route::post('/submissions/file/{file}/link/{category}', 'Support\SubmissionsController@linkfile')->name("support.submissions.file.link");
+  Route::get('/submissions/file/{file}/download', 'Support\SubmissionsController@download')->name("support.submissions.file.download");
+  Route::get('/submissions/file/{file}/metadata', 'Support\SubmissionsController@metadata')->name("support.submissions.file.metadata");
+
+  Route::get('/rule-break/errors', 'Support\RuleBreakController@errors')->name("support.rule-break.errors");
+  Route::get('/rule-break/{entry}', 'Support\RuleBreakController@index')->name("support.rule-break");
+  Route::get('/rule-break/{entry}/run', 'Support\RuleBreakController@entry_recheck')->name("support.rule-break.entry-check");
+  Route::post('/rule-break/entry/{entry}/save', 'Support\RuleBreakController@entry_save')->name("support.rule-break.entry-save");
+  Route::get('/rule-break/{entry}/run/{file}', 'Support\RuleBreakController@file_recheck')->name("support.rule-break.file-check");
+  Route::post('/rule-break/file/{file}/save', 'Support\RuleBreakController@file_save')->name("support.rule-break.file-save");
+});
+
+$router->group([
   'middleware' => ['auth:web', 'can:admin'],
   'prefix' => 'admin'
 ], function ($router) {
   Route::get('/dashboard', 'Admin\AdminController@dashboard')->name("admin.dashboard");
-
-  Route::get('/submissions', 'Admin\SubmissionsController@dashboard')->name("admin.submissions");
-  Route::get('/submissions/all', 'Admin\SubmissionsController@all')->name("admin.submissions.all");
-  Route::get('/submissions/category/{category}', 'Admin\SubmissionsController@category')->name("admin.submissions.category");
-  Route::get('/submissions/station/{station}', 'Admin\SubmissionsController@station')->name("admin.submissions.station");
-  Route::get('/submissions/view/{station}/{category}', 'Admin\SubmissionsController@view')->name("admin.submissions.view");
-  Route::get('/submissions/files', 'Admin\SubmissionsController@files')->name("admin.submissions.files");
-  Route::get('/submissions/file/{file}', 'Admin\SubmissionsController@file')->name("admin.submissions.file");
-  Route::post('/submissions/file/{file}/link/{category}', 'Admin\SubmissionsController@linkfile')->name("admin.submissions.file.link");
-  Route::get('/submissions/file/{file}/download', 'Admin\SubmissionsController@download')->name("admin.submissions.file.download");
-  Route::get('/submissions/file/{file}/metadata', 'Admin\SubmissionsController@metadata')->name("admin.submissions.file.metadata");
-
-  Route::get('/rule-break/errors', 'Admin\RuleBreakController@errors')->name("admin.rule-break.errors");
-  Route::get('/rule-break/{entry}', 'Admin\RuleBreakController@index')->name("admin.rule-break");
-  Route::get('/rule-break/{entry}/run', 'Admin\RuleBreakController@entry_recheck')->name("admin.rule-break.entry-check");
-  Route::post('/rule-break/entry/{entry}/save', 'Admin\RuleBreakController@entry_save')->name("admin.rule-break.entry-save");
-  Route::get('/rule-break/{entry}/run/{file}', 'Admin\RuleBreakController@file_recheck')->name("admin.rule-break.file-check");
-  Route::post('/rule-break/file/{file}/save', 'Admin\RuleBreakController@file_save')->name("admin.rule-break.file-save");
 
   Route::post('/transcode/{file}/{profile}', 'Admin\RuleBreakController@transcode')->name("admin.transcode");
 

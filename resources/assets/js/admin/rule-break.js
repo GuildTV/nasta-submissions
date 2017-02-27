@@ -13,7 +13,7 @@ window.AdminRuleBreak = {
     };
 
     $.ajax({
-      url: '/admin/rule-break/file/' + id + '/save',
+      url: '/support/rule-break/file/' + id + '/save',
       method: 'POST',
       data: data,
       success: function(res) {
@@ -39,7 +39,7 @@ window.AdminRuleBreak = {
     };
 
     $.ajax({
-      url: '/admin/rule-break/entry/' + id + '/save',
+      url: '/support/rule-break/entry/' + id + '/save',
       method: 'POST',
       data: data,
       success: function(res) {

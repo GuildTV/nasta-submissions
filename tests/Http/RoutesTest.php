@@ -24,10 +24,10 @@ class RoutesTest extends AutoTestBase
     'auth.reset',
     'debugbar.',
     'station.entry.upload',
-    'admin.rule-break.file-state',
-    'admin.rule-break.entry-state',
-    'admin.rule-break.file-check',
-    'admin.rule-break.entry-check',
+    'support.rule-break.file-state',
+    'support.rule-break.entry-state',
+    'support.rule-break.file-check',
+    'support.rule-break.entry-check',
   ];
 
   // route, params, user
@@ -128,6 +128,11 @@ class RoutesTest extends AutoTestBase
 
     // test admin pages
     if($prefix != null && (strpos($prefix, "admin") === 0 || strpos($prefix, "admin") === 1)) {
+      $this->sendRequest($route, $action, $params, $this->admin);
+    }
+    // test admin pages
+    else if($prefix != null && (strpos($prefix, "support") === 0 || strpos($prefix, "support") === 1)) {
+      $this->sendRequest($route, $action, $params, $this->supportUser);
       $this->sendRequest($route, $action, $params, $this->admin);
     }
     // test station pages

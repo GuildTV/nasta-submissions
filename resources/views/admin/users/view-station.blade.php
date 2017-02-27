@@ -8,7 +8,7 @@
 
         <div class="form-group">
           <div class="col-sm-6 col-sm-offset-3">
-          <a class="btn btn-info" href="{{ route('admin.submissions.station', $user) }}">View submissions</a>
+          <a class="btn btn-info" href="{{ route('support.submissions.station', $user) }}">View submissions</a>
           </div>
         </div>
 

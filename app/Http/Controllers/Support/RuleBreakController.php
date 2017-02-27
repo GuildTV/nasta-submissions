@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Support;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,7 +37,7 @@ class RuleBreakController extends Controller
       }, $constraint_map);
     }
 
-    return view('admin.submissions.rule-break', compact('files', 'entry', 'constraint_map'));
+    return view('support.submissions.rule-break', compact('files', 'entry', 'constraint_map'));
   }
 
   public function errors()
@@ -72,7 +72,7 @@ class RuleBreakController extends Controller
       }
     }
 
-    return view('admin.rule-break.errors', compact('errors', 'warnings'));
+    return view('support.rule-break.errors', compact('errors', 'warnings'));
   }
 
   public function entry_save(AjaxRequest $r, Entry $entry){
@@ -89,7 +89,7 @@ class RuleBreakController extends Controller
   public function entry_recheck(Entry $entry){
     dispatch(new OfflineRuleCheckEntry($entry, true));
 
-    return Redirect::route('admin.rule-break', $entry);
+    return Redirect::route('support.rule-break', $entry);
   }
 
   public function file_save(AjaxRequest $r, UploadedFile $file){
@@ -106,7 +106,7 @@ class RuleBreakController extends Controller
   public function file_recheck(Entry $entry, UploadedFile $file){
     dispatch((new OfflineRuleCheckFile($file, true))->onQueue("process"));
 
-    return Redirect::route('admin.rule-break', $entry);
+    return Redirect::route('support.rule-break', $entry);
   }
 
   public function transcode(UploadedFile $file, $profile){

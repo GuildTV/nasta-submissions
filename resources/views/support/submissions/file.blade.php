@@ -35,7 +35,7 @@ window.OpenCategories = [
                 <div class="col-sm-10">
                   @if ($file->category != null)
                     <input type="text" class="form-control" disabled='disabled' value="{{ $file->category->name }}" />
-                    <a class="btn btn-primary" href="{{ route('admin.submissions.view', [ $file->station, $file->category ]) }}">View</a>
+                    <a class="btn btn-primary" href="{{ route('support.submissions.view', [ $file->station, $file->category ]) }}">View</a>
                   @endif
                   <button class="btn btn-primary" onclick="window.AdminSubmissionFiles.Link(this)" data-id="{{ $file->id }}" data-name="{{ $file->name }}">Link</button>
                 </div>
@@ -89,7 +89,7 @@ window.OpenCategories = [
                   <p>
                     {{ $file->rule_break == null ? "pending" : $file->rule_break->result }}
                     @if($entry != null)
-                      <a href="{{ route('admin.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
+                      <a href="{{ route('support.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
                     @endif
                   </p>
                 </div>
@@ -97,13 +97,13 @@ window.OpenCategories = [
 
               <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
-                  <a class="btn btn-info" href="{{ route('admin.submissions.file.download', $file) }}" target="_blank">Download</a>
+                  <a class="btn btn-info" href="{{ route('support.submissions.file.download', $file) }}" target="_blank">Download</a>
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
-                  <a class="btn btn-info" href="{{ route('admin.submissions.file.metadata', $file) }}" target="_blank">Update video metadata</a>
+                  <a class="btn btn-info" href="{{ route('support.submissions.file.metadata', $file) }}" target="_blank">Update video metadata</a>
                   Note: can take a few minutes
                 </div>
               </div>
@@ -129,7 +129,7 @@ window.OpenCategories = [
                     var player = new Clappr.Player({
                       width: 590,
                       mimeType: "video/mp4",
-                      source: "{{ route('admin.submissions.file.download', $file) }}", 
+                      source: "{{ route('support.submissions.file.download', $file) }}", 
                       parentId: "#player"
                     });
                   </script>

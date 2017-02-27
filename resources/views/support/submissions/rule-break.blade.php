@@ -15,7 +15,7 @@
               <div class="form-group">
                 <label for="entryname" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10">
-                  <a href="{{ route('admin.submissions.view', [ $entry->station, $entry->category ]) }}" class="btn btn-info">View Submission</a>
+                  <a href="{{ route('support.submissions.view', [ $entry->station, $entry->category ]) }}" class="btn btn-info">View Submission</a>
                 </div>
               </div>
 
@@ -27,7 +27,7 @@
                   <div class="col-sm-10">
                     <p>pending</p>
                     
-                    <a href="{{ route('admin.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Re-run</a>
+                    <a href="{{ route('support.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Queue Run</a>
                   </div>
                 </div>
 
@@ -62,7 +62,7 @@
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-9">
                     <button type="submit" class="btn btn-success" id="save">Save</button>
-                    <a href="{{ route('admin.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Re-run</a>
+                    <a href="{{ route('support.rule-break.entry-check', $entry) }}" class="btn btn-warning pull-right">Queue Re-run</a>
                   </div>
                 </div>
 
@@ -150,7 +150,7 @@
                       {{ $file->name }} - (#{{ $file->id }})
 
                       <button class="btn btn-info pull-right" data-id="{{ $file->id }}" data-name="{{ $file->name }}" 
-                        data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('admin.submissions.file.download', $file) }}"
+                        data-type="{{ $file->metadata ? "video" : "other" }}" data-url="{{ route('support.submissions.file.download', $file) }}"
                         onclick="window.StationCommon.ViewFile(this); return false">View</button>
                     </h4>
                   </div>
@@ -178,7 +178,7 @@
                   <label for="entryname" class="col-sm-2 control-label">Rule Break</label>
                   <div class="col-sm-10">
                     <p>pending</p>
-                    <a href="{{ route('admin.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Re-run</a>
+                    <a href="{{ route('support.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Queue Run</a>
                   </div>
                 </div>
 
@@ -213,13 +213,13 @@
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-9">
                     <button type="submit" class="btn btn-success" id="save">Save</button>
-                    <a href="{{ route('admin.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Re-run</a>
+                    <a href="{{ route('support.rule-break.file-check', [ $entry, $file ]) }}" class="btn btn-warning pull-right">Queue Re-run</a>
                   </div>
                 </div>
 
                 <hr />
 
-                @if ($file->rule_break->errors != "[]]")
+                @if ($file->rule_break->errors != "[]" && Auth::user()->can('admin'))
                 <div class="form-group">
                   <label for="entryname" class="col-sm-2 control-label">Transcode</label>
                   <div class="col-sm-10">
@@ -233,9 +233,10 @@
                     @endif
                   </div>
                 </div>
-                @endif
 
                 <hr />
+
+                @endif
 
                   <div class="form-group">
                     <label for="entryname" class="col-sm-2 control-label">Length</label>

@@ -22,7 +22,7 @@ $('#awards-table').DataTable({
 
         <div class="panel-body">
           <div class="center">
-            <a class="btn btn-default" href="{{ route("admin.submissions.all") }}">All Submisions</a>
+            <a class="btn btn-default" href="{{ route("support.submissions.all") }}">All Submisions</a>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ $('#awards-table').DataTable({
                 <td>{{ $station->entries->where('submitted', true)->count() }}</td>
                 <td>{{ $station->entries->where('submitted', true)->filter(function($v, $k){ return $v->isLate(); })->count() }}</td>
                 <td>
-                  <a href="{{ route('admin.submissions.station', $station) }}">View</a>
+                  <a href="{{ route('support.submissions.station', $station) }}">View</a>
                 </td>
               </tr>
 @endforeach
@@ -76,7 +76,7 @@ $('#awards-table').DataTable({
                 <td>{{ $cat->entries->where('submitted', true)->count() }}</td>
                 <td>{{ $cat->entries->where('submitted', true)->filter(function($v, $k) use ($cat) { return $v->isLate($cat); })->count() }}</td>
                 <td>
-                  <a href="{{ route('admin.submissions.category', $cat) }}">View</a>
+                  <a href="{{ route('support.submissions.category', $cat) }}">View</a>
                 </td>
               </tr>
 @endforeach

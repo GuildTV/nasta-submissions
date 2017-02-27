@@ -58,7 +58,7 @@
                 <div class="col-sm-10">
                   <p>
                     {{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}
-                    <a href="{{ route('admin.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
+                    <a href="{{ route('support.rule-break', $entry) }}" class="btn btn-info pull-right">View</a>
                   </p>
                 </div>
               </div>
@@ -88,7 +88,7 @@
                 <td class="{{ $file->isLate($category) ? "late-upload" : "submitted-upload" }}">{{ $file->isLate($category) ? "Yes" : "No" }}</td>
                 <td>{{ $file->hasReplacement() ? ("#".$file->replacement_id) : "-" }}</td>
                 <td>
-                  <a class="btn btn-primary" href="{{ route('admin.submissions.file', $file) }}">View</button>
+                  <a class="btn btn-primary" href="{{ route('support.submissions.file', $file) }}">View</button>
                 </td>
               </tr>
 @endforeach

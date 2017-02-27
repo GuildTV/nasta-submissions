@@ -11,17 +11,16 @@ $('#submissions-table').DataTable({
 @section('content')
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-10 col-md-offset-1">
 
       <div class="panel panel-default">
-        <div class="panel-heading">All Submissions</div>
+        <div class="panel-heading">Submissions for the {{ $category->name }} award</div>
 
         <div class="panel-body">
 
           <table class="table" id="submissions-table">
             <thead>
               <th>Station</th>
-              <th>Category</th>
               <th>Status</th>
               <th>No. of files</th>
               <th data-type="moment-ddd, MMM D, YYYY h:mm A">Updated At</th>
@@ -29,20 +28,20 @@ $('#submissions-table').DataTable({
               <th>&nbsp;</th>
             </thead>
             <tbody>
-@foreach ($entries as $entry)
+@foreach ($users as $station)
 <?php 
-  $msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate() ? "Late" : "Submitted") : "Draft");
+  $entry = $entries->first(function($v, $k) use ($station) { return $v->station_id == $station->id; }); 
+  $msg = $entry == null ? " - " : ($entry->submitted ? ($entry->isLate($category) ? "Late" : "Submitted") : "Draft");
 ?>
               <tr>
-                <td>{{ $entry->station->name }}</td>
-                <td>{{ $entry->category->name }}</td>
+                <td>{{ $station->name }}</td>
                 <td>{{ $msg }}</td>
                 <td>{{ $entry == null ? "" : count($entry->uploadedFiles) }}</td>
                 <td>{{ $entry == null ? "" : $entry->updated_at->toDayDateTimeString() }}</td>
-                <td>{{ $entry->rule_break == null ? "pending" : $entry->rule_break->result }}</td>
+                <td>{{ $entry == null ? "" : ($entry->rule_break == null ? "pending" : $entry->rule_break->result) }}</td>
                 <td>
                   @if ($entry != null)
-                  <a href="{{ route('admin.submissions.view', [$entry->station, $entry->category]) }}">View</a>
+                  <a href="{{ route('support.submissions.view', [$station, $category]) }}">View</a>
                   @endif
                 </td>
               </tr>

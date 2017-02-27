@@ -21,6 +21,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public $station = null;
     public $judge = null;
     public $admin = null;
+    public $supportUser = null;
 
     public $faker = null;
 
@@ -53,6 +54,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->admin = $this->loadAdmin();
         $this->assertNotNull($this->admin, "Missing 'admin' entry in database");
 
+        $this->supportUser = $this->loadSupportUser();
+        $this->assertNotNull($this->supportUser, "Missing 'support' user entry in database");
+
         $this->faker = \Faker\Factory::create();
 
         Mail::getSwiftMailer()->registerPlugin(new TestMailListener($this));
@@ -75,6 +79,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         return User::where('username', 'test_admin')
             ->where('type', 'admin')
+            ->first();
+    }
+
+    public function loadSupportUser()
+    {
+        return User::where('username', 'test_support')
+            ->where('type', 'support')
             ->first();
     }
 
