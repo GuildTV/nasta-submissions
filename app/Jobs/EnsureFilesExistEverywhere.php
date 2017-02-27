@@ -42,7 +42,7 @@ class EnsureFilesExistEverywhere implements ShouldQueue
      */
     public function handle()
     {
-        $files = UploadedFile::with('account')->take(1)->get();
+        $files = UploadedFile::with('account')->get();
         $failures = [];
 
         foreach ($files as $file){
