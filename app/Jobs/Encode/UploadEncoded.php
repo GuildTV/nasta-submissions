@@ -72,7 +72,7 @@ class UploadEncoded implements ShouldQueue
             'account_id' => $this->file->account->id,
             'path' => $targetPath,
             'path_local' => $this->srcFile,
-            'name' => $res['name'],
+            'name' => $this->file->name,
             'size' => $res['size'],
             'hash' => $res['hash'],
             'public_url' => $url,
