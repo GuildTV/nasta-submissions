@@ -104,7 +104,7 @@ $router->group([
 ], function ($router) {
   Route::get('/dashboard', 'Admin\AdminController@dashboard')->name("admin.dashboard");
 
-  Route::post('/transcode/{file}/{profile}', 'Admin\RuleBreakController@transcode')->name("admin.transcode");
+  Route::post('/transcode/{file}/{profile}', 'Support\RuleBreakController@transcode')->name("admin.transcode");
 
   Route::get('/results', 'Admin\ResultsController@dashboard')->name("admin.results");
   Route::get('/results/{category}', 'Admin\ResultsController@view')->name("admin.results.view");
