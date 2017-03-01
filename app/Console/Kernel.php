@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         Commands\UploadFileMissing::class,
         Commands\StandaloneRuleCheckFile::class,
         Commands\EnsureFilesExistEverywhere::class,
+        Commands\CreateJudge::class,
     ];
 
     /**
