@@ -145,8 +145,15 @@ class OfflineRuleCheckEntry implements ShouldQueue
     }
 
     private function save($data){
-        if ($this->entry->rule_break != null)
+        if ($this->entry->rule_break != null){
+            $prevResult = $this->entry->rule_break->result;
+            if ($prevResult == "accepted" || $prevResult == "pending" || $prevResult == "rejected")
+                $data['result'] = $prevResult;
+
+            $data['notes'] = $this->entry->rule_break->notes;
+            
             $this->entry->rule_break->delete();
+        }
 
         return EntryRuleBreak::create($data);
     }

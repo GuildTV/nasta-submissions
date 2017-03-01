@@ -79,5 +79,5 @@ return [
     'sd' => 9,
   ],
 
-  'judge_support_email' => 'submissions@nasta.tv',
+  'judge_support_email' => 'judges@nasta.tv',
 ];

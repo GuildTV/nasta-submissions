@@ -163,8 +163,15 @@ class OfflineRuleCheckFile implements ShouldQueue
     }
 
     private function save($data){
-        if ($this->file->rule_break != null)
+        if ($this->file->rule_break != null){
+            $prevResult = $this->file->rule_break->result;
+            if ($prevResult == "accepted" || $prevResult == "pending" || $prevResult == "rejected")
+                $data['result'] = $prevResult;
+
+            $data['notes'] = $this->file->rule_break->notes;
+
             $this->file->rule_break->delete();
+        }
 
         return UploadedFileRuleBreak::create($data);
     }

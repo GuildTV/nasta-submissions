@@ -80,6 +80,11 @@ class UploadEncoded implements ShouldQueue
             'uploaded_at' => $this->file->uploaded_at,
         ]);
 
+        // mark the entry as pending
+        $entry = $this->getEntryForStation($this->file->station_id);
+        if ($entry->rule_break != null)
+            $entry->rule_break->result = "pending";
+
         // update old version
         $this->file->replacement_id = $file->id;
         $this->file->save();
