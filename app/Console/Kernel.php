@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         Commands\StandaloneRuleCheckFile::class,
         Commands\EnsureFilesExistEverywhere::class,
         Commands\CreateJudge::class,
+        Commands\ScrapeDropboxVideoMetadata::class,
     ];
 
     /**

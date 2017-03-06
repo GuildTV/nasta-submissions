@@ -49,12 +49,13 @@ class UploadEncoded implements ShouldQueue
     public function handle()
     {
         Log::info('Starting upload of new #' . $this->file->id);
-        $client = new DropboxFileServiceHelper($this->file->account->access_token);
+        // $client = new DropboxFileServiceHelper($this->file->account->access_token);
+        $client = new \App\Helpers\Files\TestFileServiceHelper([], true);
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->file->path);
         $targetDir = Config::get('nasta.dropbox_imported_files_path') . "/" . $this->file->station->name;
-        $targetPath = $targetDir.'/'.$srcFile['filename'].'-manual'.'.'.@$srcFile['extension'];
+        $targetPath = $targetDir.'/'.$srcFile['filename'].'-fixed'.'.'.@$srcFile['extension'];
 
         if (!file_exists($fullPath))
             throw new Exception("Source file does not exist");
@@ -81,9 +82,11 @@ class UploadEncoded implements ShouldQueue
         ]);
 
         // mark the entry as pending
-        $entry = $this->getEntryForStation($this->file->station_id);
-        if ($entry->rule_break != null)
-            $entry->rule_break->result = "pending";
+        if ($this->file->category_id != null) {
+            $entry = $this->file->category->getEntryForStation($this->file->station_id);
+            if ($entry->rule_break != null)
+                $entry->rule_break->result = "pending";
+        }
 
         // update old version
         $this->file->replacement_id = $file->id;
