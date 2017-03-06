@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         Commands\EnsureFilesExistEverywhere::class,
         Commands\CreateJudge::class,
         Commands\ScrapeDropboxVideoMetadata::class,
+        Commands\DropboxMigrateAccount::class,
     ];
 
     /**
