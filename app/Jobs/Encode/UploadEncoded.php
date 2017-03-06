@@ -49,8 +49,7 @@ class UploadEncoded implements ShouldQueue
     public function handle()
     {
         Log::info('Starting upload of new #' . $this->file->id);
-        // $client = new DropboxFileServiceHelper($this->file->account->access_token);
-        $client = new \App\Helpers\Files\TestFileServiceHelper([], true);
+        $client = new DropboxFileServiceHelper($this->file->account->access_token);
 
         $fullPath = Config::get('nasta.local_entries_path') . $this->srcFile;
         $srcFile = pathinfo($this->file->path);
