@@ -20,7 +20,7 @@
 <?php
   $countComplete = $category->entries->filter(function($v){return $v->canBeJudged() && $v->result != null;})->count();
   $count = $category->entries->filter(function($v){return $v->canBeJudged();})->count();
-  $percentStr = round($countComplete/$count*100, 0)."%";
+  $percentStr = $count == 0 ? "-" : round($countComplete/$count*100, 0)."%";
 ?>
               <tr>
                 <td>{{ $category->name }}</td>
