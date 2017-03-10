@@ -57,11 +57,11 @@ class RearrangeLocalFiles extends Command
             $catId = $file->category != null ? $file->category->compact_name : "Pending";
             $subDir = "Pending";
             if ($file->replacement_id != null)
-                $subDir = "Old";
+                $subDir = "Replaced";
             else if ($entry == null || $entry->rule_break == null)
                 $subDir = "Pending";
-            else if ($file->rule_break == "ok" || $file->rule_break == "accepted")
-                $SubDir = "OK";
+            else if ($entry->rule_break->result == "ok" || $entry->rule_break->result == "accepted")
+                $subDir = "OK";
 
             $safeName = $entry == null ? "" : preg_replace("/[^a-zA-Z0-9]/", '', ucwords($entry->name));
             $info = pathinfo($file->path_local);
