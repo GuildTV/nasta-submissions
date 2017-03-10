@@ -76,11 +76,12 @@ class RearrangeLocalFiles extends Command
 
             try {
                 $baseDir = pathinfo(Config::get('nasta.local_entries_path') . $expectedPath)['dirname'];
-                mkdir($baseDir, 0775, true);
+                @mkdir($baseDir, 0775, true);
                 rename(Config::get('nasta.local_entries_path') . $file->path_local, Config::get('nasta.local_entries_path') . $expectedPath);
 
                 $file->path_local = $expectedPath;
                 $file->save();
+                print "Done #" . $file->id ."\n";
             } catch (Exception $e){
                 print "Failed #" . $file->id . ": " . $e->getMessage()."\n";
             }
