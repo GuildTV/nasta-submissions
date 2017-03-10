@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
         Commands\ScrapeDropboxVideoMetadata::class,
         Commands\DropboxMigrateAccount::class,
         Commands\RearrangeLocalFiles::class,
+        Commands\MoveExtraLocalFiles::class,
     ];
 
     /**

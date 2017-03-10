@@ -12,14 +12,14 @@
           <table class="table" id="files-table">
             <thead>
               <th>Station</th>
-              <th>Finalized</th>
+              <th>Progress</th>
               <th>&nbsp;</th>
             </thead>
             <tbody>
 @foreach ($categories as $category)
               <tr>
                 <td>{{ $category->name }}</td>
-                <td>{{ $category->result == null ? "no" : "yes" }}</td>
+                <td>{{ $category->result == null ? \App\Helpers\StringHelper::formatPercent(($category->entries->filter(function($v){return $v->result != null;})->count()/$category->entries->count())*100) : "yes" }}</td>
                 <td>
                   <a class="btn btn-primary" href="{{ route('admin.results.view', $category) }}">View</button>
                 </td>

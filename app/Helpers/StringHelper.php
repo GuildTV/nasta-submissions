@@ -28,4 +28,13 @@ class StringHelper {
     return $duration;
   }
 
+  public static function formatPercent($percent, $dp=0){
+    $scale = pow(10, $dp);
+    $val = $percent * $scale;
+    $val = round($val);
+    $val/= $scale;
+
+    return $val . "%";
+  }
+
 }
