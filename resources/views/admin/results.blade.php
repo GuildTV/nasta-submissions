@@ -17,9 +17,14 @@
             </thead>
             <tbody>
 @foreach ($categories as $category)
+<?php
+  $countComplete = $category->entries->filter(function($v){return $v->canBeJudged() && $v->result != null;})->count();
+  $count = $category->entries->filter(function($v){return $v->canBeJudged();})->count();
+  $percentStr = round($countComplete/$count*100, 0)."%";
+?>
               <tr>
                 <td>{{ $category->name }}</td>
-                <td>{{ $category->result == null ? \App\Helpers\StringHelper::formatPercent(($category->entries->filter(function($v){return $v->result != null;})->count()/$category->entries->count())*100) : "yes" }}</td>
+                <td>{{ $category->result == null ? $percentStr : "yes" }}</td>
                 <td>
                   <a class="btn btn-primary" href="{{ route('admin.results.view', $category) }}">View</button>
                 </td>

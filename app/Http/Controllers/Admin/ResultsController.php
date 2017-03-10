@@ -12,7 +12,7 @@ class ResultsController extends Controller
   public function dashboard()
   {
     $categories = Category::orderBy('name', 'asc')
-      ->with('entries', 'entries.result')
+      ->with('entries', 'entries.result', 'entries.rule_break')
       ->with('result')->get();
 
     return view('admin.results', compact('categories'));
