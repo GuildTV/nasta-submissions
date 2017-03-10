@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         Commands\CreateJudge::class,
         Commands\ScrapeDropboxVideoMetadata::class,
         Commands\DropboxMigrateAccount::class,
+        Commands\RearrangeLocalFiles::class,
     ];
 
     /**
