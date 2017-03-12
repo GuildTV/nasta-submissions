@@ -17,7 +17,7 @@
     </div>
     @endif
 
-    <table class="table" id="entries-table">
+    <table class="table entrytable" id="entries-table">
       <thead>
         <th>Station</th>
         <th>Name</th>
