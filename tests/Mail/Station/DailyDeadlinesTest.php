@@ -26,7 +26,7 @@ class DailyDeadlinesTest extends TestCase
   public function testDays()
   {
     $dates = $this->getDates();
-    $this->assertEquals(4, count($dates));
+    $this->assertEquals(5, count($dates));
 
     foreach ($dates as $date=>$count) {
       $mail = new DailyDeadlines($this->station, Carbon::parse($date));
