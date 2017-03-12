@@ -15,7 +15,7 @@
     <div class="col-sm-10">
       <input id="{{ $prefix }}_comment" name="{{ $prefix }}_comment" type="text" class="form-control" maxlength="200" 
         {!! $adminVersion || $category->isResultsReadOnly() ? "disabled='disabled'" : "placeholder=\"Please provide a short comment for the certificate\"" !!}
-        value="{{ $category->result != null ? $category->result->get($prefix . '_comment') : "" }}">
+        value="{{ $category->result != null ? $category->result->getAttribute($prefix . '_comment') : "" }}">
     </div>
   </div>
 @endif

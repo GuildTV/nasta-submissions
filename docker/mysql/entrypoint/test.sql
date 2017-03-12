@@ -25,6 +25,7 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`id`, `name`, `compact_name`, `judge_id`, `description`, `closing_at`, `opening_at`, `created_at`, `updated_at`) VALUES
 ('already-closed', 'Already closed', 'already-closed', NULL, '', '2016-12-21 00:00:00', NULL, '2017-01-18 21:21:31', '2017-01-18 21:21:31'),
 ('animation', 'Animation', 'Male', 2, 'A single animation programme (or a shortened edit from an episode or series), or an original piece of animation of any type, which has been produced by your station.', '2020-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31'),
+('fully-marked', 'Fully Marked', 'FullyMarked', 2, 'Fully marked cateogyr', '2017-03-01 00:00:00', NULL, '2017-03-12 19:37:24', '2017-03-12 19:37:24'),
 ('no-constraints', 'no file constraints!', 'no-constraints', NULL, '', '2028-04-17 00:00:00', NULL, '2017-01-18 21:15:43', '2017-01-18 21:15:43'),
 ('something', 'Something', 'Something', NULL, 'fbsgsdd', '2016-02-20 19:00:00', NULL, '2016-11-26 16:57:31', '2016-11-26 16:57:31');
 
@@ -40,7 +41,8 @@ INSERT INTO `category_file_constraint` (`id`, `category_id`, `file_constraint_id
 (1, 'animation', 1, NULL, NULL),
 (2, 'animation', 2, NULL, NULL),
 (3, 'something', 3, '2017-01-06 18:32:55', '2017-01-06 18:32:55'),
-(4, 'already-closed', 3, '2017-01-18 21:25:59', '2017-01-18 21:25:59');
+(4, 'already-closed', 3, '2017-01-18 21:25:59', '2017-01-18 21:25:59'),
+(5, 'fully-marked', 1, '2017-03-12 19:40:19', '2017-03-12 19:40:19');
 
 CREATE TABLE `category_results` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -52,6 +54,9 @@ CREATE TABLE `category_results` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `category_results` (`id`, `category_id`, `winner_id`, `winner_comment`, `commended_id`, `commended_comment`, `created_at`, `updated_at`) VALUES
+(1, 'fully-marked', 79, 'Some short rubbish', 80, 'Not quite as good, but better!', '2017-03-12 19:39:59', '2017-03-12 19:39:59');
 
 CREATE TABLE `dropbox_accounts` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -114,7 +119,9 @@ INSERT INTO `entries` (`id`, `category_id`, `station_id`, `name`, `description`,
 (75, 'animation', 4, 'I to get hold of it; so, after hunting all about for some time in silence: at last it sat down in a natural way again. \'I wonder what they\'ll do next! As for pulling me out of a bottle. They all sat down at her feet in the middle. Alice kept her eyes.', 'The poor little Lizard, Bill, was in livery: otherwise, judging by his face only, she would have appeared to them to be Number One,\' said Alice. \'Well, then,\' the Gryphon replied rather impatiently: \'any shrimp could have told you that.\' \'If I\'d been the right size, that it signifies much,\' she said to the game. CHAPTER IX. The Mock Turtle\'s heavy sobs. Lastly, she pictured to herself how she was out of his great wig.\' The judge, by the time when she first saw the White Rabbit with pink eyes ran close by it, and talking over its head. \'Very uncomfortable for the first figure,\' said the Pigeon; \'but if they do, why then they\'re a kind of serpent, that\'s all the things I used to come upon them THIS size: why, I should think it so yet,\' said Alice; \'but a grin without a porpoise.\' \'Wouldn\'t it really?\' said Alice very politely; but she heard her voice close to her, though, as they came nearer, Alice could see, when she first saw the Mock Turtle sighed deeply, and began, in rather a hard word, I will prosecute YOU.--Come, I\'ll take no denial; We must have imitated somebody else\'s hand,\' said the Gryphon, \'she wants for to know your history, she do.\' \'I\'ll tell it her,\' said the Caterpillar. Here was another long passage, and the soldiers shouted in reply. \'Please come back with the tarts, you know--\' \'What did they live at the time he had taken advantage of the Mock Turtle. \'Seals, turtles, salmon, and so on.\' \'What a number of cucumber-frames there must be!\' thought Alice. \'I\'m glad they don\'t give birthday presents like that!\' \'I couldn\'t help it,\' said the King. The White Rabbit hurried by--the frightened Mouse splashed his way through the neighbouring pool--she could hear him sighing as if she meant to take the place where it had been, it suddenly appeared again. \'By-the-bye, what became of the March Hare said to itself in a helpless sort of people live about here?\' \'In THAT direction,\' waving the other paw, \'lives a March Hare. \'Exactly so,\' said the King: \'leave.', 1, 0, '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
 (76, 'no-constraints', 3, 'I eat or drink something or other; but the Dormouse went on, half to Alice. \'What IS a Caucus-race?\' said Alice; \'but a grin without a grin,\' thought Alice; \'but when you have to ask any more HERE.\' \'But then,\' thought she, \'if people had all to lie.', 'CHAPTER II. The Pool of Tears \'Curiouser and curiouser!\' cried Alice (she was so much about a whiting to a farmer, you know, this sort in her brother\'s Latin Grammar, \'A mouse--of a mouse--to a mouse--a mouse--O mouse!\') The Mouse did not answer, so Alice ventured to remark. \'Tut, tut, child!\' said the March Hare,) \'--it was at the Queen, who had followed him into the wood. \'It\'s the oldest rule in the newspapers, at the place of the March Hare. \'He denies it,\' said the White Rabbit, \'but it seems to be no chance of this, so she went on eagerly: \'There is such a noise inside, no one else seemed inclined to say whether the pleasure of making a daisy-chain would be wasting our breath." "I\'ll be judge, I\'ll be jury," Said cunning old Fury: "I\'ll try the whole court was in the same thing with you,\' said Alice, \'but I know THAT well enough; and what does it matter to me whether you\'re a little way forwards each time and a large cat which was a large arm-chair at one corner of it: \'No room! No room!\' they cried out when they liked, so that they would die. \'The trial cannot proceed,\' said the Mock Turtle. Alice was beginning to think about stopping herself before she came upon a time she found to be two people. \'But it\'s no use in talking to herself, \'after such a capital one for catching mice--oh, I beg your acceptance of this ointment--one shilling the box-- Allow me to sell you a present of everything I\'ve said as yet.\' \'A cheap sort of way to change the subject,\' the March Hare went \'Sh! sh!\' and the roof off.\' After a time there were no arches left, and all of you, and listen to me! I\'LL soon make you dry enough!\' They all made of solid glass; there was no use in the common way. So they had to fall upon Alice, as the soldiers remaining behind to execute the unfortunate gardeners, who ran to Alice for some minutes. The Caterpillar was the first sentence in her pocket, and was going on rather better now,\' she said, \'and see whether it\'s marked "poison" or not\'; for.', 1, 0, '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
 (77, 'no-constraints', 4, 'Hatter continued, \'in this way:-- "Up above the world you fly, Like a tea-tray in the sea, though you mayn\'t believe it--\' \'I never saw one, or heard of one,\' said Alice, looking down at her with large round eyes, and feebly stretching out one paw,.', 'ME, and told me he was in March.\' As she said to herself, \'Now, what am I to do?\' said Alice. The King laid his hand upon her arm, and timidly said \'Consider, my dear: she is such a curious dream!\' said Alice, feeling very glad to find any. And yet I wish you were INSIDE, you might like to drop the jar for fear of their hearing her; and the other arm curled round her at the mushroom for a minute or two the Caterpillar sternly. \'Explain yourself!\' \'I can\'t go no lower,\' said the King, the Queen, tossing her head to feel which way it was done. They had a little recovered from the Gryphon, \'she wants for to know when the tide rises and sharks are around, His voice has a timid and tremulous sound.] \'That\'s different from what I get" is the capital of Paris, and Paris is the same as the rest of the Lobster Quadrille, that she was quite tired of this. I vote the young lady tells us a story.\' \'I\'m afraid I\'ve offended it again!\' For the Mouse had changed his mind, and was gone across to the confused clamour of the sense, and the other paw, \'lives a March Hare. \'Then it ought to speak, and no more to come, so she went on without attending to her, \'if we had the door of the Rabbit\'s voice along--\'Catch him, you by the officers of the sense, and the executioner myself,\' said the King: \'leave out that it ought to be managed? I suppose Dinah\'ll be sending me on messages next!\' And she began nibbling at the top of his Normans--" How are you getting on?\' said the March Hare. Alice was silent. The King turned pale, and shut his eyes.--\'Tell her about the same thing with you,\' said Alice, \'we learned French and music.\' \'And washing?\' said the Duchess, \'as pigs have to turn round on its axis--\' \'Talking of axes,\' said the Caterpillar. \'Not QUITE right, I\'m afraid,\' said Alice, who was gently brushing away some dead leaves that lay far below her. \'What CAN all that green stuff be?\' said Alice. \'And be quick about it,\' added the Queen. \'It proves nothing of the edge of her age knew.', 0, 1, '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
-(78, 'something', 4, 'Hatter: \'let\'s all move one place on.\' He moved on as he spoke, and added \'It isn\'t mine,\' said the March Hare, who had meanwhile been examining the roses. \'Off with her friend. When she got to go nearer till she shook the house, and the soldiers.', 'Alice. \'Then it doesn\'t matter a bit,\' said the King repeated angrily, \'or I\'ll have you executed, whether you\'re nervous or not.\' \'I\'m a poor man, your Majesty,\' said the Rabbit began. Alice thought this a good deal until she made her feel very uneasy: to be trampled under its feet, \'I move that the Gryphon went on, taking first one side and up the conversation a little. \'\'Tis so,\' said the Hatter. This piece of bread-and-butter in the after-time, be herself a grown woman; and how she would keep, through all her riper years, the simple and loving heart of her or of anything else. CHAPTER V. Advice from a bottle marked \'poison,\' it is you hate--C and D,\' she added aloud. \'Do you mean "purpose"?\' said Alice. \'I\'ve so often read in the house, and the Mock Turtle in a tone of great relief. \'Now at OURS they had been for some way of expressing yourself.\' The baby grunted again, and Alice heard the Queen said severely \'Who is this?\' She said it to be trampled under its feet, \'I move that the poor little thing was snorting like a snout than a real nose; also its eyes by this time, sat down again into its mouth open, gazing up into hers--she could hear him sighing as if he thought it would be worth the trouble of getting up and ran till she had expected: before she had quite a new pair of white kid gloves: she took up the fan and the Panther received knife and fork with a kind of sob, \'I\'ve tried the effect of lying down on the floor, as it could go, and making faces at him as he wore his crown over the verses to himself: \'"WE KNOW IT TO BE TRUE--" that\'s the jury, in a low trembling voice, \'--and I hadn\'t mentioned Dinah!\' she said aloud. \'I must be growing small again.\' She got up and leave the room, when her eye fell upon a heap of sticks and dry leaves, and the March Hare. Alice sighed wearily. \'I think I can say.\' This was quite out of that is, but I hadn\'t begun my tea--not above a week or so--and what with the lobsters and the Mock Turtle said: \'no wise fish would.', 1, 0, '2017-02-08 23:26:25', '2017-02-08 23:26:25');
+(78, 'something', 4, 'Hatter: \'let\'s all move one place on.\' He moved on as he spoke, and added \'It isn\'t mine,\' said the March Hare, who had meanwhile been examining the roses. \'Off with her friend. When she got to go nearer till she shook the house, and the soldiers.', 'Alice. \'Then it doesn\'t matter a bit,\' said the King repeated angrily, \'or I\'ll have you executed, whether you\'re nervous or not.\' \'I\'m a poor man, your Majesty,\' said the Rabbit began. Alice thought this a good deal until she made her feel very uneasy: to be trampled under its feet, \'I move that the Gryphon went on, taking first one side and up the conversation a little. \'\'Tis so,\' said the Hatter. This piece of bread-and-butter in the after-time, be herself a grown woman; and how she would keep, through all her riper years, the simple and loving heart of her or of anything else. CHAPTER V. Advice from a bottle marked \'poison,\' it is you hate--C and D,\' she added aloud. \'Do you mean "purpose"?\' said Alice. \'I\'ve so often read in the house, and the Mock Turtle in a tone of great relief. \'Now at OURS they had been for some way of expressing yourself.\' The baby grunted again, and Alice heard the Queen said severely \'Who is this?\' She said it to be trampled under its feet, \'I move that the poor little thing was snorting like a snout than a real nose; also its eyes by this time, sat down again into its mouth open, gazing up into hers--she could hear him sighing as if he thought it would be worth the trouble of getting up and ran till she had expected: before she had quite a new pair of white kid gloves: she took up the fan and the Panther received knife and fork with a kind of sob, \'I\'ve tried the effect of lying down on the floor, as it could go, and making faces at him as he wore his crown over the verses to himself: \'"WE KNOW IT TO BE TRUE--" that\'s the jury, in a low trembling voice, \'--and I hadn\'t mentioned Dinah!\' she said aloud. \'I must be growing small again.\' She got up and leave the room, when her eye fell upon a heap of sticks and dry leaves, and the March Hare. Alice sighed wearily. \'I think I can say.\' This was quite out of that is, but I hadn\'t begun my tea--not above a week or so--and what with the lobsters and the Mock Turtle said: \'no wise fish would.', 1, 0, '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
+(79, 'fully-marked', 4, 'Something dull', 'Nope', 1, 1, '2017-02-08 19:37:48', '2017-02-08 19:37:48'),
+(80, 'fully-marked', 5, 'Something dull2', 'Nope', 1, 1, '2017-02-08 19:37:48', '2017-02-08 19:37:48');
 
 CREATE TABLE `entries_folders` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -133,6 +140,10 @@ CREATE TABLE `entry_results` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `entry_results` (`id`, `entry_id`, `score`, `feedback`, `created_at`, `updated_at`) VALUES
+(1, 79, 19, 'Some words', '2017-03-12 19:38:57', '2017-03-12 19:38:57'),
+(2, 80, 4, 'Awesome!', '2017-03-12 19:39:27', '2017-03-12 19:39:27');
+
 CREATE TABLE `entry_rule_breaks` (
   `id` int(10) UNSIGNED NOT NULL,
   `entry_id` int(10) UNSIGNED NOT NULL,
@@ -149,7 +160,9 @@ INSERT INTO `entry_rule_breaks` (`id`, `entry_id`, `result`, `notes`, `constrain
 (1, 75, 'unknown', '', '{"195":1,"196":2}', '[]', '[]', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
 (2, 76, 'warning', '', '[]', '[]', '[]', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
 (3, 77, 'warning', '', '[]', '[]', '[]', '2017-02-08 23:26:25', '2017-02-08 23:26:25'),
-(4, 29, 'ok', '', '{}', '[]', '[]', '2017-02-10 21:18:13', '2017-02-10 21:18:13');
+(4, 29, 'ok', '', '{}', '[]', '[]', '2017-02-10 21:18:13', '2017-02-10 21:18:13'),
+(5, 79, 'accepted', '', '{}', '[]', '[]', '2017-03-12 19:38:14', '2017-03-12 19:38:14'),
+(6, 80, 'accepted', '', '{}', '[]', '[]', '2017-03-12 19:38:14', '2017-03-12 19:38:14');
 
 CREATE TABLE `failed_jobs` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -498,23 +511,23 @@ ALTER TABLE `video_metadata`
 
 
 ALTER TABLE `category_file_constraint`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `category_results`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `encode_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 ALTER TABLE `encode_watch`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `entries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 ALTER TABLE `entries_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `entry_results`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `entry_rule_breaks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 ALTER TABLE `failed_jobs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `file_constraints`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 ALTER TABLE `jobs`
@@ -522,19 +535,19 @@ ALTER TABLE `jobs`
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 ALTER TABLE `revisions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `station_folders`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `uploaded_files`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 ALTER TABLE `uploaded_file_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `uploaded_file_rule_breaks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `video_metadata`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_judge_id_foreign` FOREIGN KEY (`judge_id`) REFERENCES `users` (`id`);
