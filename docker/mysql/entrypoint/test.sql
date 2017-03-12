@@ -558,8 +558,8 @@ ALTER TABLE `category_file_constraint`
 
 ALTER TABLE `category_results`
   ADD CONSTRAINT `category_results_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `category_results_commended_id_foreign` FOREIGN KEY (`commended_id`) REFERENCES `entries` (`id`),
-  ADD CONSTRAINT `category_results_winner_id_foreign` FOREIGN KEY (`winner_id`) REFERENCES `entries` (`id`);
+  ADD CONSTRAINT `category_results_commended_id_foreign` FOREIGN KEY (`commended_id`) REFERENCES `entries` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `category_results_winner_id_foreign` FOREIGN KEY (`winner_id`) REFERENCES `entries` (`id`) ON DELETE SET NULL;
 
 ALTER TABLE `encode_watch`
   ADD CONSTRAINT `encode_watch_uploaded_file_id_foreign` FOREIGN KEY (`uploaded_file_id`) REFERENCES `uploaded_files` (`id`) ON DELETE CASCADE;

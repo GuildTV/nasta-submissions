@@ -26,8 +26,8 @@ class CreateCategoryResults extends Migration
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('restrict');
-            $table->foreign('winner_id')->references('id')->on('entries')->onDelete('restrict');
-            $table->foreign('commended_id')->references('id')->on('entries')->onDelete('restrict');
+            $table->foreign('winner_id')->references('id')->on('entries')->onDelete('set null');
+            $table->foreign('commended_id')->references('id')->on('entries')->onDelete('set null');
         });
     }
 
