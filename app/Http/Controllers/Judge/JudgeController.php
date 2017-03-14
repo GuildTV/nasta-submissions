@@ -107,7 +107,7 @@ class JudgeController extends Controller
 
     // ensure each entry has a result
     foreach ($category->entries as $entry){
-      if ($entry->result == null)
+      if ($entry->canBeJudged() && $entry->result == null)
         return App::abort(422);
     }
 
