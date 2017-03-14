@@ -14,7 +14,7 @@ class ScoreRequest extends AjaxRequest {
   {
     return [
       'score' => 'required|integer|min:0|max:20',
-      'feedback' => 'min:25',
+      'feedback' => 'required|min:25',
     ];
   }
 

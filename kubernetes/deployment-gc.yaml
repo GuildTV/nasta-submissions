@@ -20,6 +20,9 @@ items:
       spec:
         containers:
         - image: eu.gcr.io/nasta-2017/sub-http:latest
+          resources:
+            requests:
+              cpu: "10m"
           name: sub-http
           livenessProbe:
             httpGet:
@@ -69,6 +72,9 @@ items:
       spec:
         containers:
         - image: eu.gcr.io/nasta-2017/sub-cron:latest
+          resources:
+            requests:
+              cpu: "10m"
           name: sub-cron
           env:
             - name: VM_ENV
@@ -101,6 +107,9 @@ items:
       spec:
         containers:
         - image: eu.gcr.io/nasta-2017/sub-queue:latest
+          resources:
+            requests:
+              cpu: "10m"
           name: sub-queue
           command: ["/start.sh"]
           args: ["--timeout=10", "--tries=3", "--delay=10"]

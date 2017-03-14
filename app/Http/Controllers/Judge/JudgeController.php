@@ -20,6 +20,7 @@ use App;
 use Redirect;
 use Mail;
 use Config;
+use Log;
 
 class JudgeController extends Controller
 { 
@@ -84,11 +85,9 @@ class JudgeController extends Controller
       $result = new EntryResult([ "entry_id" => $entry->id ]);
 
     $result->score = $request->score;
+    $result->feedback = $request->feedback;
 
-    if ($request->has('feedback'))
-      $result->feedback = $request->feedback;
-    else
-      $result->feedback = "";
+    Log::info("Save " . $entry->id . " - " . $request->score . " - " . $request->feedback);
 
     $result->save();
 

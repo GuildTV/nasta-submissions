@@ -11,6 +11,7 @@ window.JudgeScore = {
           max: 20
         },
         feedback: {
+          required: true,
           minlength: 25
         },
       },
@@ -21,7 +22,7 @@ window.JudgeScore = {
           max: "Please provide a score between 0 and 20",
         },
         feedback: {
-          minlength: "Please enter at least 25 characters, or none",
+          minlength: "Please enter at least 25 characters",
         }
       }
      });
@@ -34,12 +35,9 @@ window.JudgeScore = {
 
     const data = {
       score: $('#score').val(),
+      feedback: $('#feedback').val(),
     };
-
-    const feedback = $('#feedback').val();
-    if (feedback.length > 0)
-      data.feedback = feedback;
-
+    
     $.ajax({
       url: '/judge/entry/' + id + '/score',
       method: 'POST',
