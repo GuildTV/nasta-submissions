@@ -83,11 +83,8 @@ class JudgeControllerScoreTest extends TestCase
     ]);
   }
   public function testScoreNoFeedback(){ 
-    $this->assertScore(self::$scoreUrl, [
+    $this->assertScoreFail(self::$scoreUrl, [
       'score' => 20,
-    ], [
-      'score' => 20,
-      'feedback' => "",
     ]);
   }
 
@@ -110,13 +107,10 @@ class JudgeControllerScoreTest extends TestCase
   }
 
   public function testScoreUpdateClearFeedback(){
-    $this->createEntryResult();
-    $this->assertScore(self::$scoreUrl, [
+    $res = $this->createEntryResult();
+    $this->assertScoreFail(self::$scoreUrl, [
       'score' => 5,
-    ], [
-      'score' => 5,
-      'feedback' => "",
-    ]);
+    ], $res);
   }
   public function testScoreUpdateWithFeedback(){
     $this->createEntryResult();
