@@ -161,13 +161,39 @@ class JudgeControllerFinalizeTest extends TestCase
     $this->createEntryResult(29, 20);
     $this->createEntryResult(75, 10);
 
+    $e = Entry::create([
+      'category_id' => self::$categoryId,
+      'station_id' => $this->admin->id,
+      'name' => str_random(40),
+    ]);
+    $e->submitted = true;
+    $e->rules = true;
+    $e->save();
+    EntryRuleBreak::create([
+      'entry_id' => $e->id,
+      'result' => 'ok'
+    ]);
+
+    $this->assertTrue($e->canBeJudged());
+
+    $this->assertFinalizeFail(self::$finalizeUrl, [
+      'winner_id' => 29,
+      'winner_comment' => str_random(30),
+      'commended_id' => 75,
+      'commended_comment' => str_random(30),
+    ]);
+  }
+  public function testFinalizeEntryIgnoreNoRuleBreak(){
+    $this->createEntryResult(29, 20);
+    $this->createEntryResult(75, 10);
+
     Entry::create([
       'category_id' => self::$categoryId,
       'station_id' => $this->admin->id,
       'name' => str_random(40),
     ]);
 
-    $this->assertFinalizeFail(self::$finalizeUrl, [
+    $this->assertFinalize(self::$finalizeUrl, [
       'winner_id' => 29,
       'winner_comment' => str_random(30),
       'commended_id' => 75,
