@@ -59,7 +59,7 @@ class RevertLocalFiles extends Command
             }
 
             $catId = $file->category != null ? $file->category->compact_name : "Pending";
-            $expectedPath = $catId . "/" . $pathinfo['filename'];
+            $expectedPath = $catId . "/" . $pathinfo['filename'] . (isset($pathinfo['extension']) ? "." . $pathinfo['extension'] : "");
 
             // Nothing to do
             if ($expectedPath == $file->path_local){
